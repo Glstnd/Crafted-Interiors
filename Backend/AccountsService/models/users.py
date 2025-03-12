@@ -8,3 +8,8 @@ class User(SQLModel, table=True):
     username: str
     password: str
     email: Optional[str] = None
+
+class UserRegister(SQLModel):
+    username: str
+    password: str
+    email: Optional[str] = None
