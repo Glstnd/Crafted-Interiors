@@ -22,7 +22,11 @@ class UserRegisterRequest(SQLModel):
     password: str
     email: Optional[str] = None
 
-class UserRegisterResponse(SQLModel):
+class UserLoginRequest(SQLModel):
+    username: str
+    password: str
+
+class UserResponse(SQLModel):
     username: str
     email: Optional[str] = None
     public_id: uuid_pkg.UUID
