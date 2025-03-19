@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from database.database import init_db
+from routes.admins import admin_router
 from routes.docs import add_docs
 from routes.users import user_router
 
@@ -14,6 +15,7 @@ app = FastAPI(
 add_docs(app)
 
 app.include_router(user_router, prefix="/users")
+app.include_router(admin_router, prefix="/admins")
 
 @app.on_event("startup")
 async def on_startup():
