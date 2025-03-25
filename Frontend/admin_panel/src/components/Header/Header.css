@@ -1,0 +1,38 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 0 50px;
+    height: 120px; /* Делаем высоту navbar равной высоте логотипа */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    height: 70px; /* Логотип теперь полностью вписывается в navbar */
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-auth {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-links a, .nav-auth a {
+    text-decoration: none;
+    color: black;
+    font-size: 32px; /* Увеличен в 2 раза */
+    font-weight: 500;
+}
