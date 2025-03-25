@@ -4,6 +4,7 @@ from database.database import init_db
 from routes.admins import admin_router
 from routes.docs import add_docs
 from routes.users import user_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Accounts Service",
@@ -12,6 +13,15 @@ app = FastAPI(
     docs_url=None,
     redoc_url=None
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 add_docs(app)
 
 app.include_router(user_router, prefix="/users")

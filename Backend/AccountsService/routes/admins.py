@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List, Sequence
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 
@@ -52,3 +52,10 @@ async def get_protected(uid: str = Depends(security.get_current_subject), sessio
     result = await session.execute(request)
 
     return result.scalar_one_or_none()
+
+@admin_router.get('', response_model=Sequence[AdminResponse])
+async def get_admins(session: AsyncSession = Depends(get_session)) -> Sequence[Admin]:
+    request = select(Admin)
+    result = await session.execute(request)
+
+    return result.scalars().all()
