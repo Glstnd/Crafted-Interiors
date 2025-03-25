@@ -1,8 +1,9 @@
 import './App.css';
 import React from "react";
 import HomePage from "./pages/HomePage/HomePage";
-import {Routes, Route, NavLink} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
+import AdminsPage from "./pages/AdminsPage/AdminsPage.jsx";
 
 function App() {
     return (
@@ -13,6 +14,10 @@ function App() {
                 <Route
                     path="/"
                     element={<HomePage/>}
+                />
+                <Route
+                    path="/admins"
+                    element={<AdminsPage/>}
                 />
             </Routes>
         </>
