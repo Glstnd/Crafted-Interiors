@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import axios from "axios";
 
 
 class AdminService {
@@ -20,23 +21,29 @@ class AdminService {
     async loginAdmin(username, password) {
         const authDTO = { username, password };
         try {
-            const response = await fetch(`${AdminService.url}/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(authDTO),
-            });
+            const response = await axios.post(
+                `${AdminService.url}/login`,
+                authDTO,
+                { withCredentials: true}
+            );
 
-            if (!response.ok) {
-                throw new Error('Failed to authenticate user');
-            }
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 
-            if (!!Cookies.get('token')) {
-                console.error("Failed to get token!")
-            }
+    async getAuthAdmin() {
+        try {
+            const response = await axios.get(
+                `${AdminService.url}/protected`,
+                {withCredentials : true}
+            )
 
-            console.log(response.json());
+            console.log(response.data)
+
+            return response.data;
         } catch (error) {
             console.error(error);
             throw error;

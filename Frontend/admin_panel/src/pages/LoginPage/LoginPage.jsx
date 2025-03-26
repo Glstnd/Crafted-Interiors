@@ -15,7 +15,7 @@ const LoginPage = () => {
         // Здесь можно добавить логику авторизации
         AdminService.loginAdmin(username, password)
             .catch(error => console.log(error))
-         navigate("/dashboard");
+         navigate("/");
     };
 
     return (

@@ -28,6 +28,7 @@
 .nav-auth {
     display: flex;
     justify-content: flex-end;
+    position: relative;
 }
 
 .nav-links a, .nav-auth a {
@@ -35,4 +36,42 @@
     color: black;
     font-size: 32px; /* Увеличен в 2 раза */
     font-weight: 500;
+}
+
+.admin-email {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 32px;
+    color: black;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    min-width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px 0; /* Уменьшил отступ, чтобы кнопки вписывались в контейнер */
+    overflow: hidden; /* Предотвращает выход элементов за границы */
+}
+
+.dropdown-menu a, .dropdown-menu button {
+    padding: 15px 25px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.dropdown-menu button:hover, .dropdown-menu a:hover {
+    background: #d6d6d6; /* Немного затемнил цвет выделения */
 }
