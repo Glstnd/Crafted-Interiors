@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import adminServiceInstance from "../../services/AdminsService.js";
+import adminServiceInstance from "../../services/AdminService.js";
 import "./AdminsPage.css";
 import {useNavigate} from "react-router-dom";
 

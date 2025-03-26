@@ -1,15 +1,21 @@
 import "./LoginPage.css";
 import {useState} from "react";
+import AdminService from "../../services/AdminService.js";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log("Logging in with", email, password);
+        console.log("Logging in with", username, password);
         // Здесь можно добавить логику авторизации
-        // navigate("/dashboard");
+        AdminService.loginAdmin(username, password)
+            .catch(error => console.log(error))
+         navigate("/dashboard");
     };
 
     return (
@@ -17,10 +23,10 @@ const LoginPage = () => {
             <h1>Admin Login</h1>
             <form onSubmit={handleLogin} className="login-form">
                 <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                 />
                 <input
