@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import adminServiceInstance from "../../services/AdminsService.js";
 import "./AdminsPage.css";
+import {useNavigate} from "react-router-dom";
 
 const AdminsPage = () => {
     const [admins, setAdmins] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         adminServiceInstance.getAdmins()
@@ -32,6 +34,9 @@ const AdminsPage = () => {
                 ) : (
                     <p>No admins found.</p>
                 )}
+            </div>
+            <div className="add-admin-card" onClick={() => navigate("/add-admin")}>
+                <p>+ Добавить администратора</p>
             </div>
         </div>
     );
