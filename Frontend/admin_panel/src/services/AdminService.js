@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import axios from "axios";
 
 
@@ -28,6 +27,7 @@ class AdminService {
             );
 
             console.log(response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
             throw error;

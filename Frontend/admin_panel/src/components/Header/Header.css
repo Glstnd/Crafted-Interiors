@@ -48,30 +48,34 @@
 
 .dropdown-menu {
     position: absolute;
-    right: 0;
     top: 100%;
+    right: 0;
     background: white;
     border: 1px solid black;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    min-width: 220px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 10px 0; /* Уменьшил отступ, чтобы кнопки вписывались в контейнер */
+    min-width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 5px 0; /* Уменьшил отступ, чтобы кнопки вписывались в контейнер */
     overflow: hidden; /* Предотвращает выход элементов за границы */
 }
 
 .dropdown-menu a, .dropdown-menu button {
-    padding: 15px 25px;
+    padding: 10px 20px;
     text-align: left;
     background: none;
     border: none;
     cursor: pointer;
     width: 100%;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    color: black;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+    font-family: Arial, sans-serif; /* Устанавливаем единый шрифт */
 }
 
 .dropdown-menu button:hover, .dropdown-menu a:hover {
-    background: #d6d6d6; /* Немного затемнил цвет выделения */
+    background: #e0e0e0; /* Сделал цвет мягче, чтобы выделение не бросалось в глаза */
 }

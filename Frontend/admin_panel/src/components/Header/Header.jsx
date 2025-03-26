@@ -55,7 +55,7 @@ const Header = () => {
                     </button>
                     {menuOpen && (
                         <div className="dropdown-menu">
-                            <NavLink to="/dashboard">Dashboard</NavLink>
+                            <NavLink to="/profile">Profile</NavLink>
                             <button onClick={handleLogout}>Logout</button>
                         </div>
                     )}

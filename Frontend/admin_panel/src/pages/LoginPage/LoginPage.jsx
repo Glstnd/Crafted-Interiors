@@ -1,21 +1,16 @@
 import "./LoginPage.css";
 import {useState} from "react";
 import AdminService from "../../services/AdminService.js";
-import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
-
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log("Logging in with", username, password);
-        // Здесь можно добавить логику авторизации
         AdminService.loginAdmin(username, password)
             .catch(error => console.log(error))
-         navigate("/");
+        window.location.href = "/";
     };
 
     return (
