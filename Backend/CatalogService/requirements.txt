@@ -1,0 +1,8 @@
+fastapi~=0.115.11
+uvicorn==0.34.0
+starlette==0.46.1
+pydantic==2.10.6
+sqlmodel==0.0.24
+psycopg2-binary==2.9.10
+alembic==1.15.1
+python-dotenv==1.0.1
