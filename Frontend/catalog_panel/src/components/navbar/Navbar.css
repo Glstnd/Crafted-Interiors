@@ -1,0 +1,102 @@
+/* Общие стили для navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif; /* Используем Segoe UI Variable Text */
+}
+
+/* Левая часть: логотип */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.navbar-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333333;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1); /* Увеличиваем логотип при наведении */
+}
+
+.navbar-logo img {
+    height: 60px;
+}
+
+/* Левая часть: ссылки на кнопки */
+.navbar-left-links {
+    display: flex;
+    gap: 28px;
+}
+
+.navbar-left-links a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 24px;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease; /* Анимация для увеличения и изменения цвета */
+}
+
+.navbar-left-links a:hover {
+    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
+    color: #000000; /* Меняем цвет на чёрный */
+}
+
+/* Правая часть: корзина + кнопка входа */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.navbar-right a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 24px;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navbar-right a:hover {
+    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
+    color: #000000; /* Меняем цвет на чёрный */
+}
+
+/* Стиль для кнопки входа/профиля */
+.navbar-button {
+    background-color: transparent;
+    color: #333333;
+    border: 1px solid #cccccc;
+    padding: 10px 20px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 24px;
+    transition: all 0.2s ease;
+}
+
+.navbar-button:hover {
+    background-color: #f5f5f5;
+    border-color: #999999;
+}
+
+/* Стиль для иконок */
+.navbar-icon {
+    height: 24px;
+    width: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
