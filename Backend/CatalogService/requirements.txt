@@ -7,3 +7,4 @@ psycopg2-binary==2.9.10
 alembic==1.15.1
 python-dotenv==1.0.1
 asyncpg==0.30.0
+aiobotocore==2.21.1
