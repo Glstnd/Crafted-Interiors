@@ -13,3 +13,15 @@ class Catalog(SQLModel, table=True):
     tag: str = Field(nullable=False, unique=True)
 
     categories: list["Category"] = Relationship(back_populates="catalog")
+
+
+class CatalogRequestResponse(SQLModel, table=False):
+    name: str = Field(nullable=False)
+    description: str = Field(nullable=True)
+    tag: str = Field(nullable=False, unique=True)
+
+
+class CatalogUpdateResponse(SQLModel, table=False):
+    name: str | None = None
+    description: str | None = None
+    tag: str | None = None

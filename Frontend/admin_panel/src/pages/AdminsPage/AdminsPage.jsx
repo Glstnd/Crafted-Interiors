@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import adminServiceInstance from "../../services/AdminService.js";
 import "./AdminsPage.css";
 import {useNavigate} from "react-router-dom";
+import { motion } from "framer-motion";
 
 const AdminsPage = () => {
     const [admins, setAdmins] = useState([]);
@@ -26,7 +27,7 @@ const AdminsPage = () => {
     );
 
     return (
-        <div className="admins-page">
+        <motion.div className="admins-page">
             <h1>Admins</h1>
             <div className="admins-list">
                 {Array.isArray(admins) && admins.length > 0 ? (
@@ -35,10 +36,15 @@ const AdminsPage = () => {
                     <p>No admins found.</p>
                 )}
             </div>
-            <div className="add-admin-card" onClick={() => navigate("/add-admin")}>
+            <motion.div
+                className="add-admin-card"
+                onClick={() => navigate("/add-admin")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+            >
                 <p>+ Добавить администратора</p>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
