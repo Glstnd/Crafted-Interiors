@@ -6,8 +6,8 @@ from routes.docs import add_docs
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="Accounts Service",
-    description = "Accounts Service",
+    title="Catalog Service",
+    description = "Catalogs Service",
     version="1.0.0",
     docs_url=None,
     redoc_url=None
