@@ -11,9 +11,9 @@ const Navbar = () => {
         <nav className="navbar">
             {/* Левая часть: логотип + ссылки */}
             <div className="navbar-left">
-                <div className="navbar-logo">
+                <Link to="/" className="navbar-logo">
                     <img src={logo} alt="Crafted Interiors" />
-                </div>
+                </Link>
 
                 <div className="navbar-left-links">
                     <Link to="/catalog" className="navbar-link">
