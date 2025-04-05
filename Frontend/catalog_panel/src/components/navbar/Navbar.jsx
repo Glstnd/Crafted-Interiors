@@ -1,41 +1,64 @@
-import { Link } from "react-router-dom";
-import { ShoppingCartIcon, HomeIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'; // Исправили импорт
+import { NavLink } from "react-router-dom";
+import { ShoppingCartIcon, HomeIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import logo from "../../assets/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Navbar.css";
+import CatalogService from "../../services/CatalogService.js";
 
 const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [catalogs, setCatalogs] = useState([]);
+
+    useEffect(() => {
+        CatalogService.getCatalogs()
+            .then(setCatalogs)
+            .catch(() => setCatalogs([]));
+    }, []);
 
     return (
         <nav className="navbar">
             {/* Левая часть: логотип + ссылки */}
             <div className="navbar-left">
-                <Link to="/" className="navbar-logo">
+                <NavLink to="/" className="navbar-logo">
                     <img src={logo} alt="Crafted Interiors" />
-                </Link>
+                </NavLink>
 
                 <div className="navbar-left-links">
-                    <Link to="/catalog" className="navbar-link">
-                        <HomeIcon className="navbar-icon" />
-                        Каталог
-                    </Link>
-                    <Link to="/stores" className="navbar-link">
+                    <div className="navbar-link dropdown">
+                        <NavLink to="/catalog">
+                            <HomeIcon className="navbar-icon" />
+                            <span>Каталоги</span>
+                        </NavLink>
+
+                        <div className="dropdown-content">
+                            {catalogs.map((catalog) => (
+                                <NavLink
+                                    key={catalog.tag}
+                                    to={`/catalog/${catalog.tag}`}
+                                    className="dropdown-item"
+                                >
+                                    {catalog.name}
+                                </NavLink>
+                            ))}
+                        </div>
+                    </div>
+
+                    <NavLink to="/stores" className="navbar-link">
                         <ShoppingBagIcon className="navbar-icon" />
                         Магазины
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
 
             {/* Правая часть: корзина + кнопка */}
             <div className="navbar-right">
-                <Link to="/cart" className="navbar-link">
+                <NavLink to="/cart" className="navbar-link">
                     <ShoppingCartIcon className="navbar-icon" />
                     Корзина
-                </Link>
-                <Link to={isAuthenticated ? "/profile" : "/login"} className="navbar-button">
+                </NavLink>
+                <NavLink to={isAuthenticated ? "/profile" : "/login"} className="navbar-button">
                     {isAuthenticated ? "Профиль" : "Войти"}
-                </Link>
+                </NavLink>
             </div>
         </nav>
     );
