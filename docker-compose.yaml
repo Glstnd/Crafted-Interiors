@@ -1,0 +1,97 @@
+networks:
+  dev:
+
+services:
+  postgresDB:
+    image: postgres:latest
+    container_name: postgresDB
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: CraftedInteriors
+      PGPORT: 5433
+    expose:
+      - "5433"
+    ports:
+      - "5433:5433"
+    networks:
+      - dev
+
+  accounts_service:
+    container_name: accounts_service
+    build:
+      context: ./Backend/AccountsService
+
+    environment:
+      DRIVER: asyncpg
+      HOST: postgresDB
+      PORT: 5433
+      DATABASE: CraftedInteriors
+      USER: admin
+      PASSWORD: admin
+    depends_on:
+      - postgresDB
+
+    ports:
+      - "8000:8000"
+    networks:
+      - dev
+
+  catalog_service:
+    container_name: catalog_service
+    build:
+      context: ./Backend/CatalogService
+
+    environment:
+      DRIVER: asyncpg
+      HOST: postgresDB
+      PORT: 5433
+      DATABASE: CraftedInteriors
+      USER: admin
+      PASSWORD: admin
+    depends_on:
+      - postgresDB
+
+    ports:
+      - "8001:8001"
+    networks:
+      - dev
+
+  nginx:
+    image: nginx:1.16.0-alpine
+    container_name: nginx
+    depends_on:
+      - accounts_service
+      - catalog_service
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8888:80"
+    networks:
+      - dev
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    volumes:
+      - minio-storage:/data
+      - minio-config:/root/.minio
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=admin123
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - dev
+
+volumes:
+  minio-storage:
+  minio-config:

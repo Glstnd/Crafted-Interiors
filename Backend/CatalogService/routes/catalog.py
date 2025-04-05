@@ -3,7 +3,6 @@ from typing import Sequence
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlmodel.sql._expression_select_cls import SelectBase
 
 from database.database import get_session
 from models import Catalog, CatalogRequestResponse, CatalogUpdateResponse
@@ -44,3 +43,12 @@ async def update_catalog(tag: str, catalog_update: CatalogUpdateResponse, sessio
 
     return CatalogRequestResponse.model_validate(catalog)
 
+@catalog_router.get("/catalogs/{tag}")
+async def get_catalog_by_tag(tag: str, session: AsyncSession = Depends(get_session)) -> CatalogRequestResponse:
+    request = select(Catalog).where(Catalog.tag == tag)
+    result = await session.execute(request)
+    catalog = result.scalar_one_or_none()
+    if catalog is None:
+        raise HTTPException(status_code=404, detail="Catalog not found")
+
+    return CatalogRequestResponse.model_validate(catalog)

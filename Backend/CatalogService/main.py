@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from database.database import init_db
 from routes.catalog import catalog_router
+from routes.category import category_router
 from routes.docs import add_docs
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 add_docs(app)
+catalog_router.include_router(category_router, prefix="/catalogs/{catalog_tag}")
 app.include_router(catalog_router)
 
 @app.on_event("startup")

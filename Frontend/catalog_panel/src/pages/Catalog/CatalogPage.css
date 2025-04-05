@@ -1,0 +1,154 @@
+.catalog-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Обложка каталога */
+.catalog-info {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.catalog-cover {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #ddd;
+}
+
+.catalog-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.catalog-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #222;
+}
+
+.catalog-description {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Сетка карточек */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+/* Карточка категории */
+.category-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.category-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.category-card:hover .category-image,
+.category-card:hover .category-content,
+.category-card:hover .category-tag {
+    transform: scale(1.03);
+}
+
+/* Изображение категории */
+.category-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Контент внутри карточки */
+.category-content {
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.category-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+    transition: transform 0.3s ease;
+}
+
+.category-description {
+    font-size: 16px;
+    color: #666;
+    transition: transform 0.3s ease;
+}
+
+/* Тег */
+.category-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    background-color: #e8e8e8;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    transition: transform 0.3s ease, background-color 0.2s ease;
+}
+
+.category-card:hover .category-tag {
+    background-color: #d0d0d0;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Индивидуальная задержка анимации для карточек */
+.category-card.fade-in {
+    animation-delay: 0.1s;
+}
+.category-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.category-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.category-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}
+/* Можно продолжить дальше при необходимости */
