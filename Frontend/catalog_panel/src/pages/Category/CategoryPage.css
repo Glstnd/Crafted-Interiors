@@ -64,33 +64,34 @@
     top: 115px; /* Высота navbar */
     max-height: 300px;
     overflow-y: auto;
+    border: 1px solid #000000; /* Черная линия по периметру */
 }
 
 .filter-title {
-    font-size: 24px; /* Увеличен с 20px до 24px */
+    font-size: 24px;
     font-weight: 600;
     color: #222;
-    margin-bottom: 12px; /* Уменьшен с 16px до 12px для экономии места */
+    margin-bottom: 12px;
 }
 
 .filter-section {
-    margin-bottom: 16px; /* Уменьшен с 20px до 16px для экономии места */
+    margin-bottom: 16px;
 }
 
 .filter-section label {
     display: block;
-    font-size: 18px; /* Увеличен с 16px до 18px */
+    font-size: 18px;
     color: #555;
-    margin-bottom: 6px; /* Уменьшен с 8px до 6px */
+    margin-bottom: 6px;
 }
 
 .price-input {
     width: 100px;
-    padding: 6px; /* Уменьшен с 8px до 6px для экономии места */
+    padding: 6px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    font-size: 16px; /* Увеличен с 14px до 16px */
-    margin-bottom: 6px; /* Уменьшен с 8px до 6px */
+    font-size: 16px;
+    margin-bottom: 6px;
 }
 
 .filter-section input[type="checkbox"] {
@@ -99,18 +100,63 @@
 
 .apply-filter-button {
     width: 100%;
-    padding: 8px 16px; /* Уменьшен с 10px 20px до 8px 16px для экономии места */
+    padding: 8px 16px;
     background-color: #27ae60;
     color: #ffffff;
     border: none;
     border-radius: 12px;
-    font-size: 18px; /* Увеличен с 16px до 18px */
+    font-size: 18px;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .apply-filter-button:hover {
+    background-color: #219653;
+}
+
+/* Карточка сортировки */
+.sort-card {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 115px; /* Высота navbar */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    z-index: 10; /* Над карточками товаров */
+    border: 1px solid #000000; /* Черная линия по периметру */
+}
+
+.sort-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-right: 10px;
+}
+
+.sort-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+}
+
+.sort-button {
+    padding: 4px 8px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.sort-button:hover {
     background-color: #219653;
 }
 
@@ -159,6 +205,8 @@
 /* Контейнер продуктов */
 .product-container {
     margin-top: 20px;
+    position: relative;
+    z-index: 1; /* Ниже sort-card */
 }
 
 /* Сетка продуктов */

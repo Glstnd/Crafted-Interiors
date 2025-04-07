@@ -9,7 +9,7 @@ const CategoryPage = () => {
     const { catalog_tag, category_tag } = useParams();
     const [category, setCategory] = useState(null);
     const [products, setProducts] = useState([]);
-    const [viewMode, setViewMode] = useState("grid");
+    const [viewMode, setViewMode] = useState("list");
 
     useEffect(() => {
         CategoryService.getCategoryByTag(catalog_tag, category_tag)
@@ -59,7 +59,6 @@ const CategoryPage = () => {
 
             <div className="content-wrapper">
                 <div className="filter-card fade-in">
-                    {/* Карточка фильтрации будет прилипать под navbar */}
                     <h3 className="filter-title">Фильтры</h3>
                     <div className="filter-section price-section">
                         <label>Цена</label>
@@ -91,6 +90,16 @@ const CategoryPage = () => {
                 </div>
 
                 <div className="products-section">
+                    <div className="sort-card fade-in">
+                        <span className="sort-title">Сортировка:</span>
+                        <span className="sort-label">Название</span>
+                        <button className="sort-button" title="По возрастанию">По возрастанию ↑</button>
+                        <button className="sort-button" title="По убыванию">По убыванию ↓</button>
+                        <span className="sort-label">Цена</span>
+                        <button className="sort-button" title="По возрастанию">По возрастанию ↑</button>
+                        <button className="sort-button" title="По убыванию">По убыванию ↓</button>
+                    </div>
+
                     <div className="view-controls fade-in">
                         <button
                             className={`view-button ${viewMode === "grid" ? "active" : ""}`}

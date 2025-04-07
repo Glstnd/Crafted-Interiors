@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
 class Product(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True, index=True)
     name: str = Field(nullable=False)
+    description: Optional[str] = Field(default=None, nullable=True)
     tag: str = Field(nullable=False, unique=True)
     image_path: str | None = None
     price: Optional[Decimal] = Field(default=None, decimal_places=2, max_digits=10)
