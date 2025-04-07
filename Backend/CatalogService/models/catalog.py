@@ -11,6 +11,7 @@ class Catalog(SQLModel, table=True):
     name: str = Field(nullable=False)
     description: str = Field(nullable=True)
     tag: str = Field(nullable=False, unique=True)
+    image_path: str | None = None
 
     categories: list["Category"] = Relationship(back_populates="catalog")
 
@@ -19,6 +20,7 @@ class CatalogRequestResponse(SQLModel, table=False):
     name: str = Field(nullable=False)
     description: str = Field(nullable=True)
     tag: str = Field(nullable=False, unique=True)
+    image_path: str | None = None
 
 
 class CatalogUpdateResponse(SQLModel, table=False):

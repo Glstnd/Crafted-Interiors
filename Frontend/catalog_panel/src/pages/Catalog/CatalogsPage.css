@@ -15,7 +15,7 @@
 .catalogs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
+    gap: 28px;
 }
 
 .catalog-card {
@@ -30,7 +30,7 @@
 }
 
 .catalog-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.03);;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
@@ -39,18 +39,29 @@
     font-weight: 600;
     margin-bottom: 12px;
     color: #222;
+    transition: transform 0.3s ease;
 }
 
 .catalog-description {
     font-size: 16px;
     color: #666;
-    margin-bottom: 16px;
+    transition: transform 0.3s ease;
 }
 
 .catalog-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    background-color: #e8e8e8;
+    border-radius: 12px;
     font-size: 14px;
-    color: #888;
-    font-style: italic;
+    font-weight: 500;
+    color: #555;
+    transition: transform 0.3s ease, background-color 0.2s ease;
+}
+
+.catalog-tag:hover .catalog-tag {
+    background-color: #d0d0d0;
 }
 
 .catalog-image {
@@ -60,3 +71,34 @@
     border-radius: 16px;
     margin-bottom: 16px;
 }
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Индивидуальная задержка анимации для карточек */
+.catalog-card.fade-in {
+    animation-delay: 0.1s;
+}
+.catalog-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.catalog-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.catalog-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}
+/* Можно продолжить дальше при необходимости */

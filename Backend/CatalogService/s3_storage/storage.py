@@ -2,6 +2,7 @@ import asyncio
 from contextlib import asynccontextmanager
 
 from aiobotocore.session import get_session, AioBaseClient
+from fastapi import UploadFile
 
 
 class S3Client:
@@ -27,27 +28,21 @@ class S3Client:
 
     async def upload_file(
             self,
-            file_path: str,
+            file: UploadFile,
             object_name: str
     ):
         async with self.get_client() as client:
-            with open(file_path, "rb") as file:
-                await client.put_object(
-                    Bucket=self.bucket_name,
-                    Key=object_name,
-                    Body=file
-                )
+            file_spec = file.filename.split(".")[-1]
 
-async def init_storage():
-    s3_client = S3Client(
+            await client.put_object(
+                Bucket=self.bucket_name,
+                Key=f"{object_name}.{file_spec}",
+                Body=file.file
+            )
+
+s3_client: S3Client = S3Client(
         access_key="BZ9EERAJF02C56UAMELA",
         secret_key="fgfCffrXeHTjcerHEMisCXFtfPqY156ysHXcg81c",
         endpoint_url="http://127.0.0.1:9000",
         bucket_name="catalog-images"
     )
-
-    await s3_client.upload_file("provod.png", "catalog/provod.png")
-
-
-if __name__ == "__main__":
-    asyncio.run(init_storage())

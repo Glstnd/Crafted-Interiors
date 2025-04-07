@@ -11,6 +11,7 @@ class Category(SQLModel, table=True):
     name: str = Field(nullable=False)
     description: str = Field(nullable=True)
     tag: str = Field(nullable=False, unique=True)
+    image_path: str | None = None
 
     catalog_id: int = Field(default=None, foreign_key="catalog.id")
     catalog: "Catalog" = Relationship(back_populates="categories")

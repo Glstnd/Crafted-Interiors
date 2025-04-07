@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 
 const CatalogPage = () => {
     const { catalog_tag } = useParams();
+
+    // Todo: оптимизировать catalog
     const [catalog, setCatalog] = useState(null);
     const [categories, setCategories] = useState([]);
 
@@ -28,7 +30,11 @@ const CatalogPage = () => {
     return (
         <div className="catalog-page" key={catalog_tag}>
             <div className="catalog-info fade-in">
-                <img src={placeholderImage} alt={catalog.name} className="catalog-cover" />
+                <img src={catalog.image_path
+                    ? `http://localhost:9000/catalog-images/${catalog.image_path}`
+                    : placeholderImage}
+                     alt={catalog.name}
+                     className="catalog-cover" />
                 <div className="catalog-text">
                     <h1 className="catalog-title">{catalog.name}</h1>
                     <p className="catalog-description">{catalog.description}</p>
@@ -44,7 +50,9 @@ const CatalogPage = () => {
                         style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                     >
                         <img
-                            src={placeholderImage}
+                            src={category.image_path
+                                ? `http://localhost:9000/catalog-images/${category.image_path}`
+                                : placeholderImage}
                             alt={category.name}
                             className="category-image"
                         />

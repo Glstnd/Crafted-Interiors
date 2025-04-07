@@ -2,7 +2,7 @@ import "./CatalogsPage.css";
 import { useEffect, useState } from "react";
 import CatalogService from "../../services/CatalogService.js";
 import { Link } from "react-router-dom";
-import placeholderImage from "../../assets/not_found_picture.jpg"; // импорт изображения
+import placeholderImage from "../../assets/not_found_picture.jpg";
 
 const CatalogsPage = () => {
     const [catalogs, setCatalogs] = useState([]);
@@ -20,7 +20,9 @@ const CatalogsPage = () => {
                 {catalogs.map((catalog) => (
                     <Link to={`/catalog/${catalog.tag}`} key={catalog.tag} className="catalog-card">
                         <img
-                            src={placeholderImage}
+                            src={catalog.image_path
+                                ? `http://localhost:9000/catalog-images/${catalog.image_path}`
+                                : placeholderImage}
                             alt={catalog.name}
                             className="catalog-image"
                         />

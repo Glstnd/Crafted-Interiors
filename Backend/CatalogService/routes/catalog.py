@@ -1,11 +1,12 @@
 from typing import Sequence
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from database.database import get_session
 from models import Catalog, CatalogRequestResponse, CatalogUpdateResponse
+from s3_storage.storage import s3_client
 
 catalog_router = APIRouter()
 
@@ -51,4 +52,22 @@ async def get_catalog_by_tag(tag: str, session: AsyncSession = Depends(get_sessi
     if catalog is None:
         raise HTTPException(status_code=404, detail="Catalog not found")
 
+    return CatalogRequestResponse.model_validate(catalog)
+
+@catalog_router.post("/catalogs/{tag}/upload")
+async def upload_catalog_photo(tag: str, file: UploadFile, session: AsyncSession = Depends(get_session)) -> CatalogRequestResponse:
+    request = select(Catalog).where(Catalog.tag == tag)
+    result = await session.execute(request)
+    catalog: Catalog | None = result.scalar_one_or_none()
+    if catalog is None:
+        raise HTTPException(status_code=404, detail="Catalog not found")
+
+    await s3_client.upload_file(file, f"catalogs/{catalog.tag}")
+
+    file_spec = file.filename.split(".")[-1]
+    catalog.image_path = f"catalogs/{catalog.tag}.{file_spec}"
+
+    session.add(catalog)
+    await session.commit()
+    await session.refresh(catalog)
     return CatalogRequestResponse.model_validate(catalog)
