@@ -1,5 +1,5 @@
 import "./CategoryPage.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CategoryService from "../../services/CategoryService.js";
 import ProductService from "../../services/ProductService.js";
@@ -7,37 +7,108 @@ import placeholderImage from "../../assets/not_found_picture.jpg";
 
 const CategoryPage = () => {
     const { catalog_tag, category_tag } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [category, setCategory] = useState(null);
     const [products, setProducts] = useState([]);
     const [viewMode, setViewMode] = useState("list");
 
+    // Состояние фильтров
+    const [filters, setFilters] = useState({
+        minPrice: "",
+        maxPrice: "",
+        hasPhoto: false,
+        hasDescription: false
+    });
+
+    // Состояние сортировки
+    const [sort, setSort] = useState({
+        field: null, // 'name' или 'price'
+        direction: null // 'asc' или 'desc'
+    });
+
+    // Чтение параметров URL при монтировании
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        setFilters({
+            minPrice: searchParams.get("min_price") || "",
+            maxPrice: searchParams.get("max_price") || "",
+            hasPhoto: searchParams.get("has_photo") === "true",
+            hasDescription: searchParams.get("has_description") === "true"
+        });
+        setSort({
+            field: searchParams.get("sort_field") || null,
+            direction: searchParams.get("sort_direction") || null
+        });
+    }, [location.search]);
+
+    // Загрузка категории
     useEffect(() => {
         CategoryService.getCategoryByTag(catalog_tag, category_tag)
-            .then((data) => {
-                console.log("Полученные данные категории:", data);
-                setCategory(data);
-            })
+            .then(setCategory)
             .catch((error) => {
                 console.log("Ошибка при загрузке категории:", error);
                 setCategory([]);
             });
     }, [catalog_tag, category_tag]);
 
+    // Загрузка продуктов с фильтрами и сортировкой
     useEffect(() => {
-        ProductService.getProducts(catalog_tag, category_tag)
-            .then((data) => {
-                console.log("Полученные данные продуктов:", data);
-                setProducts(data);
-            })
+        const params = new URLSearchParams();
+
+        // Добавление параметров фильтров
+        if (filters.minPrice) params.set("min_price", filters.minPrice);
+        if (filters.maxPrice) params.set("max_price", filters.maxPrice);
+        if (filters.hasPhoto) params.set("has_photo", "true");
+        if (filters.hasDescription) params.set("has_description", "true");
+
+        // Добавление параметров сортировки
+        if (sort.field) params.set("sort_field", sort.field);
+        if (sort.direction) params.set("sort_direction", sort.direction);
+
+        // Обновление URL
+        navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+
+        // Загрузка продуктов с параметрами
+        ProductService.getProducts(catalog_tag, category_tag, Object.fromEntries(params))
+            .then(setProducts)
             .catch((error) => {
                 console.log("Ошибка при загрузке продуктов:", error);
                 setProducts([]);
             });
-    }, [catalog_tag, category_tag]);
+    }, [catalog_tag, category_tag, filters, sort, navigate, location.pathname]);
+
+    // Обработка изменений фильтров
+    const handleFilterChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFilters(prev => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value
+        }));
+    };
+
+    // Обработка сортировки
+    const handleSort = (field, direction) => {
+        setSort({ field, direction });
+    };
+
+    // Сброс фильтров и сортировки
+    const handleReset = () => {
+        setFilters({
+            minPrice: "",
+            maxPrice: "",
+            hasPhoto: false,
+            hasDescription: false
+        });
+        setSort({
+            field: null,
+            direction: null
+        });
+        navigate(`${location.pathname}`, { replace: true }); // Удаляем все параметры из URL
+    };
 
     if (!category) return <div className="category-loading">Загрузка категории...</div>;
-
-    console.log("Image path для категории:", category.image_path);
 
     return (
         <div className="catalog-page" key={category_tag}>
@@ -60,44 +131,82 @@ const CategoryPage = () => {
             <div className="content-wrapper">
                 <div className="filter-card fade-in">
                     <h3 className="filter-title">Фильтры</h3>
+                    <p className="filter-count">Найдено: {products.length} записей</p>
                     <div className="filter-section price-section">
                         <label>Цена</label>
                         <input
                             type="number"
+                            name="minPrice"
                             placeholder="Мин. цена"
                             className="price-input"
                             min="0"
                             step="100"
+                            value={filters.minPrice}
+                            onChange={handleFilterChange}
                         />
                         <input
                             type="number"
+                            name="maxPrice"
                             placeholder="Макс. цена"
                             className="price-input"
                             min="0"
                             step="100"
+                            value={filters.maxPrice}
+                            onChange={handleFilterChange}
                         />
                     </div>
                     <div className="filter-section">
-                        <label>Условия</label>
                         <label>
-                            <input type="checkbox" /> Наличие фото
+                            <input
+                                type="checkbox"
+                                name="hasPhoto"
+                                checked={filters.hasPhoto}
+                                onChange={handleFilterChange}
+                            /> Наличие фото
                         </label>
                         <label>
-                            <input type="checkbox" /> Наличие описания
+                            <input
+                                type="checkbox"
+                                name="hasDescription"
+                                checked={filters.hasDescription}
+                                onChange={handleFilterChange}
+                            /> Наличие описания
                         </label>
                     </div>
-                    <button className="apply-filter-button">Применить</button>
+                    <button className="reset-filter-button" onClick={handleReset}>
+                        Сбросить
+                    </button>
                 </div>
 
                 <div className="products-section">
                     <div className="sort-card fade-in">
                         <span className="sort-title">Сортировка:</span>
                         <span className="sort-label">Название</span>
-                        <button className="sort-button" title="По возрастанию">По возрастанию ↑</button>
-                        <button className="sort-button" title="По убыванию">По убыванию ↓</button>
+                        <button
+                            className="sort-button"
+                            onClick={() => handleSort("name", "asc")}
+                        >
+                            По возрастанию ↑
+                        </button>
+                        <button
+                            className="sort-button"
+                            onClick={() => handleSort("name", "desc")}
+                        >
+                            По убыванию ↓
+                        </button>
                         <span className="sort-label">Цена</span>
-                        <button className="sort-button" title="По возрастанию">По возрастанию ↑</button>
-                        <button className="sort-button" title="По убыванию">По убыванию ↓</button>
+                        <button
+                            className="sort-button"
+                            onClick={() => handleSort("price", "asc")}
+                        >
+                            По возрастанию ↑
+                        </button>
+                        <button
+                            className="sort-button"
+                            onClick={() => handleSort("price", "desc")}
+                        >
+                            По убыванию ↓
+                        </button>
                     </div>
 
                     <div className="view-controls fade-in">
@@ -142,7 +251,7 @@ const CategoryPage = () => {
                                         <p className="product-price">
                                             {product.price !== null ? `${product.price} руб.` : "Цена не указана"}
                                         </p>
-                                        <button className="add-to-cart-button">В корзину</button>
+                                        <button className="add-to-cart-button">В корзину</button> {/* Кнопка "В корзину" */}
                                     </div>
                                 </div>
                             </Link>

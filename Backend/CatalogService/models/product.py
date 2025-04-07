@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
+from typing import Optional, Literal
 
 import typing
 
@@ -19,3 +19,15 @@ class Product(SQLModel, table=True):
 
     category_id: int = Field(default=None, foreign_key="category.id")
     category: "Category" = Relationship(back_populates="products")
+
+
+class ProductFilter(SQLModel, table=False):
+    sort_field: Optional[Literal["name", "price"]] = Field(default=None, nullable=True)
+    sort_direction: Optional[Literal["asc", "desc"]] = Field(default=None, nullable=True)
+
+    min_price: Optional[Decimal] = Field(default=None, nullable=True)
+    max_price: Optional[Decimal] = Field(default=None, nullable=True)
+
+    has_photo: Optional[bool] = Field(default=None, nullable=True)
+    has_description: Optional[bool] = Field(default=None, nullable=True)
+

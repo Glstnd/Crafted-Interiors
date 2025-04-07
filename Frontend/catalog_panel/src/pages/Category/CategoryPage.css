@@ -62,9 +62,12 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     position: sticky;
     top: 115px; /* Высота navbar */
-    max-height: 300px;
-    overflow-y: auto;
+    height: 320px; /* Фиксированная высота */
+    overflow-y: auto; /* Прокрутка при переполнении */
     border: 1px solid #000000; /* Черная линия по периметру */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Распределяем содержимое */
 }
 
 .filter-title {
@@ -72,6 +75,12 @@
     font-weight: 600;
     color: #222;
     margin-bottom: 12px;
+}
+
+.filter-count {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 16px;
 }
 
 .filter-section {
@@ -83,6 +92,37 @@
     font-size: 18px;
     color: #555;
     margin-bottom: 6px;
+}
+
+.price-input {
+    width: 100px;
+    padding: 6px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.filter-section input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.reset-filter-button {
+    width: 100%;
+    padding: 8px 16px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: auto; /* Прижимаем кнопку к низу */
+}
+
+.reset-filter-button:hover {
+    background-color: #c0392b;
 }
 
 .price-input {
@@ -363,6 +403,8 @@
     font-weight: 500;
     color: #2c3e50;
     margin-bottom: 0;
+    white-space: normal; /* Разрешаем перенос текста цены */
+    max-width: 50%; /* Ограничиваем ширину цены в сеточном виде */
 }
 
 /* Кнопка "В корзину" */
@@ -376,10 +418,15 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    white-space: nowrap; /* Запрещаем перенос текста в кнопке */
 }
 
 .add-to-cart-button:hover {
     background-color: #219653;
+}
+
+.product-card:not(.list-view) .add-to-cart-button {
+    min-width: 120px; /* Фиксируем минимальную ширину кнопки в сеточном виде */
 }
 
 .product-card.list-view .add-to-cart-button {

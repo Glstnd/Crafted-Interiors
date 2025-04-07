@@ -1,9 +1,10 @@
 class ProductService {
     static url = "http://localhost:8001/catalogs"
 
-    async getProducts(catalog_tag, category_tag) {
+    async getProducts(catalog_tag, category_tag, params = {}) {
         try {
-            const response = await fetch(`${ProductService.url}/${catalog_tag}/categories/${category_tag}/products`);
+            const query = new URLSearchParams(params).toString();
+            const response = await fetch(`${ProductService.url}/${catalog_tag}/categories/${category_tag}/products?${query}`);
             if (!response.ok) {
                 console.error("Категории не были загружены");
             }
