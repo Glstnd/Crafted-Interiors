@@ -44,7 +44,7 @@ const CatalogPage = () => {
             <div className="category-grid fade-in">
                 {categories.map((category, index) => (
                     <Link
-                        to={`/category/${category.tag}`}
+                        to={`/catalog/${catalog.tag}/${category.tag}`}
                         key={category.tag}
                         className={`category-card fade-in`}
                         style={{ animationDelay: `${(index + 1) * 0.1}s` }}

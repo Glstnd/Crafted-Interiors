@@ -41,8 +41,8 @@ class S3Client:
             )
 
 s3_client: S3Client = S3Client(
-        access_key="BZ9EERAJF02C56UAMELA",
-        secret_key="fgfCffrXeHTjcerHEMisCXFtfPqY156ysHXcg81c",
+        access_key="t5eji5whXapbf34nlTRi",
+        secret_key="2E945e8aEZaylpfhh0hdK45kDDQ0wmSJ4p39o1iK",
         endpoint_url="http://127.0.0.1:9000",
         bucket_name="catalog-images"
     )

@@ -6,6 +6,8 @@ from routes.category import category_router
 from routes.docs import add_docs
 from fastapi.middleware.cors import CORSMiddleware
 
+from routes.product import product_router
+
 app = FastAPI(
     title="Catalog Service",
     description = "Catalogs Service",
@@ -28,6 +30,7 @@ app.add_middleware(
 )
 
 add_docs(app)
+category_router.include_router(product_router, prefix="/categories/{category_tag}")
 catalog_router.include_router(category_router, prefix="/catalogs/{catalog_tag}")
 app.include_router(catalog_router)
 

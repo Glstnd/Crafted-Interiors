@@ -4,6 +4,7 @@ import {Route, Routes} from "react-router-dom";
 import MainPage from "./pages/MainPage/MainPage.jsx";
 import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
+import CategoryPage from "./pages/Category/CategoryPage.jsx";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route
               path="/catalog/:catalog_tag"
               element={<CatalogPage/>}
+          />
+          <Route
+              path="/catalog/:catalog_tag/:category_tag"
+              element={<CategoryPage/>}
           />
         </Routes>
     </>
