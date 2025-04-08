@@ -6,6 +6,7 @@ import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
           <Route
               path="/login"
               element={<LoginPage/>}
+          />
+          <Route
+              path="/register"
+              element={<RegisterPage/>}
           />
           <Route
               path="/catalog"
