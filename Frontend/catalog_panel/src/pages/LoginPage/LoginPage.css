@@ -1,0 +1,211 @@
+/* LoginPage.css */
+.login-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+    min-height: 450px;
+}
+
+.login-container h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-size: 22px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.input-wrapper,
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+input {
+    padding: 12px 14px; /* Увеличил внутренние отступы для большей высоты */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 20px;
+    transition: border-color 0.2s ease;
+    height: 48px; /* Увеличил высоту с 40px до 48px */
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1; /* Устанавливаем фиксированную высоту строки */
+    display: flex;
+    align-items: center; /* Центрируем текст по вертикали */
+}
+
+input:focus {
+    border-color: #27ae60;
+    outline: none;
+}
+
+.toggle-password-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password-eye svg {
+    transition: all 0.3s ease;
+}
+
+.eye-open .eye-path {
+    stroke: #27ae60;
+}
+
+.eye-closed .eye-path {
+    stroke: #27ae60;
+}
+
+.eye-open .pupil {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.eye-closed .pupil {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.eye-open .eyelid {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.eye-closed .eyelid {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-password-eye:hover .eye-path {
+    stroke: #219653;
+}
+
+.error-message {
+    font-size: 20px;
+    color: #e74c3c;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.login-button {
+    padding: 12px 24px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.login-button:hover:not(:disabled) {
+    background-color: #219653;
+}
+
+.google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #ffffff;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.google-login-button:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.google-login-button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.google-login-button svg {
+    margin-right: 10px;
+}
+
+.register-link {
+    margin-top: 24px;
+    font-size: 20px;
+    color: #555;
+    text-align: center;
+}
+
+.register-link a {
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.register-link a:hover {
+    color: #219653;
+    text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container {
+    animation: fadeInUp 0.6s ease-out both;
+}

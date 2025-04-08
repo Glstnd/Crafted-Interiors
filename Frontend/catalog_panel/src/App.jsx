@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage/MainPage.jsx";
 import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
+import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 
 function App() {
   return (
@@ -14,6 +15,10 @@ function App() {
           <Route
               path="/"
               element={<MainPage/>}
+          />
+          <Route
+              path="/login"
+              element={<LoginPage/>}
           />
           <Route
               path="/catalog"
