@@ -13,8 +13,8 @@ const CategoryPage = () => {
     const [category, setCategory] = useState(null);
     const [products, setProducts] = useState([]);
     const [viewMode, setViewMode] = useState("list");
+    const [resetMessage, setResetMessage] = useState(false);
 
-    // Состояние фильтров
     const [filters, setFilters] = useState({
         minPrice: "",
         maxPrice: "",
@@ -22,13 +22,11 @@ const CategoryPage = () => {
         hasDescription: false
     });
 
-    // Состояние сортировки
     const [sort, setSort] = useState({
-        field: null, // 'name' или 'price'
-        direction: null // 'asc' или 'desc'
+        field: null,
+        direction: null
     });
 
-    // Чтение параметров URL при монтировании
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         setFilters({
@@ -43,7 +41,6 @@ const CategoryPage = () => {
         });
     }, [location.search]);
 
-    // Загрузка категории
     useEffect(() => {
         CategoryService.getCategoryByTag(catalog_tag, category_tag)
             .then(setCategory)
@@ -53,24 +50,19 @@ const CategoryPage = () => {
             });
     }, [catalog_tag, category_tag]);
 
-    // Загрузка продуктов с фильтрами и сортировкой
     useEffect(() => {
         const params = new URLSearchParams();
 
-        // Добавление параметров фильтров
         if (filters.minPrice) params.set("min_price", filters.minPrice);
         if (filters.maxPrice) params.set("max_price", filters.maxPrice);
         if (filters.hasPhoto) params.set("has_photo", "true");
         if (filters.hasDescription) params.set("has_description", "true");
 
-        // Добавление параметров сортировки
         if (sort.field) params.set("sort_field", sort.field);
         if (sort.direction) params.set("sort_direction", sort.direction);
 
-        // Обновление URL
         navigate(`${location.pathname}?${params.toString()}`, { replace: true });
 
-        // Загрузка продуктов с параметрами
         ProductService.getProducts(catalog_tag, category_tag, Object.fromEntries(params))
             .then(setProducts)
             .catch((error) => {
@@ -79,7 +71,6 @@ const CategoryPage = () => {
             });
     }, [catalog_tag, category_tag, filters, sort, navigate, location.pathname]);
 
-    // Обработка изменений фильтров
     const handleFilterChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFilters(prev => ({
@@ -88,12 +79,10 @@ const CategoryPage = () => {
         }));
     };
 
-    // Обработка сортировки
     const handleSort = (field, direction) => {
         setSort({ field, direction });
     };
 
-    // Сброс фильтров и сортировки
     const handleReset = () => {
         setFilters({
             minPrice: "",
@@ -105,13 +94,23 @@ const CategoryPage = () => {
             field: null,
             direction: null
         });
-        navigate(`${location.pathname}`, { replace: true }); // Удаляем все параметры из URL
+        navigate(`${location.pathname}`, { replace: true });
+
+        setResetMessage(true);
+        setTimeout(() => {
+            setResetMessage(false);
+        }, 5000);
     };
 
     if (!category) return <div className="category-loading">Загрузка категории...</div>;
 
     return (
         <div className="catalog-page" key={category_tag}>
+            {resetMessage && (
+                <div className="reset-message">
+                    Настройки фильтрации и сортировки сброшены
+                </div>
+            )}
             <div className="category-container fade-in">
                 <img
                     src={
@@ -251,7 +250,7 @@ const CategoryPage = () => {
                                         <p className="product-price">
                                             {product.price !== null ? `${product.price} руб.` : "Цена не указана"}
                                         </p>
-                                        <button className="add-to-cart-button">В корзину</button> {/* Кнопка "В корзину" */}
+                                        <button className="add-to-cart-button">В корзину</button>
                                     </div>
                                 </div>
                             </Link>

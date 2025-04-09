@@ -30,22 +30,22 @@
     text-align: left;
 }
 
-label {
+.register-container.label {
     font-size: 22px;
     font-weight: 500;
     color: #555;
     margin-bottom: 8px;
 }
 
-.input-wrapper,
-.password-input-wrapper {
+.register-container.input-wrapper,
+.register-container.password-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
 
-input {
+.register-container.input {
     padding: 12px 14px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -58,18 +58,18 @@ input {
 }
 
 /* Отключаем стандартные иконки браузера для пароля */
-input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear,
-input[type="password"]::-webkit-textfield-decoration-container {
+.register-container.input[type="password"]::-ms-reveal,
+.register-container.input[type="password"]::-ms-clear,
+.register-container.input[type="password"]::-webkit-textfield-decoration-container {
     display: none;
 }
 
-input:focus {
+.register-container.input:focus {
     border-color: #27ae60;
     outline: none;
 }
 
-.toggle-password-eye {
+.register-container.toggle-password-eye {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -183,7 +183,7 @@ input:focus {
     background-color: #219653;
 }
 
-.google-login-button {
+.register-container.google-login-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,7 +199,7 @@ input:focus {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-.google-login-button:disabled {
+.register-container.google-login-button:disabled {
     background-color: #f0f0f0;
     cursor: not-allowed;
 }
