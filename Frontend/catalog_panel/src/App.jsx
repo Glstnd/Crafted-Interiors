@@ -7,6 +7,7 @@ import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
+import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route
               path="/catalog/:catalog_tag/:category_tag"
               element={<CategoryPage/>}
+          />
+          <Route
+              path="/catalog/:catalog_tag/:category_tag/:product_tag"
+              element={<ProductPage/>}
           />
         </Routes>
     </>
