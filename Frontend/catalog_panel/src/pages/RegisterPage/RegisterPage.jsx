@@ -1,7 +1,9 @@
 // components/RegisterPage.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { useDispatch } from 'react-redux'; // Добавляем только useDispatch для кнопки
+import { registerUser } from '../../store/authSlice'; // Импортируем действие регистрации
 import './RegisterPage.css';
 
 const RegisterPage = () => {
@@ -13,9 +15,12 @@ const RegisterPage = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null); // Восстанавливаем локальный error
+    const [isLoading, setIsLoading] = useState(false); // Восстанавливаем локальный isLoading
     const [emailError, setEmailError] = useState('');
+
+    const dispatch = useDispatch(); // Для отправки действия регистрации
+    const navigate = useNavigate(); // Для перенаправления после регистрации
 
     // Критерии пароля
     const passwordCriteria = {
@@ -52,21 +57,21 @@ const RegisterPage = () => {
             return;
         }
 
+        const userData = {
+            username: formData.username,
+            password: formData.password,
+            ...(formData.email && { email: formData.email }), // Email опционален
+        };
+
         try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: formData.username, email: formData.email, password: formData.password }),
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message || 'Ошибка регистрации');
-
-            console.log('Успешная регистрация:', data);
+            // Отправляем действие регистрации через Redux
+            const resultAction = await dispatch(registerUser(userData)).unwrap();
+            if (resultAction) {
+                // После успешной регистрации перенаправляем на главную страницу
+                navigate('/');
+            }
         } catch (err) {
-            setError(err.message);
+            setError(err || 'Ошибка регистрации');
         } finally {
             setIsLoading(false);
         }
@@ -96,7 +101,7 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="email">Электронная почта</label>
+                    <label htmlFor="email">Электронная почта (необязательно)</label>
                     <div className="input-wrapper">
                         <input
                             type="email"
@@ -105,7 +110,6 @@ const RegisterPage = () => {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="Введите email"
-                            required
                         />
                     </div>
                     {emailError && <p className="error-message">{emailError}</p>}
