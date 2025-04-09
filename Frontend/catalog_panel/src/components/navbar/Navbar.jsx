@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { ShoppingCartIcon, HomeIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon, HomeIcon, ShoppingBagIcon, UserIcon } from '@heroicons/react/24/outline';
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "./Navbar.css";
 import CatalogService from "../../services/CatalogService.js";
 
 const Navbar = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [catalogs, setCatalogs] = useState([]);
+    const { isAuthenticated } = useSelector((state) => state.auth); // Получаем статус авторизации из Redux
 
     useEffect(() => {
         CatalogService.getCatalogs()
@@ -56,8 +57,18 @@ const Navbar = () => {
                     <ShoppingCartIcon className="navbar-icon" />
                     Корзина
                 </NavLink>
-                <NavLink to={isAuthenticated ? "/profile" : "/login"} className="navbar-button">
-                    {isAuthenticated ? "Профиль" : "Войти"}
+                <NavLink
+                    to={isAuthenticated ? "/profile" : "/login"}
+                    className="navbar-button"
+                >
+                    {isAuthenticated ? (
+                        <>
+                            <UserIcon className="navbar-icon" />
+                            Профиль
+                        </>
+                    ) : (
+                        "Войти"
+                    )}
                 </NavLink>
             </div>
         </nav>

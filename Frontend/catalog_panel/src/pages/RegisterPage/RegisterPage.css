@@ -8,6 +8,7 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
     min-height: 450px;
+    animation: fadeInUp 0.6s ease-out both;
 }
 
 .register-container h2 {
@@ -18,34 +19,34 @@
     text-align: center;
 }
 
-.register-form {
+.register-container .register-form {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-.form-group {
+.register-container .form-group {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.register-container.label {
+.register-container .form-group label {
     font-size: 22px;
     font-weight: 500;
     color: #555;
     margin-bottom: 8px;
 }
 
-.register-container.input-wrapper,
-.register-container.password-input-wrapper {
+.register-container .input-wrapper,
+.register-container .password-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
 
-.register-container.input {
+.register-container input {
     padding: 12px 14px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -58,18 +59,18 @@
 }
 
 /* Отключаем стандартные иконки браузера для пароля */
-.register-container.input[type="password"]::-ms-reveal,
-.register-container.input[type="password"]::-ms-clear,
-.register-container.input[type="password"]::-webkit-textfield-decoration-container {
+.register-container input[type="password"]::-ms-reveal,
+.register-container input[type="password"]::-ms-clear,
+.register-container input[type="password"]::-webkit-textfield-decoration-container {
     display: none;
 }
 
-.register-container.input:focus {
+.register-container input:focus {
     border-color: #27ae60;
     outline: none;
 }
 
-.register-container.toggle-password-eye {
+.register-container .toggle-password-eye {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -83,47 +84,47 @@
     justify-content: center;
 }
 
-.toggle-password-eye svg {
+.register-container .toggle-password-eye svg {
     transition: all 0.3s ease;
 }
 
-.eye-open .eye-path {
+.register-container .eye-open .eye-path {
     stroke: #27ae60;
 }
 
-.eye-closed .eye-path {
+.register-container .eye-closed .eye-path {
     stroke: #27ae60;
 }
 
-.eye-open .pupil {
+.register-container .eye-open .pupil {
     opacity: 1;
     transform: scale(1);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.eye-closed .pupil {
+.register-container .eye-closed .pupil {
     opacity: 0;
     transform: scale(0.5);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.eye-open .eyelid {
+.register-container .eye-open .eyelid {
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.eye-closed .eyelid {
+.register-container .eye-closed .eyelid {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.toggle-password-eye:hover .eye-path {
+.register-container .toggle-password-eye:hover .eye-path {
     stroke: #219653;
 }
 
-.password-criteria {
+.register-container .password-criteria {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -131,38 +132,38 @@
     color: #555;
 }
 
-.password-criteria p {
+.register-container .password-criteria p {
     margin: 0;
 }
 
-.password-criteria .valid {
+.register-container .password-criteria .valid {
     color: #27ae60;
     text-decoration: none;
 }
 
-.password-criteria .invalid {
+.register-container .password-criteria .invalid {
     color: #e74c3c;
     text-decoration: underline;
 }
 
-.password-criteria .valid-special {
+.register-container .password-criteria .valid-special {
     color: #f1c40f;
     text-decoration: none;
 }
 
-.password-criteria .invalid-special {
+.register-container .password-criteria .invalid-special {
     color: #f1c40f;
     text-decoration: underline;
 }
 
-.error-message {
+.register-container .error-message {
     font-size: 20px;
     color: #e74c3c;
     text-align: center;
     margin: 12px 0;
 }
 
-.register-button {
+.register-container .register-button {
     padding: 12px 24px;
     background-color: #27ae60;
     color: #ffffff;
@@ -174,16 +175,16 @@
     transition: background-color 0.2s ease;
 }
 
-.register-button:disabled {
+.register-container .register-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
 
-.register-button:hover:not(:disabled) {
+.register-container .register-button:hover:not(:disabled) {
     background-color: #219653;
 }
 
-.register-container.google-login-button {
+.register-container .google-login-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,35 +200,35 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-.register-container.google-login-button:disabled {
+.register-container .google-login-button:disabled {
     background-color: #f0f0f0;
     cursor: not-allowed;
 }
 
-.google-login-button:hover:not(:disabled) {
+.register-container .google-login-button:hover:not(:disabled) {
     background-color: #f0f0f0;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.google-login-button svg {
+.register-container .google-login-button svg {
     margin-right: 10px;
 }
 
-.login-link {
+.register-container .login-link {
     margin-top: 24px;
     font-size: 20px;
     color: #555;
     text-align: center;
 }
 
-.login-link a {
+.register-container .login-link a {
     color: #27ae60;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
 }
 
-.login-link a:hover {
+.register-container .login-link a:hover {
     color: #219653;
     text-decoration: underline;
 }
@@ -241,8 +242,4 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.register-container {
-    animation: fadeInUp 0.6s ease-out both;
 }

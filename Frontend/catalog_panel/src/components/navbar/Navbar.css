@@ -9,7 +9,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif; /* Используем Segoe UI Variable Text */
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
 }
 
 /* Левая часть: логотип */
@@ -29,7 +29,7 @@
 }
 
 .navbar-logo:hover {
-    transform: scale(1.1); /* Увеличиваем логотип при наведении */
+    transform: scale(1.1);
 }
 
 .navbar-logo img {
@@ -48,15 +48,17 @@
     color: #444444;
     font-size: 24px;
     font-weight: 500;
-    transition: transform 0.3s ease, color 0.3s ease; /* Анимация для увеличения и изменения цвета */
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-left-links a:hover {
-    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
-    color: #000000; /* Меняем цвет на чёрный */
+    transform: scale(1.1);
+    color: #000000;
 }
 
-/* Правая часть: корзина + кнопка входа */
+/* Правая часть: корзина + кнопка входа/профиля */
 .navbar-right {
     display: flex;
     align-items: center;
@@ -69,11 +71,13 @@
     font-size: 24px;
     font-weight: 500;
     transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-right a:hover {
-    transform: scale(1.1); /* Увеличиваем кнопку при наведении */
-    color: #000000; /* Меняем цвет на чёрный */
+    transform: scale(1.1);
+    color: #000000;
 }
 
 /* Стиль для кнопки входа/профиля */
@@ -87,11 +91,15 @@
     font-weight: 500;
     font-size: 24px;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Расстояние между иконкой и текстом */
 }
 
 .navbar-button:hover {
     background-color: #f5f5f5;
     border-color: #999999;
+    color: #333333; /* Сохраняем цвет текста при наведении */
 }
 
 /* Стиль для иконок */
@@ -103,7 +111,7 @@
 }
 
 /* Выпадающее меню для "Каталоги" */
-.dropdown {
+.navbar-link.dropdown {
     position: relative;
     display: flex;
     align-items: center;
@@ -115,7 +123,7 @@
     text-decoration: none;
 }
 
-.dropdown:hover {
+.navbar-link.dropdown:hover {
     transform: scale(1.1);
     color: #000000;
 }
@@ -123,7 +131,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%; /* Появляется сразу под пунктом меню */
+    top: 100%;
     left: 0;
     background-color: #ffffff;
     min-width: 220px;
@@ -136,7 +144,7 @@
     overflow: hidden;
 }
 
-.dropdown:hover .dropdown-content {
+.navbar-link.dropdown:hover .dropdown-content {
     display: block;
 }
 

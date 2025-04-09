@@ -1,7 +1,9 @@
 // components/LoginPage.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, verifyToken } from '../../store/authSlice';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -10,8 +12,22 @@ const LoginPage = () => {
         password: '',
     });
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        // Проверяем токен при загрузке компонента
+        dispatch(verifyToken());
+    }, [dispatch]);
+
+    useEffect(() => {
+        // Если пользователь уже авторизован, перенаправляем на главную
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,27 +39,7 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setError(null);
-
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message || 'Ошибка входа');
-
-            console.log('Успешный вход:', data);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
+        dispatch(loginUser(formData));
     };
 
     const handleGoogleLogin = () => {

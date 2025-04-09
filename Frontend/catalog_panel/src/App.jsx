@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 import CartPage from "./pages/CartPage/CartPage.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
           <Route
               path="/cart"
               element={<CartPage/>}
+          />
+          <Route
+              path="/profile"
+              element={<ProfilePage/>}
           />
           <Route
               path="/catalog"
