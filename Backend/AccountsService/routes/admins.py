@@ -15,8 +15,8 @@ admin_router = APIRouter(
     tags=['Admin']
 )
 
-@admin_router.post('/register', response_model=AdminResponse)
-async def create_user(admin: AdminRegisterRequest, response: Response, session: AsyncSession = Depends(get_session)) -> AdminResponse:
+@admin_router.post('/register', response_model=AdminToken)
+async def create_user(admin: AdminRegisterRequest, response: Response, session: AsyncSession = Depends(get_session)) -> AdminToken:
     admin = Admin(**admin.model_dump())
     session.add(admin)
     await session.commit()
@@ -25,10 +25,10 @@ async def create_user(admin: AdminRegisterRequest, response: Response, session: 
     token = security.create_access_token(uid=str(admin.id))
     response.set_cookie(config.JWT_ACCESS_COOKIE_NAME, token)
 
-    return AdminResponse.model_validate(admin)
+    return AdminToken(access_token=token)
 
-@admin_router.post('/login', response_model=AdminResponse)
-async def login(admin: AdminLoginRequest, response: Response, session: AsyncSession = Depends(get_session)) -> AdminResponse:
+@admin_router.post('/login', response_model=AdminToken)
+async def login(admin: AdminLoginRequest, response: Response, session: AsyncSession = Depends(get_session)) -> AdminToken:
     request = select(Admin).where(Admin.username == admin.username)
     result = await session.execute(request)
 

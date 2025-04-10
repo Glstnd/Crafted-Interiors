@@ -13,14 +13,14 @@
 }
 
 .hero-title {
-    font-size: 72px; /* Было 48px, увеличено до 72px */
+    font-size: 72px;
     font-weight: 700;
     color: #222;
-    margin-bottom: 24px; /* Увеличен отступ для пропорций */
+    margin-bottom: 24px;
 }
 
 .hero-subtitle {
-    font-size: 38px; /* Было 24px, увеличено до 38px */
+    font-size: 38px;
     color: #555;
     line-height: 1.6;
 }
@@ -32,11 +32,11 @@
 }
 
 .features-title {
-    font-size: 56px; /* Было 36px, увеличено до 56px */
+    font-size: 56px;
     font-weight: 700;
     color: #222;
     text-align: center;
-    margin-bottom: 48px; /* Увеличен отступ */
+    margin-bottom: 48px;
 }
 
 /* Сетка возможностей */
@@ -51,7 +51,7 @@
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 20px;
-    padding: 32px; /* Увеличен padding для баланса */
+    padding: 32px;
     text-align: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -64,36 +64,36 @@
 
 /* Иконка возможности */
 .feature-icon {
-    height: 64px; /* Было 48px, увеличено до 64px */
+    height: 64px;
     width: 64px;
     color: #444444;
-    margin-bottom: 20px; /* Увеличен отступ */
+    margin-bottom: 20px;
 }
 
 /* Заголовок возможности */
 .feature-title {
-    font-size: 34px; /* Было 22px, увеличено до 34px */
+    font-size: 34px;
     font-weight: 600;
     color: #222;
-    margin-bottom: 16px; /* Увеличен отступ */
+    margin-bottom: 16px;
 }
 
 /* Описание возможности */
 .feature-description {
-    font-size: 24px; /* Было 16px, увеличено до 24px */
+    font-size: 24px;
     color: #666;
     line-height: 1.6;
-    margin-bottom: 28px; /* Увеличен отступ */
+    margin-bottom: 28px;
 }
 
 /* Ссылка на раздел */
 .feature-link {
     display: inline-block;
-    padding: 12px 24px; /* Увеличен padding для пропорций */
+    padding: 12px 24px;
     background-color: #27ae60;
     color: #ffffff;
     border-radius: 12px;
-    font-size: 24px; /* Было 16px, увеличено до 24px */
+    font-size: 24px;
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.2s ease;
@@ -101,6 +101,18 @@
 
 .feature-link:hover {
     background-color: #219653;
+}
+
+/* Стиль для заблокированных ссылок */
+.feature-link.disabled {
+    background-color: #cccccc; /* Серый цвет для отключенной кнопки */
+    cursor: not-allowed; /* Курсор "запрещено" */
+    pointer-events: none; /* Отключаем клики */
+    opacity: 0.7; /* Затемнение для визуального эффекта */
+}
+
+.feature-link.disabled:hover {
+    background-color: #cccccc; /* Отключаем изменение цвета при наведении */
 }
 
 /* Анимация появления */

@@ -181,3 +181,42 @@
         transform: translateY(0);
     }
 }
+
+/* Стиль для заблокированных кнопок */
+.navbar-link.disabled {
+    opacity: 0.5; /* Затемнение для визуального эффекта */
+    cursor: not-allowed; /* Курсор "запрещено" */
+    pointer-events: none; /* Отключаем клики на уровне CSS */
+}
+
+/* Убедимся, что hover-эффект не применяется к заблокированным кнопкам */
+.navbar-link.disabled:hover {
+    transform: none; /* Отключаем увеличение при наведении */
+    color: #444444; /* Сохраняем цвет текста */
+}
+
+/* Иконки в заблокированных кнопках тоже не меняют цвет */
+.navbar-link.disabled:hover .navbar-icon {
+    color: #444444;
+}
+
+/* Отключаем выпадающее меню для заблокированных кнопок */
+.navbar-link.dropdown.disabled:hover .dropdown-content {
+    display: none; /* Не показываем выпадающее меню при наведении */
+}
+
+/* Внутренний стиль ссылки в dropdown для сохранения единообразия */
+.navbar-link-inner {
+    text-decoration: none;
+    color: #444444;
+    font-size: 24px;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-link-inner:hover {
+    transform: scale(1.1);
+    color: #000000;
+}

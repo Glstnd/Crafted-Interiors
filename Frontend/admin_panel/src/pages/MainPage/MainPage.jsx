@@ -5,9 +5,19 @@ import {
     ShieldCheckIcon,
     TableCellsIcon,
 } from "@heroicons/react/24/outline";
+import { useSelector } from 'react-redux'; // Добавляем useSelector для проверки авторизации
 import "./MainPage.css";
 
 const MainPage = () => {
+    const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated || false); // Получаем статус авторизации
+
+    // Функция для предотвращения клика, если не авторизован
+    const handleRestrictedClick = (e) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+        }
+    };
+
     return (
         <div className="main-page">
             <div className="hero-section fade-in">
@@ -26,7 +36,11 @@ const MainPage = () => {
                         <p className="feature-description">
                             Просматривайте и редактируйте каталоги товаров, категории и саму мебель с удобным интерфейсом.
                         </p>
-                        <Link to="/catalog" className="feature-link">
+                        <Link
+                            to="/catalog"
+                            className={`feature-link ${!isAuthenticated ? 'disabled' : ''}`}
+                            onClick={handleRestrictedClick}
+                        >
                             Перейти к каталогам
                         </Link>
                     </div>
@@ -37,7 +51,11 @@ const MainPage = () => {
                         <p className="feature-description">
                             Добавляйте, удаляйте и редактируйте информацию о магазинах и их адресах на карте.
                         </p>
-                        <Link to="/stores" className="feature-link">
+                        <Link
+                            to="/stores"
+                            className={`feature-link ${!isAuthenticated ? 'disabled' : ''}`}
+                            onClick={handleRestrictedClick}
+                        >
                             Перейти к магазинам
                         </Link>
                     </div>
@@ -48,7 +66,11 @@ const MainPage = () => {
                         <p className="feature-description">
                             Просматривайте оформленные заказы для их дальнейшей обработки и управления.
                         </p>
-                        <Link to="/orders" className="feature-link">
+                        <Link
+                            to="/orders"
+                            className={`feature-link ${!isAuthenticated ? 'disabled' : ''}`}
+                            onClick={handleRestrictedClick}
+                        >
                             Перейти к заказам
                         </Link>
                     </div>
@@ -59,7 +81,11 @@ const MainPage = () => {
                         <p className="feature-description">
                             Управляйте списком администраторов: добавляйте новых и удаляйте существующих.
                         </p>
-                        <Link to="/admins" className="feature-link">
+                        <Link
+                            to="/admins"
+                            className={`feature-link ${!isAuthenticated ? 'disabled' : ''}`}
+                            onClick={handleRestrictedClick}
+                        >
                             Перейти к администраторам
                         </Link>
                     </div>
