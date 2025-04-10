@@ -10,3 +10,4 @@ asyncpg==0.30.0
 aiobotocore==2.21.1
 python-multipart==0.0.20
 geoalchemy2==0.17.1
+shapely==2.1.0

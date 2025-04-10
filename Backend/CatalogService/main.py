@@ -7,6 +7,7 @@ from routes.docs import add_docs
 from fastapi.middleware.cors import CORSMiddleware
 
 from routes.product import product_router
+from routes.store import store_router
 
 app = FastAPI(
     title="Catalog Service",
@@ -33,6 +34,7 @@ add_docs(app)
 category_router.include_router(product_router, prefix="/categories/{category_tag}")
 catalog_router.include_router(category_router, prefix="/catalogs/{catalog_tag}")
 app.include_router(catalog_router)
+app.include_router(store_router)
 
 @app.on_event("startup")
 async def on_startup():
