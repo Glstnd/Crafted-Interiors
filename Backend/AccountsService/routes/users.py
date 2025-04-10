@@ -7,7 +7,7 @@ from sqlmodel import select
 from starlette import status
 
 from database.database import get_session
-from models import User, UserRegisterRequest, UserResponse, UserLoginRequest
+from models import User, UserRegisterRequest, UserResponse, UserLoginRequest, UserToken
 
 from auth.auth import security, config
 
@@ -15,8 +15,8 @@ user_router = APIRouter(
     tags=['User']
 )
 
-@user_router.post('/register', response_model=UserResponse)
-async def create_user(user: UserRegisterRequest, response: Response, session: AsyncSession = Depends(get_session)) -> UserResponse:
+@user_router.post('/register', response_model=UserToken)
+async def create_user(user: UserRegisterRequest, response: Response, session: AsyncSession = Depends(get_session)) -> UserToken:
     user = User(**user.model_dump())
     session.add(user)
     await session.commit()
@@ -25,10 +25,10 @@ async def create_user(user: UserRegisterRequest, response: Response, session: As
     token = security.create_access_token(uid=str(user.id))
     response.set_cookie(config.JWT_ACCESS_COOKIE_NAME, token)
 
-    return UserResponse.model_validate(user)
+    return UserToken(access_token=token)
 
-@user_router.post('/login', response_model=UserResponse)
-async def login(user: UserLoginRequest, response: Response, session: AsyncSession = Depends(get_session)) -> UserResponse:
+@user_router.post('/login', response_model=UserToken)
+async def login(user: UserLoginRequest, response: Response, session: AsyncSession = Depends(get_session)) -> UserToken:
     request = select(User).where(User.username == user.username)
     result = await session.execute(request)
 
@@ -40,7 +40,7 @@ async def login(user: UserLoginRequest, response: Response, session: AsyncSessio
     token = security.create_access_token(uid=str(user_db.id))
     response.set_cookie(config.JWT_ACCESS_COOKIE_NAME, token)
 
-    return UserResponse.model_validate(user_db)
+    return UserToken(access_token=token)
 
 @security.set_subject_getter
 def get_current_uid(uid: str) -> str:

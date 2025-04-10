@@ -1,0 +1,176 @@
+/* Общие стили для navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Левая часть: логотип */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.navbar-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333333;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1);
+}
+
+.navbar-logo img {
+    height: 60px;
+    width: 98px;
+}
+
+/* Левая часть: ссылки на кнопки */
+.navbar-left-links {
+    display: flex;
+    gap: 28px;
+}
+
+.navbar-left-links a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 24px;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left-links a:hover {
+    transform: scale(1.1);
+    color: #000000;
+}
+
+/* Правая часть: корзина + кнопка входа/профиля */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.navbar-right a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 24px;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right a:hover {
+    transform: scale(1.1);
+    color: #000000;
+}
+
+/* Стиль для кнопки входа/профиля */
+.navbar-button {
+    background-color: transparent;
+    color: #333333;
+    border: 1px solid #cccccc;
+    padding: 10px 20px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 24px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Расстояние между иконкой и текстом */
+}
+
+.navbar-button:hover {
+    background-color: #f5f5f5;
+    border-color: #999999;
+    color: #333333; /* Сохраняем цвет текста при наведении */
+}
+
+/* Стиль для иконок */
+.navbar-icon {
+    height: 24px;
+    width: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Выпадающее меню для "Каталоги" */
+.navbar-link.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 500;
+    color: #444444;
+    transition: transform 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+}
+
+.navbar-link.dropdown:hover {
+    transform: scale(1.1);
+    color: #000000;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 999;
+    animation: fadeIn 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.navbar-link.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #444444;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #000000;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

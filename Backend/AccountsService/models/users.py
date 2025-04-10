@@ -30,3 +30,6 @@ class UserResponse(SQLModel):
     username: str
     email: Optional[str] = None
     public_id: uuid_pkg.UUID
+
+class UserToken(SQLModel, table=False):
+    access_token: str = Field(nullable=True)
