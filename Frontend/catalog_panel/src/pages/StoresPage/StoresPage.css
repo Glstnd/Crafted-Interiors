@@ -1,0 +1,123 @@
+.stores-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+    display: flex;
+    gap: 40px;
+}
+
+/* Список магазинов */
+.stores-list {
+    width: 35%;
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    overflow-y: auto;
+}
+
+.stores-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 40px;
+}
+
+.store-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+/* Карточка магазина */
+.store-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 24px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+}
+
+.store-card:hover,
+.store-card.selected {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: #888;
+}
+
+.store-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.store-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+}
+
+.store-address {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Карта */
+.stores-map {
+    width: 65%;
+    height: calc(100vh - 80px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Стили для попапов MapLibre */
+.maplibregl-popup-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+.maplibregl-popup-close-button {
+    color: #555;
+    font-size: 16px;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.store-card.fade-in {
+    animation-delay: 0.1s;
+}
+.store-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.store-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.store-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}

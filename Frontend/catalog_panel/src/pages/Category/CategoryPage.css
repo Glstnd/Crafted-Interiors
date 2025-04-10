@@ -97,7 +97,8 @@
 
 /* Карточка фильтрации */
 .filter-card {
-    width: 250px;
+    width: 250px; /* Фиксированная ширина */
+    flex-shrink: 0; /* Предотвращаем сжатие */
     background-color: #ffffff;
     padding: 20px;
     border-radius: 20px;

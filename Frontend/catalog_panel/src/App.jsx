@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 import CartPage from "./pages/CartPage/CartPage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import StoresPage from "./pages/StoresPage/StoresPage.jsx";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
           <Route
               path="/"
               element={<MainPage/>}
+          />
+          <Route
+              path="/stores"
+              element={<StoresPage/>}
           />
           <Route
               path="/login"
