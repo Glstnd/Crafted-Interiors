@@ -30,3 +30,6 @@ class AdminResponse(SQLModel):
     username: str
     email: Optional[str] = None
     public_id: uuid_pkg.UUID
+
+class AdminToken(SQLModel, table=False):
+    access_token: str = Field(nullable=True)

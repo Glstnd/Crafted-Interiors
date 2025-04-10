@@ -1,0 +1,120 @@
+/* Общие стили для главной страницы */
+.main-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Секция приветствия */
+.hero-section {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero-title {
+    font-size: 72px; /* Было 48px, увеличено до 72px */
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 24px; /* Увеличен отступ для пропорций */
+}
+
+.hero-subtitle {
+    font-size: 38px; /* Было 24px, увеличено до 38px */
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Секция возможностей */
+.features-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features-title {
+    font-size: 56px; /* Было 36px, увеличено до 56px */
+    font-weight: 700;
+    color: #222;
+    text-align: center;
+    margin-bottom: 48px; /* Увеличен отступ */
+}
+
+/* Сетка возможностей */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+/* Карточка возможности */
+.feature-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 32px; /* Увеличен padding для баланса */
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Иконка возможности */
+.feature-icon {
+    height: 64px; /* Было 48px, увеличено до 64px */
+    width: 64px;
+    color: #444444;
+    margin-bottom: 20px; /* Увеличен отступ */
+}
+
+/* Заголовок возможности */
+.feature-title {
+    font-size: 34px; /* Было 22px, увеличено до 34px */
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 16px; /* Увеличен отступ */
+}
+
+/* Описание возможности */
+.feature-description {
+    font-size: 24px; /* Было 16px, увеличено до 24px */
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 28px; /* Увеличен отступ */
+}
+
+/* Ссылка на раздел */
+.feature-link {
+    display: inline-block;
+    padding: 12px 24px; /* Увеличен padding для пропорций */
+    background-color: #27ae60;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 24px; /* Было 16px, увеличено до 24px */
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.feature-link:hover {
+    background-color: #219653;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
