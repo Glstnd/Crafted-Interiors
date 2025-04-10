@@ -1,4 +1,4 @@
-from typing import Optional, List, Sequence
+from typing import Optional, Sequence
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 
@@ -7,7 +7,7 @@ from sqlmodel import select
 from starlette import status
 
 from database.database import get_session
-from models import Admin, AdminRegisterRequest, AdminResponse, AdminLoginRequest
+from models import Admin, AdminRegisterRequest, AdminResponse, AdminLoginRequest, AdminToken
 
 from auth.auth import security, config
 
@@ -40,7 +40,7 @@ async def login(admin: AdminLoginRequest, response: Response, session: AsyncSess
     token = security.create_access_token(uid=str(admin_db.id))
     response.set_cookie(config.JWT_ACCESS_COOKIE_NAME, token)
 
-    return AdminResponse.model_validate(admin_db)
+    return AdminToken(access_token=token)
 
 @security.set_subject_getter
 def get_current_uid(uid: str) -> str:
