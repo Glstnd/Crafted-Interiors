@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 import {
-    HomeIcon,
     ShoppingBagIcon,
     ClipboardDocumentListIcon,
     ShieldCheckIcon,
     TableCellsIcon,
-    PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import "./MainPage.css";
 
