@@ -5,6 +5,9 @@ import Navbar from "./components/navbar/Navbar.jsx";
 import MainPage from "./pages/MainPage/MainPage.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import AdminsPage from "./pages/AdminsPage/AdminsPage.jsx";
+import StoresPage from "./pages/StoresPage/StoresPage.jsx";
+import StorePage from "./pages/StoresPage/StorePage/StorePage.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 
 
 function App() {
@@ -23,6 +26,18 @@ function App() {
                 <Route
                     path="/admins"
                     element={<AdminsPage/>}
+                />
+                <Route
+                    path="/profile"
+                    element={<ProfilePage/>}
+                />
+                <Route
+                    path="/stores"
+                    element={<StoresPage/>}
+                />
+                <Route
+                    path="/stores/:id"
+                    element={<StorePage/>}
                 />
             </Routes>
         </>

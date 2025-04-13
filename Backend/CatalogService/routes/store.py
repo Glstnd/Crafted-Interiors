@@ -9,7 +9,7 @@ from models import StoreCreate, StorePublic, Store
 store_router = APIRouter()
 
 
-@store_router.post("/stores/", response_model=StorePublic)
+@store_router.post("/stores", response_model=StorePublic)
 async def create_store(store: StoreCreate, session: AsyncSession = Depends(get_session)):
     # Создаем объект магазина с координатами в формате POINT
     db_store = Store(
@@ -34,7 +34,7 @@ async def create_store(store: StoreCreate, session: AsyncSession = Depends(get_s
     )
 
 
-@store_router.get("/stores/", response_model=list[StorePublic])
+@store_router.get("/stores", response_model=list[StorePublic])
 async def get_stores(session: AsyncSession = Depends(get_session)):
     # Получаем все магазины
     stores = (await session.execute(select(Store))).scalars().all()
@@ -54,4 +54,19 @@ async def get_stores(session: AsyncSession = Depends(get_session)):
                 longitude=longitude
             )
         )
+    return result
+
+@store_router.get("/stores/{id}", response_model=StorePublic)
+async def get_store(id: int, session: AsyncSession = Depends(get_session)) -> StorePublic:
+    store = (await session.execute(select(Store).where(Store.id == id))).scalars().first()
+    point = wkt_loads(str(store.location))
+    longitude, latitude = point.x, point.y
+    result = StorePublic(
+                id=store.id,
+                name=store.name,
+                address=store.address,
+                latitude=latitude,
+                longitude=longitude
+            )
+
     return result
