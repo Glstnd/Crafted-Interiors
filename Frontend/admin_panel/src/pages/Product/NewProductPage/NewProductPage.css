@@ -1,0 +1,132 @@
+.new-product-page-scope {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Заголовок страницы */
+.new-product-page-scope .page-title {
+    font-size: 40px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* Форма */
+.new-product-page-scope .product-form {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    max-width: 720px; /* Увеличено с 700px для отступов */
+    margin: 0 auto;
+}
+
+/* Группа полей */
+.new-product-page-scope .form-group {
+    margin-bottom: 24px;
+    padding-left: 16px; /* Добавлено для отступа слева */
+    padding-right: 16px; /* Добавлено для отступа справа */
+}
+
+.new-product-page-scope .form-group label {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.new-product-page-scope .form-group input,
+.new-product-page-scope .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #222;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.new-product-page-scope .form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.new-product-page-scope .form-group input:focus,
+.new-product-page-scope .form-group textarea:focus {
+    outline: none;
+    border-color: #27ae60;
+}
+
+.new-product-page-scope .form-group input[type="file"] {
+    padding: 10px 0;
+    background-color: transparent;
+    font-size: 18px;
+}
+
+/* Ошибка ввода */
+.new-product-page-scope .input-error {
+    border-color: #e74c3c !important;
+}
+
+.new-product-page-scope .error-message {
+    display: block;
+    font-size: 16px;
+    color: #e74c3c;
+    margin-top: 8px;
+}
+
+/* Предпросмотр фото */
+.new-product-page-scope .photo-preview {
+    margin-top: 16px;
+}
+
+.new-product-page-scope .photo-preview img {
+    max-width: 240px;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Кнопки действий */
+.new-product-page-scope .form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    margin-top: 32px;
+    padding-left: 16px; /* Добавлено для отступа слева */
+    padding-right: 16px; /* Добавлено для отступа справа */
+}
+
+.new-product-page-scope .submit-button,
+.new-product-page-scope .cancel-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.new-product-page-scope .submit-button {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.new-product-page-scope .submit-button:hover {
+    background-color: #219653;
+}
+
+.new-product-page-scope .cancel-button {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.new-product-page-scope .cancel-button:hover {
+    background-color: #c0392b;
+}

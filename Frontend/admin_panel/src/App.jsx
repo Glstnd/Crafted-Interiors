@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
+import NewProductPage from "./pages/Product/NewProductPage/NewProductPage.jsx";
 
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
                 <Route
                     path="/catalog/:catalog_tag/:category_tag"
                     element={<CategoryPage/>}
+                />
+                <Route
+                    path="/catalog/:catalog_tag/:category_tag/product/new"
+                   element={<NewProductPage/>}
                 />
                 <Route
                     path="/stores"
