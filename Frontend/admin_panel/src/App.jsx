@@ -10,6 +10,7 @@ import StorePage from "./pages/StoresPage/StorePage/StorePage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
+import CategoryPage from "./pages/Category/CategoryPage.jsx";
 
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
                 <Route
                     path="/catalog/:catalog_tag"
                     element={<CatalogPage/>}
+                />
+                <Route
+                    path="/catalog/:catalog_tag/:category_tag"
+                    element={<CategoryPage/>}
                 />
                 <Route
                     path="/stores"
