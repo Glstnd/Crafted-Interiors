@@ -8,6 +8,7 @@ import AdminsPage from "./pages/AdminsPage/AdminsPage.jsx";
 import StoresPage from "./pages/StoresPage/StoresPage.jsx";
 import StorePage from "./pages/StoresPage/StorePage/StorePage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 
 
 function App() {
@@ -30,6 +31,10 @@ function App() {
                 <Route
                     path="/profile"
                     element={<ProfilePage/>}
+                />
+                <Route
+                    path="/catalog"
+                    element={<CatalogsPage/>}
                 />
                 <Route
                     path="/stores"

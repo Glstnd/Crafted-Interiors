@@ -1,0 +1,155 @@
+.catalogs-container {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+.catalogs-title {
+    font-size: 56px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 48px;
+    color: #222;
+}
+
+.catalogs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Уменьшено с 280px */
+    gap: 24px; /* Уменьшено с 28px */
+    max-width: 1100px; /* Уменьшено с 1200px */
+    margin: 0 auto;
+}
+
+.catalog-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 28px; /* Уменьшено с 32px */
+    color: inherit;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.catalog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.catalog-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.catalog-name {
+    font-size: 32px; /* Уменьшено с 34px */
+    font-weight: 600;
+    margin-bottom: 14px; /* Уменьшено с 16px */
+    color: #222;
+}
+
+.catalog-description {
+    font-size: 22px; /* Уменьшено с 24px */
+    color: #666;
+    line-height: 1.6;
+}
+
+.catalog-tag {
+    display: inline-block;
+    margin-top: 10px; /* Уменьшено с 12px */
+    padding: 4px 10px; /* Уменьшено с 12px по горизонтали */
+    background-color: #e8e8e8;
+    border-radius: 12px;
+    font-size: 13px; /* Уменьшено с 14px */
+    font-weight: 500;
+    color: #555;
+    transition: background-color 0.2s ease;
+}
+
+.catalog-tag:hover {
+    background-color: #d0d0d0;
+}
+
+.catalog-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 18px; /* Уменьшено с 20px */
+}
+
+.edit-button {
+    display: inline-block;
+    margin-top: 24px; /* Уменьшено с 28px */
+    padding: 10px 20px; /* Уменьшено с 12px 24px */
+    background-color: #27ae60;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 22px; /* Уменьшено с 24px */
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #219653;
+}
+
+.create-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.create-card-content {
+    text-align: center;
+}
+
+.create-icon {
+    display: block;
+    font-size: 56px; /* Уменьшено с 64px */
+    color: #444444;
+    margin-bottom: 18px; /* Уменьшено с 20px */
+}
+
+.create-card .catalog-name {
+    color: #222;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Индивидуальная задержка анимации для карточек */
+.catalog-card.fade-in {
+    animation-delay: 0.1s;
+}
+.catalog-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.catalog-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.catalog-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}
