@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NewProductPage.css';
 
 const NewProductPage = () => {
     const navigate = useNavigate();
+    const inputFileRef = useRef(null);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -16,6 +17,49 @@ const NewProductPage = () => {
     const [errors, setErrors] = useState({});
     const [photoPreview, setPhotoPreview] = useState(null);
 
+    // Проверка валидности поля
+    const validateField = (name, value) => {
+        switch (name) {
+            case 'name':
+                if (!value.trim()) return 'Наименование обязательно';
+                if (value.trim().length < 2) return 'Наименование должно содержать минимум 2 символа';
+                return '';
+            case 'description':
+                if (!value.trim()) return 'Описание обязательно';
+                if (value.trim().length < 10) return 'Описание должно содержать минимум 10 символов';
+                return '';
+            case 'tag':
+                if (!value.trim()) return 'Тег обязателен';
+                if (value.trim().length < 2) return 'Тег должен содержать минимум 2 символа';
+                if (!/^[a-z0-9_]+$/.test(value.trim())) return 'Тег должен содержать только английские буквы, цифры и нижние подчёркивания, без пробелов';
+                return '';
+            case 'price':
+                if (value && (isNaN(value) || value < 0)) return 'Цена должна быть положительным числом';
+                return '';
+            case 'photo':
+                if (value) {
+                    const validExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+                    const extension = value.name.split('.').pop().toLowerCase();
+                    if (!validExtensions.includes(extension)) {
+                        return 'Допустимы только файлы: .png, .jpg, .jpeg, .gif, .webp';
+                    }
+                }
+                return '';
+            default:
+                return '';
+        }
+    };
+
+    // Обновление ошибок при изменении формы
+    useEffect(() => {
+        const newErrors = {};
+        Object.keys(formData).forEach((key) => {
+            newErrors[key] = validateField(key, formData[key]);
+        });
+        setErrors(newErrors);
+    }, [formData]);
+
+    // Обработка изменений в полях
     const handleChange = (e) => {
         const { name, value } = e.target;
         let processedValue = value;
@@ -28,59 +72,57 @@ const NewProductPage = () => {
             ...prev,
             [name]: processedValue,
         }));
-
-        setErrors((prev) => ({
-            ...prev,
-            [name]: '',
-        }));
     };
 
+    // Обработка загрузки фото
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
+        if (photoPreview) {
+            URL.revokeObjectURL(photoPreview); // Освобождаем предыдущий URL
+        }
+        setFormData((prev) => ({
+            ...prev,
+            photo: file || null,
+        }));
         if (file) {
-            setFormData((prev) => ({
-                ...prev,
-                photo: file,
-            }));
             setPhotoPreview(URL.createObjectURL(file));
+        } else {
+            setPhotoPreview(null);
         }
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = 'Наименование обязательно';
-        } else if (formData.name.trim().length < 2) {
-            newErrors.name = 'Наименование должно содержать минимум 2 символа';
+    // Удаление фото
+    const handleRemovePhoto = () => {
+        if (photoPreview) {
+            URL.revokeObjectURL(photoPreview); // Освобождаем память
         }
-
-        if (!formData.description.trim()) {
-            newErrors.description = 'Описание обязательно';
-        } else if (formData.description.trim().length < 10) {
-            newErrors.description = 'Описание должно содержать минимум 10 символов';
+        setFormData((prev) => ({ ...prev, photo: null }));
+        setPhotoPreview(null);
+        if (inputFileRef.current) {
+            inputFileRef.current.value = null; // Очищаем input
         }
-
-        if (!formData.tag.trim()) {
-            newErrors.tag = 'Тег обязателен';
-        } else if (formData.tag.trim().length < 2) {
-            newErrors.tag = 'Тег должен содержать минимум 2 символа';
-        } else if (!/^[a-z0-9]+$/.test(formData.tag.trim())) {
-            newErrors.tag = 'Тег должен содержать только английские буквы и цифры, без пробелов';
-        }
-
-        if (formData.price && (isNaN(formData.price) || formData.price < 0)) {
-            newErrors.price = 'Цена должна быть положительным числом';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
     };
 
+    // Проверка валидности формы
+    const isFormValid = () => {
+        return (
+            formData.name.trim().length >= 2 &&
+            formData.description.trim().length >= 10 &&
+            formData.tag.trim().length >= 2 &&
+            /^[a-z0-9_]+$/.test(formData.tag.trim()) &&
+            (!formData.price || (!isNaN(formData.price) && formData.price >= 0)) &&
+            (!formData.photo ||
+                ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(
+                    formData.photo.name.split('.').pop().toLowerCase()
+                ))
+        );
+    };
+
+    // Обработка отправки формы
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (validateForm()) {
+        if (isFormValid()) {
             console.log('Данные для отправки:', {
                 name: formData.name.trim(),
                 description: formData.description.trim(),
@@ -92,6 +134,7 @@ const NewProductPage = () => {
         }
     };
 
+    // Обработка отмены
     const handleCancel = () => {
         navigate(-1);
     };
@@ -163,20 +206,33 @@ const NewProductPage = () => {
                         type="file"
                         id="photo"
                         name="photo"
-                        accept="image/*"
+                        accept=".png,.jpg,.jpeg,.gif,.webp"
                         onChange={handlePhotoChange}
+                        className={errors.photo ? 'input-error' : ''}
+                        ref={inputFileRef}
                     />
                     {photoPreview && (
                         <div className="photo-preview">
                             <img src={photoPreview} alt="Предпросмотр" />
+                            <button
+                                type="button"
+                                className="photo-remove"
+                                onClick={handleRemovePhoto}
+                                title="Удалить фото"
+                            >
+                                ×
+                            </button>
                         </div>
                     )}
+                    {errors.photo && <span className="error-message">{errors.photo}</span>}
                 </div>
 
                 <div className="form-actions">
-                    <button type="submit" className="submit-button">
-                        Создать
-                    </button>
+                    {isFormValid() && (
+                        <button type="submit" className="submit-button">
+                            Создать
+                        </button>
+                    )}
                     <button type="button" className="cancel-button" onClick={handleCancel}>
                         Отмена
                     </button>

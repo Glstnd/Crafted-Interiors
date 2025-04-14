@@ -20,15 +20,15 @@
     padding: 32px;
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    max-width: 720px; /* Увеличено с 700px для отступов */
+    max-width: 720px;
     margin: 0 auto;
 }
 
 /* Группа полей */
 .new-product-page-scope .form-group {
     margin-bottom: 24px;
-    padding-left: 16px; /* Добавлено для отступа слева */
-    padding-right: 16px; /* Добавлено для отступа справа */
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .new-product-page-scope .form-group label {
@@ -70,9 +70,11 @@
 
 /* Ошибка ввода */
 .new-product-page-scope .input-error {
-    border-color: #e74c3c !important;
+    border: none; /* Убрана рамка */
+    border-bottom: 2px solid #e74c3c !important; /* Подчёркивание */
 }
 
+/* Сообщение об ошибке */
 .new-product-page-scope .error-message {
     display: block;
     font-size: 16px;
@@ -83,6 +85,8 @@
 /* Предпросмотр фото */
 .new-product-page-scope .photo-preview {
     margin-top: 16px;
+    position: relative;
+    display: inline-block;
 }
 
 .new-product-page-scope .photo-preview img {
@@ -92,14 +96,37 @@
     border: 1px solid #e0e0e0;
 }
 
+/* Крестик для удаления фото */
+.new-product-page-scope .photo-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.new-product-page-scope .photo-remove:hover {
+    background-color: #c0392b;
+}
+
 /* Кнопки действий */
 .new-product-page-scope .form-actions {
     display: flex;
     gap: 16px;
     justify-content: flex-end;
     margin-top: 32px;
-    padding-left: 16px; /* Добавлено для отступа слева */
-    padding-right: 16px; /* Добавлено для отступа справа */
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .new-product-page-scope .submit-button,
