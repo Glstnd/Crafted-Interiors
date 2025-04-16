@@ -28,12 +28,20 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = SQLModel.metadata
 
+schema = os.getenv("SCHEMA")
+
 url = f"postgresql+{os.getenv("DRIVER")}://{os.getenv("USER")}:{os.getenv("PASSWORD")}@{os.getenv("HOST")}:{os.getenv("PORT")}/{os.getenv("DATABASE")}"
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+def include_object(object, name: str, type_, reflected, compare_to):
+    if type_ == "table" and name in target_metadata.tables.keys():
+        return True
+    elif type_ == "table":
+        return False
+    return True
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -50,8 +58,10 @@ def run_migrations_offline() -> None:
     context.configure(
         url=url,
         target_metadata=target_metadata,
+        include_object=include_object,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        version_table=f"{schema}_version",
     )
 
     with context.begin_transaction():
@@ -59,7 +69,12 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        include_object=include_object,
+        version_table=f"{schema}_version"
+    )
 
     with context.begin_transaction():
         context.run_migrations()
