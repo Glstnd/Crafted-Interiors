@@ -37,3 +37,15 @@ class Order(SQLModel, table=True):
 
 class OrderUserQuery(SQLModel, table=False):
     public_id: Optional[uuid_pkg.UUID] = Field(default=None)
+
+
+class OrderItemCreate(SQLModel):
+    product_tag: str
+    quantity: int = Field(ge=1)
+    unit_price: Decimal = Field(ge=0, decimal_places=2, max_digits=10)
+
+
+class OrderCreate(SQLModel):
+    public_id: uuid_pkg.UUID
+    items: List[OrderItemCreate]
+    total_amount: Decimal = Field(ge=0, decimal_places=2, max_digits=12)

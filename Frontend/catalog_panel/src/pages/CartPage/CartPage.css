@@ -22,6 +22,12 @@
     text-align: center;
 }
 
+.cart-success {
+    font-size: 24px;
+    color: #27ae60;
+    text-align: center;
+}
+
 .view-controls {
     display: flex;
     gap: 10px;
@@ -213,6 +219,11 @@
     background-color: #219653;
 }
 
+.quantity-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .quantity-display {
     font-size: 16px;
     color: #222;
@@ -234,6 +245,11 @@
 
 .remove-button:hover {
     background-color: #c0392b;
+}
+
+.remove-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .checkout-section {
@@ -267,6 +283,11 @@
     background-color: #219653;
 }
 
+.checkout-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 /* Сообщение об удалении */
 .remove-from-cart-message {
     position: fixed;
@@ -292,6 +313,40 @@
     transform: translateX(-50%);
     background-color: #f1c40f;
     color: #222;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+/* Сообщение об успешном оформлении заказа */
+.checkout-success-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #27ae60;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+/* Сообщение об ошибке при оформлении заказа */
+.checkout-error-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c;
+    color: #ffffff;
     padding: 12px 24px;
     border-radius: 12px;
     font-size: 18px;

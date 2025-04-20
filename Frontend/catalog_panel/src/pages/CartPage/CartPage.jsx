@@ -1,8 +1,8 @@
-// src/components/CartPage.js
 import "./CartPage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { removeFromCart, updateQuantity } from "../../store/cartSlice";
+import { removeFromCart, updateQuantity, clearCart } from "../../store/cartSlice";
+import orderService from "../../services/OrderService"; // Импортируем OrderService
 import placeholderImage from "../../assets/not_found_picture.jpg";
 
 const CartPage = () => {
@@ -11,9 +11,30 @@ const CartPage = () => {
     const [viewMode, setViewMode] = useState("grid");
     const [showRemoveMessage, setShowRemoveMessage] = useState(false);
     const [showQuantityMessage, setShowQuantityMessage] = useState(false);
+    const [showCheckoutMessage, setShowCheckoutMessage] = useState(false);
+    const [checkoutError, setCheckoutError] = useState(null);
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-    const handleCheckout = () => {
-        console.log("Оформление заказа:", cartItems);
+    const handleCheckout = async () => {
+        if (isCheckingOut) return; // Предотвращаем повторные клики
+
+        setIsCheckingOut(true);
+        setCheckoutError(null);
+        setShowCheckoutMessage(false);
+
+        try {
+            const totalAmount = calculateTotal();
+            await orderService.createOrder(cartItems, totalAmount);
+            // Очищаем корзину после успешного оформления
+            dispatch(clearCart());
+            setShowCheckoutMessage(true);
+            setTimeout(() => setShowCheckoutMessage(false), 5000);
+        } catch (error) {
+            setCheckoutError(error.message || "Не удалось оформить заказ");
+            setTimeout(() => setCheckoutError(null), 5000);
+        } finally {
+            setIsCheckingOut(false);
+        }
     };
 
     const handleRemoveFromCart = (productTag) => {
@@ -29,7 +50,6 @@ const CartPage = () => {
         setTimeout(() => setShowQuantityMessage(false), 5000);
     };
 
-    // Вычисление итоговой суммы для каждого товара и общей суммы
     const calculateItemTotal = (item) => {
         return item.product.price !== null ? item.product.price * item.quantity : 0;
     };
@@ -42,7 +62,11 @@ const CartPage = () => {
         return (
             <div className="cart-page fade-in">
                 <h1 className="cart-title">Корзина</h1>
-                <p className="cart-empty">Ваша корзина пуста</p>
+                {showCheckoutMessage ? (
+                    <p className="cart-success">Заказ успешно оформлен!</p>
+                ) : (
+                    <p className="cart-empty">Ваша корзина пуста</p>
+                )}
             </div>
         );
     }
@@ -100,6 +124,7 @@ const CartPage = () => {
                                             <button
                                                 className="quantity-button"
                                                 onClick={() => handleQuantityChange(item.product.tag, item.quantity - 1)}
+                                                disabled={isCheckingOut}
                                             >
                                                 −
                                             </button>
@@ -107,6 +132,7 @@ const CartPage = () => {
                                             <button
                                                 className="quantity-button"
                                                 onClick={() => handleQuantityChange(item.product.tag, item.quantity + 1)}
+                                                disabled={isCheckingOut}
                                             >
                                                 +
                                             </button>
@@ -114,6 +140,7 @@ const CartPage = () => {
                                         <button
                                             className="remove-button"
                                             onClick={() => handleRemoveFromCart(item.product.tag)}
+                                            disabled={isCheckingOut}
                                         >
                                             Удалить
                                         </button>
@@ -126,6 +153,7 @@ const CartPage = () => {
                                         <button
                                             className="quantity-button"
                                             onClick={() => handleQuantityChange(item.product.tag, item.quantity - 1)}
+                                            disabled={isCheckingOut}
                                         >
                                             −
                                         </button>
@@ -133,6 +161,7 @@ const CartPage = () => {
                                         <button
                                             className="quantity-button"
                                             onClick={() => handleQuantityChange(item.product.tag, item.quantity + 1)}
+                                            disabled={isCheckingOut}
                                         >
                                             +
                                         </button>
@@ -140,6 +169,7 @@ const CartPage = () => {
                                     <button
                                         className="remove-button"
                                         onClick={() => handleRemoveFromCart(item.product.tag)}
+                                        disabled={isCheckingOut}
                                     >
                                         Удалить
                                     </button>
@@ -153,8 +183,12 @@ const CartPage = () => {
                     <div className="total-price">
                         Итого: {calculateTotal()} руб.
                     </div>
-                    <button className="checkout-button" onClick={handleCheckout}>
-                        Оформить заказ
+                    <button
+                        className="checkout-button"
+                        onClick={handleCheckout}
+                        disabled={isCheckingOut}
+                    >
+                        {isCheckingOut ? "Оформление..." : "Оформить заказ"}
                     </button>
                 </div>
             </div>
@@ -168,6 +202,18 @@ const CartPage = () => {
             {showQuantityMessage && (
                 <div className="quantity-changed-message">
                     Количество товара изменено
+                </div>
+            )}
+
+            {showCheckoutMessage && (
+                <div className="checkout-success-message">
+                    Заказ успешно оформлен!
+                </div>
+            )}
+
+            {checkoutError && (
+                <div className="checkout-error-message">
+                    {checkoutError}
                 </div>
             )}
         </>
