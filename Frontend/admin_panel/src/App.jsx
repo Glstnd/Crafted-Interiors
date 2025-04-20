@@ -13,6 +13,7 @@ import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
 import NewProductPage from "./pages/Product/NewProductPage/NewProductPage.jsx";
 import AddNewCatalogPage from "./pages/Catalog/AddNewCatalogPage.jsx";
+import OrdersPage from "./pages/OrdersPage/OrdersPage.jsx";
 
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
                 <Route
                     path="/profile"
                     element={<ProfilePage/>}
+                />
+                <Route
+                    path="/orders"
+                    element={<OrdersPage/>}
                 />
                 <Route
                     path="/catalog"

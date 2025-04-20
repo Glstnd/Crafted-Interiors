@@ -13,7 +13,7 @@ order_router = APIRouter()
 
 @order_router.get("", response_model=Sequence[Order])
 async def get_orders(user_id: Annotated[OrderUserQuery, Query()], session: AsyncSession = Depends(get_session)) -> Sequence[Order]:
-    if user_id is None:
+    if user_id.public_id is None:
         request = select(Order)
     else:
         request = select(Order).where(Order.user_id == user_id.public_id)

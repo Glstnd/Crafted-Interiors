@@ -1,0 +1,99 @@
+.orders-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orders-page h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.orders-list {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+}
+
+.order-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    padding: 24px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.order-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.order-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+}
+
+.order-value {
+    font-size: 18px;
+    color: #333;
+    font-weight: 400;
+}
+
+.edit-button {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #2980b9;
+}
+
+.orders-loading {
+    text-align: center;
+    font-size: 24px;
+    color: #555;
+    margin: 40px auto;
+}
+
+.orders-error {
+    text-align: center;
+    font-size: 24px;
+    color: #e74c3c;
+    margin: 40px auto;
+}
+
+.orders-empty {
+    text-align: center;
+    font-size: 24px;
+    color: #666;
+    margin: 40px auto;
+}
