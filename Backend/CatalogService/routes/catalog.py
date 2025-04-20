@@ -73,6 +73,19 @@ async def get_catalog_by_tag(tag: str, session: AsyncSession = Depends(get_sessi
 
     return CatalogRequestResponse.model_validate(catalog)
 
+@catalog_router.delete("/catalogs/{tag}")
+async def get_catalog_by_tag(tag: str, session: AsyncSession = Depends(get_session)) -> dict:
+    request = select(Catalog).where(Catalog.tag == tag)
+    result = await session.execute(request)
+    catalog = result.scalar_one_or_none()
+    if catalog is None:
+        raise HTTPException(status_code=404, detail="Catalog not found")
+
+    await session.delete(catalog)
+    await session.commit()
+
+    return {"message": "Catalog deleted successfully"}
+
 @catalog_router.post("/catalogs/{tag}/upload")
 async def upload_catalog_photo(tag: str, file: UploadFile, session: AsyncSession = Depends(get_session)) -> CatalogRequestResponse:
     request = select(Catalog).where(Catalog.tag == tag)

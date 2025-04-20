@@ -5,36 +5,90 @@
     font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
 .catalogs-title {
     font-size: 56px;
     font-weight: 700;
-    text-align: center;
-    margin-bottom: 48px;
     color: #222;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+}
+
+.view-button {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-button.active {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.view-button:hover:not(.active) {
+    background-color: #f5f5f5;
+}
+
+.view-icon {
+    width: 24px;
+    height: 24px;
+    color: #444444;
+}
+
+.view-button.active .view-icon {
+    color: #ffffff;
 }
 
 .catalogs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Уменьшено с 280px */
-    gap: 24px; /* Уменьшено с 28px */
-    max-width: 1100px; /* Уменьшено с 1200px */
+    gap: 24px;
+    max-width: 1100px;
     margin: 0 auto;
+}
+
+.catalogs-grid.cards {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.catalogs-grid.list {
+    grid-template-columns: 1fr;
 }
 
 .catalog-card {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 20px;
-    padding: 28px; /* Уменьшено с 32px */
+    padding: 28px;
     color: inherit;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     position: relative;
     display: flex;
+}
+
+.catalog-card.cards {
     flex-direction: column;
 }
 
-.catalog-card:hover {
+.catalog-card.list {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.catalog-card:hover:not(.create-card) {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
@@ -42,29 +96,40 @@
 .catalog-link {
     text-decoration: none;
     color: inherit;
+    display: flex;
     flex: 1;
 }
 
+.catalog-card.cards .catalog-link {
+    flex-direction: column;
+}
+
+.catalog-card.list .catalog-link {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
 .catalog-name {
-    font-size: 32px; /* Уменьшено с 34px */
+    font-size: 32px;
     font-weight: 600;
-    margin-bottom: 14px; /* Уменьшено с 16px */
+    margin-bottom: 14px;
     color: #222;
 }
 
 .catalog-description {
-    font-size: 22px; /* Уменьшено с 24px */
+    font-size: 22px;
     color: #666;
     line-height: 1.6;
 }
 
 .catalog-tag {
     display: inline-block;
-    margin-top: 10px; /* Уменьшено с 12px */
-    padding: 4px 10px; /* Уменьшено с 12px по горизонтали */
+    margin-top: 10px;
+    padding: 4px 10px;
     background-color: #e8e8e8;
     border-radius: 12px;
-    font-size: 13px; /* Уменьшено с 14px */
+    font-size: 13px;
     font-weight: 500;
     color: #555;
     transition: background-color 0.2s ease;
@@ -75,29 +140,104 @@
 }
 
 .catalog-image {
+    border-radius: 16px;
+    margin-bottom: 18px;
+}
+
+.catalog-card.cards .catalog-image {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 16px;
-    margin-bottom: 18px; /* Уменьшено с 20px */
 }
 
-.edit-button {
-    display: inline-block;
-    margin-top: 24px; /* Уменьшено с 28px */
-    padding: 10px 20px; /* Уменьшено с 12px 24px */
+.catalog-card.list .catalog-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 0;
+}
+
+.catalog-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.catalog-checkbox:checked {
     background-color: #27ae60;
+    border-color: #27ae60;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' width='16px' height='16px'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.catalog-checkbox:hover:not(:checked) {
+    border-color: #219653;
+    background-color: #f5f5f5;
+}
+
+.catalog-card.cards .catalog-checkbox {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.catalog-card.list .catalog-checkbox {
+    margin-right: 16px;
+    margin-left: 16px;
+}
+
+.catalog-card-content {
+    flex: 1;
+}
+
+.catalog-card.list .catalog-card-content {
+    margin-bottom: 0;
+}
+
+.catalog-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.catalog-card.list .catalog-actions {
+    margin-top: 0;
+    margin-left: 16px;
+}
+
+.edit-button, .delete-button {
+    display: inline-block;
+    padding: 10px 20px;
     color: #ffffff;
     text-decoration: none;
     border-radius: 12px;
-    font-size: 22px; /* Уменьшено с 24px */
+    font-size: 22px;
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s ease;
 }
 
+.edit-button {
+    background-color: #27ae60;
+}
+
 .edit-button:hover {
     background-color: #219653;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
 }
 
 .create-card {
@@ -115,16 +255,53 @@
 
 .create-icon {
     display: block;
-    font-size: 56px; /* Уменьшено с 64px */
+    font-size: 56px;
     color: #444444;
-    margin-bottom: 18px; /* Уменьшено с 20px */
+    margin-bottom: 18px;
 }
 
 .create-card .catalog-name {
     color: #222;
 }
 
-/* Анимация появления */
+.selected-actions {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.selected-actions p {
+    font-size: 20px;
+    color: #222;
+    margin: 0;
+}
+
+.delete-selected-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-selected-button:hover {
+    background-color: #c0392b;
+}
+
+.delete-icon {
+    width: 24px;
+    height: 24px;
+}
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;
@@ -140,7 +317,6 @@
     animation: fadeInUp 0.6s ease-out both;
 }
 
-/* Индивидуальная задержка анимации для карточек */
 .catalog-card.fade-in {
     animation-delay: 0.1s;
 }
