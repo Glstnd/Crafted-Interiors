@@ -26,6 +26,43 @@ class CatalogService {
             throw error;
         }
     }
+
+    async createCatalog(name, description, tag, photo) {
+        const formData = new FormData();
+
+        const catalogRequest = {
+            "name": name,
+            "description": description || null,
+            "tag": tag
+        }
+
+        formData.append('catalog_request', JSON.stringify(catalogRequest));
+
+        if (photo) {
+            formData.append("file", photo);
+        }
+
+        // Проверка отправляемых данных
+        console.log('Отправляемые данные (JSON):', formData);
+
+        try {
+            const response = await fetch(`${CatalogService.url}`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data; // Возвращаем { name, description, tag, image_path }
+        } catch (error) {
+            console.error('Ошибка в CatalogService:', error);
+            console.error("Подробнее:", error.response);
+            throw error;
+        }
+    }
 }
 
 const catalogServiceInstance = new CatalogService();

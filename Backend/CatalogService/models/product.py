@@ -6,7 +6,7 @@ from typing import Optional, Literal
 import typing
 
 if typing.TYPE_CHECKING:
-    from models import Category
+    from models import Category, OrderItem
 
 
 class Product(SQLModel, table=True):
@@ -19,6 +19,7 @@ class Product(SQLModel, table=True):
 
     category_id: int = Field(default=None, foreign_key="category.id")
     category: "Category" = Relationship(back_populates="products")
+    order_items: typing.List["OrderItem"] = Relationship(back_populates="product")
 
 
 class ProductFilter(SQLModel, table=False):

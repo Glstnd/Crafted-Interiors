@@ -1,6 +1,8 @@
-from typing import Sequence
+import json
+from typing import Sequence, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from pydantic import ValidationError
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -18,8 +20,25 @@ async def get_catalogs(session: AsyncSession = Depends(get_session)) -> Sequence
     return result.scalars().all()
 
 @catalog_router.post("/catalogs", response_model=CatalogRequestResponse, status_code=201)
-async def create_catalog(catalog_request: CatalogRequestResponse,session: AsyncSession = Depends(get_session)) -> CatalogRequestResponse:
-    catalog = Catalog(**catalog_request.model_dump())
+async def create_catalog(catalog_request = Form(...), file: Optional[UploadFile] = File(None), session: AsyncSession = Depends(get_session)) -> CatalogRequestResponse:
+    try:
+        # Десериализуем JSON-строку в словарь
+        catalog_data = json.loads(catalog_request)
+        # Валидируем данные через модель Pydantic
+        catalog_model = CatalogRequestResponse(**catalog_data)
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=422, detail="Invalid JSON format in catalog_request")
+    except ValidationError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
+    catalog = Catalog(**catalog_model.dict())
+
+    if file is not None:
+        await s3_client.upload_file(file, f"catalogs/{catalog.tag}")
+
+        file_spec = file.filename.split(".")[-1]
+        catalog.image_path = f"catalogs/{catalog.tag}.{file_spec}"
+
     session.add(catalog)
     await session.commit()
     await session.refresh(catalog)

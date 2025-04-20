@@ -18,9 +18,9 @@ class Catalog(SQLModel, table=True):
 
 class CatalogRequestResponse(SQLModel, table=False):
     name: str = Field(nullable=False)
-    description: str = Field(nullable=True)
+    description: typing.Optional[str] = Field(default=None, nullable=True)
     tag: str = Field(nullable=False, unique=True)
-    image_path: str | None = None
+    image_path: typing.Optional[str] = None
 
 
 class CatalogUpdateResponse(SQLModel, table=False):

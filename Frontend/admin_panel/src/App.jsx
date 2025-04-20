@@ -12,6 +12,7 @@ import CatalogsPage from "./pages/Catalog/CatalogsPage.jsx";
 import CatalogPage from "./pages/Catalog/CatalogPage.jsx";
 import CategoryPage from "./pages/Category/CategoryPage.jsx";
 import NewProductPage from "./pages/Product/NewProductPage/NewProductPage.jsx";
+import AddNewCatalogPage from "./pages/Catalog/AddNewCatalogPage.jsx";
 
 
 function App() {
@@ -38,6 +39,10 @@ function App() {
                 <Route
                     path="/catalog"
                     element={<CatalogsPage/>}
+                />
+                <Route
+                    path="/catalog/new"
+                    element={<AddNewCatalogPage/>}
                 />
                 <Route
                     path="/catalog/:catalog_tag"
