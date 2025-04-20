@@ -13,6 +13,8 @@ const CatalogsPage = () => {
     const [catalogs, setCatalogs] = useState([]);
     const [viewMode, setViewMode] = useState("cards");
     const [selectedCatalogs, setSelectedCatalogs] = useState(new Set());
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [catalogToDelete, setCatalogToDelete] = useState(null);
 
     useEffect(() => {
         CatalogService.getCatalogs()
@@ -38,12 +40,26 @@ const CatalogsPage = () => {
     };
 
     const handleDeleteCatalog = (tag) => {
-        setCatalogs(catalogs.filter((catalog) => catalog.tag !== tag));
-        setSelectedCatalogs((prev) => {
-            const newSet = new Set(prev);
-            newSet.delete(tag);
-            return newSet;
-        });
+        setCatalogToDelete(tag);
+        setShowDeleteDialog(true);
+    };
+
+    const confirmDeleteCatalog = () => {
+        if (catalogToDelete) {
+            setCatalogs(catalogs.filter((catalog) => catalog.tag !== catalogToDelete));
+            setSelectedCatalogs((prev) => {
+                const newSet = new Set(prev);
+                newSet.delete(catalogToDelete);
+                return newSet;
+            });
+        }
+        setShowDeleteDialog(false);
+        setCatalogToDelete(null);
+    };
+
+    const cancelDeleteCatalog = () => {
+        setShowDeleteDialog(false);
+        setCatalogToDelete(null);
     };
 
     return (
@@ -122,6 +138,30 @@ const CatalogsPage = () => {
                         <TrashIcon className="delete-icon" />
                         Удалить выбранных
                     </button>
+                </div>
+            )}
+            {showDeleteDialog && (
+                <div className="delete-dialog">
+                    <div className="delete-dialog-content">
+                        <h2 className="delete-dialog-title">Подтверждение удаления</h2>
+                        <p className="delete-dialog-message">
+                            Вы действительно хотите удалить каталог? Это действие также удалит все связанные с ним категории и товары.
+                        </p>
+                        <div className="delete-dialog-actions">
+                            <button
+                                className="delete-dialog-confirm"
+                                onClick={confirmDeleteCatalog}
+                            >
+                                Подтвердить
+                            </button>
+                            <button
+                                className="delete-dialog-cancel"
+                                onClick={cancelDeleteCatalog}
+                            >
+                                Отмена
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

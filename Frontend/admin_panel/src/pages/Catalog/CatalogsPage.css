@@ -302,6 +302,77 @@
     height: 24px;
 }
 
+.delete-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.delete-dialog-content {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.delete-dialog-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 16px;
+}
+
+.delete-dialog-message {
+    font-size: 20px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.delete-dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.delete-dialog-confirm, .delete-dialog-cancel {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-dialog-confirm {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.delete-dialog-confirm:hover {
+    background-color: #219653;
+}
+
+.delete-dialog-cancel {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.delete-dialog-cancel:hover {
+    background-color: #c0392b;
+}
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;

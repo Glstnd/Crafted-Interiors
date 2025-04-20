@@ -6,6 +6,8 @@ from sqlmodel import SQLModel, Field, Relationship
 
 from models import Product
 
+import uuid as uuid_pkg
+
 
 class OrderItem(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -24,9 +26,14 @@ class Order(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     status: str = Field(default="pending", nullable=False)
     total_amount: Decimal = Field(default=0.0, decimal_places=2, max_digits=12)
-    user_id: Optional[int] = Field(default=None)  # Внешний ключ к пользователю
+    user_id: uuid_pkg.UUID = Field(default_factory=uuid_pkg.uuid4,
+                                             primary_key=False,
+                                             index=False,
+                                             nullable=False)  # Внешний ключ к пользователю
 
     # Связи
     items: List[OrderItem] = Relationship(back_populates="order")
 
 
+class OrderUserQuery(SQLModel, table=False):
+    public_id: Optional[uuid_pkg.UUID] = Field(default=None)
