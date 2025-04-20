@@ -1,4 +1,4 @@
-import { store } from '../store/store.js'; // Импортируем Redux store
+import { store } from '../store/store.js';
 
 class OrderService {
     static url = "http://localhost:8001/orders";
@@ -25,16 +25,8 @@ class OrderService {
 
     async getOrderById(orderId) {
         try {
-            const state = store.getState();
-            const token = state.auth.token;
-
-            if (!token) {
-                throw new Error("Токен авторизации отсутствует");
-            }
-
             const response = await fetch(`${OrderService.url}/${orderId}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -53,17 +45,9 @@ class OrderService {
 
     async updateOrderStatus(orderId, newStatus) {
         try {
-            const state = store.getState();
-            const token = state.auth.token;
-
-            if (!token) {
-                throw new Error("Токен авторизации отсутствует");
-            }
-
             const response = await fetch(`${OrderService.url}/${orderId}`, {
                 method: 'PATCH',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ status: newStatus }),
@@ -77,6 +61,28 @@ class OrderService {
             return await response.json();
         } catch (error) {
             console.error(`Ошибка при обновлении статуса заказа ${orderId}:`, error);
+            throw error;
+        }
+    }
+
+    async createOrder(orderData) {
+        try {
+            const response = await fetch(OrderService.url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            if (!response.ok) {
+                console.error("Не удалось создать заказ");
+                throw new Error(`Ошибка: ${response.statusText}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error("Ошибка при создании заказа:", error);
             throw error;
         }
     }
