@@ -13,7 +13,7 @@ class Category(SQLModel, table=True):
     tag: str = Field(nullable=False, unique=True)
     image_path: str | None = None
 
-    catalog_id: int = Field(default=None, foreign_key="catalog.id")
+    catalog_id: int = Field(default=None, foreign_key="catalog.id", ondelete="CASCADE")
     catalog: "Catalog" = Relationship(back_populates="categories")
 
     products: list["Product"] = Relationship(back_populates="category")

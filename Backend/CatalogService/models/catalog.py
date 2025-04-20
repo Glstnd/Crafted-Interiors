@@ -13,7 +13,7 @@ class Catalog(SQLModel, table=True):
     tag: str = Field(nullable=False, unique=True)
     image_path: str | None = None
 
-    categories: list["Category"] = Relationship(back_populates="catalog")
+    categories: list["Category"] = Relationship(back_populates="catalog", cascade_delete=True)
 
 
 class CatalogRequestResponse(SQLModel, table=False):
