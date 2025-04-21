@@ -227,6 +227,7 @@
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
 }
 
 .order-card:not(.list-item) {
@@ -249,6 +250,22 @@
 .order-card.list-item:hover {
     transform: translateX(5px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.order-checkbox {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.order-card.list-item .order-checkbox {
+    position: static;
+}
+
+.order-checkbox input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
 }
 
 .order-field {
@@ -328,6 +345,29 @@
 
 .edit-button:hover {
     background-color: #219653;
+}
+
+.report-section {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.report-button {
+    padding: 10px 20px;
+    background-color: #f39c12;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.report-button:hover {
+    background-color: #e67e22;
 }
 
 .orders-loading {

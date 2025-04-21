@@ -1,5 +1,3 @@
-import { store } from '../store/store.js';
-
 class OrderService {
     static url = "http://localhost:8001/orders";
 
@@ -43,18 +41,19 @@ class OrderService {
         }
     }
 
-    async updateOrderStatus(orderId, newStatus) {
+    async updateOrder(orderId, orderData) {
         try {
+            console.log(orderData);
             const response = await fetch(`${OrderService.url}/${orderId}`, {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status: newStatus }),
+                body: JSON.stringify(orderData),
             });
 
             if (!response.ok) {
-                console.error(`Не удалось обновить статус заказа ${orderId}`);
+                console.error(`Не удалось обновить заказ`);
                 throw new Error(`Ошибка: ${response.statusText}`);
             }
 
@@ -63,6 +62,24 @@ class OrderService {
             console.error(`Ошибка при обновлении статуса заказа ${orderId}:`, error);
             throw error;
         }
+    }
+
+    async getUserInfo(publicId) {
+        const response = await fetch(`http://localhost:8000/users/${publicId}/info`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Не удалось загрузить данные пользователя');
+        }
+        return response.json();
+    }
+
+    async getProductInfo(productId) {
+        const response = await fetch(`http://localhost:8001/products/${productId}`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Не удалось загрузить данные о товаре');
+        }
+        return response.json();
     }
 
     async createOrder(orderData) {

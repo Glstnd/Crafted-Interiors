@@ -45,6 +45,116 @@
     font-weight: 400;
 }
 
+.edit-profile-button {
+    display: block;
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.edit-profile-button:hover {
+    background-color: #2980b9;
+}
+
+.profile-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.profile-edit-form h3 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #222;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-field input {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #333;
+    background-color: #ffffff;
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.save-profile-button {
+    flex: 1;
+    padding: 12px 24px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.save-profile-button:hover {
+    background-color: #219653;
+}
+
+.save-profile-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.cancel-profile-button {
+    flex: 1;
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cancel-profile-button:hover {
+    background-color: #c0392b;
+}
+
+.cancel-profile-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .logout-button {
     display: block;
     width: 100%;
@@ -138,6 +248,76 @@
     font-size: 22px;
     color: #666;
     margin: 24px 0;
+}
+
+.update-success-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #27ae60;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+.update-error-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+.validation-error-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
 }
 
 @keyframes fadeInUp {

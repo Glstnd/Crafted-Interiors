@@ -7,6 +7,7 @@ from routes.category import category_router
 from routes.docs import add_docs
 from fastapi.middleware.cors import CORSMiddleware
 
+from routes.main_product import main_product_router
 from routes.order import order_router
 from routes.product import product_router
 from routes.store import store_router
@@ -41,6 +42,7 @@ catalog_router.include_router(category_router, prefix="/catalogs/{catalog_tag}")
 app.include_router(catalog_router)
 app.include_router(store_router)
 app.include_router(order_router, prefix="/orders")
+app.include_router(main_product_router, prefix="/products")
 
 @app.on_event("startup")
 async def on_startup():

@@ -35,6 +35,25 @@ class Order(SQLModel, table=True):
     items: List[OrderItem] = Relationship(back_populates="order")
 
 
+class OrderItemResponse(SQLModel, table=False):
+    id: Optional[int] = Field(default=None)
+    product_id: int
+    quantity: int
+    unit_price: Decimal
+
+
+class OrderFullResponse(SQLModel, table=False):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    status: Optional[str] = "pending"
+    total_amount: Optional[Decimal] = Field(default=0.0, decimal_places=2, max_digits=12)
+    user_id: Optional[uuid_pkg.UUID] = Field(default_factory=uuid_pkg.uuid4,
+                                   primary_key=False,
+                                   index=False,
+                                   nullable=False)
+    items: List[OrderItemResponse] = []
+
+
 class OrderUserQuery(SQLModel, table=False):
     public_id: Optional[uuid_pkg.UUID] = Field(default=None)
 

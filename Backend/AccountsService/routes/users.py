@@ -7,7 +7,7 @@ from sqlmodel import select
 from starlette import status
 
 from database.database import get_session
-from models import User, UserRegisterRequest, UserResponse, UserLoginRequest, UserToken
+from models import User, UserRegisterRequest, UserResponse, UserLoginRequest, UserToken, UserPatch
 
 from auth.auth import security, config
 
@@ -52,3 +52,36 @@ async def get_protected(uid: str = Depends(security.get_current_subject), sessio
     result = await session.execute(request)
 
     return result.scalar_one_or_none()
+
+@user_router.patch('/profile', dependencies=[Depends(security.access_token_required)], response_model=UserResponse)
+async def change_profile(userPatch: UserPatch, uid: str = Depends(security.get_current_subject), session: AsyncSession = Depends(get_session)) -> UserResponse:
+    request = select(User).where(User.id == int(uid))
+    result = await session.execute(request)
+
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+
+    if userPatch.fname is not None:
+        user.fname = userPatch.fname
+    if userPatch.lname is not None:
+        user.lname = userPatch.lname
+    if userPatch.phone is not None:
+        user.phone = userPatch.phone
+
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+
+    return UserResponse.model_validate(user)
+
+@user_router.get('/{public_id}/info', response_model=UserPatch)
+async def get_info_user(public_id: str, session: AsyncSession = Depends(get_session)) -> UserPatch:
+    request = select(User).where(User.public_id == public_id)
+    result = await session.execute(request)
+
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+
+    return UserPatch.model_validate(user)

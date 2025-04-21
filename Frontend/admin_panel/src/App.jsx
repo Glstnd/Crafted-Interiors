@@ -14,6 +14,8 @@ import CategoryPage from "./pages/Category/CategoryPage.jsx";
 import NewProductPage from "./pages/Product/NewProductPage/NewProductPage.jsx";
 import AddNewCatalogPage from "./pages/Catalog/AddNewCatalogPage.jsx";
 import OrdersPage from "./pages/OrdersPage/OrdersPage.jsx";
+import OrderPage from "./pages/OrdersPage/OrderPage.jsx";
+import EditOrderPage from "./pages/OrdersPage/EditOrderPage.jsx";
 
 
 function App() {
@@ -40,6 +42,14 @@ function App() {
                 <Route
                     path="/orders"
                     element={<OrdersPage/>}
+                />
+                <Route
+                    path="/orders/:orderId"
+                    element={<OrderPage/>}
+                />
+                <Route
+                    path="/orders/:orderId/edit"
+                    element={<EditOrderPage/>}
                 />
                 <Route
                     path="/catalog"

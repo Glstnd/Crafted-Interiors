@@ -16,6 +16,9 @@ class User(SQLModel, table=True):
         index=False,
         nullable=False,
     )
+    fname: Optional[str] = None
+    lname: Optional[str] = None
+    phone: Optional[str] = None
 
 class UserRegisterRequest(SQLModel):
     username: str
@@ -30,6 +33,15 @@ class UserResponse(SQLModel):
     username: str
     email: Optional[str] = None
     public_id: uuid_pkg.UUID
+    fname: Optional[str] = None
+    lname: Optional[str] = None
+    phone: Optional[str] = None
 
 class UserToken(SQLModel, table=False):
     access_token: str = Field(nullable=True)
+
+class UserPatch(SQLModel):
+    public_id: Optional[uuid_pkg.UUID] = None
+    fname: Optional[str] = None
+    lname: Optional[str] = None
+    phone: Optional[str] = None

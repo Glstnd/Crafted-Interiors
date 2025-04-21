@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import orderService from '../../services/OrderService';
+import pdfMake from '../../assets/vfs_fonts'; // Импортируем pdfMake с настроенными шрифтами
 import './OrdersPage.css';
 
 const OrdersPage = () => {
@@ -19,6 +20,7 @@ const OrdersPage = () => {
     const [createLoading, setCreateLoading] = useState(false);
     const [createError, setCreateError] = useState(null);
     const [createSuccess, setCreateSuccess] = useState(false);
+    const [selectedOrders, setSelectedOrders] = useState([]); // Для хранения выбранных заказов
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -58,7 +60,11 @@ const OrdersPage = () => {
     };
 
     const handleEdit = (orderId) => {
-        navigate(`/admin/orders/${orderId}`);
+        navigate(`/orders/${orderId}/edit`);
+    };
+
+    const handleCardClick = (orderId) => {
+        navigate(`/orders/${orderId}`);
     };
 
     const handleAddItem = () => {
@@ -69,7 +75,7 @@ const OrdersPage = () => {
     };
 
     const handleRemoveItem = (index) => {
-        if (createForm.items.length === 1) return; // Не удаляем последний элемент
+        if (createForm.items.length === 1) return;
         const newItems = createForm.items.filter((_, i) => i !== index);
         setCreateForm({ ...createForm, items: newItems });
     };
@@ -114,6 +120,59 @@ const OrdersPage = () => {
         } finally {
             setCreateLoading(false);
         }
+    };
+
+    // Обработчик выбора заказа
+    const handleSelectOrder = (orderId) => {
+        setSelectedOrders((prev) =>
+            prev.includes(orderId)
+                ? prev.filter((id) => id !== orderId)
+                : [...prev, orderId]
+        );
+    };
+
+    // Генерация и скачивание PDF-отчёта с pdfMake
+    const generateReport = () => {
+        const selectedOrdersData = orders.filter((order) =>
+            selectedOrders.includes(order.id)
+        );
+
+        if (selectedOrdersData.length === 0) return;
+
+        // Определяем содержимое документа
+        const docDefinition = {
+            content: [
+                { text: 'Отчёт по заказам', style: 'header', alignment: 'center' },
+                { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }] },
+                ...selectedOrdersData.flatMap((order, index) => [
+                    { text: `Заказ #${index + 1}`, style: 'subheader', margin: [0, 10, 0, 0] },
+                    { text: `Дата создания: ${formatDate(order.created_at)}`, margin: [20, 2, 0, 0] },
+                    { text: `Статус: ${translateStatus(order.status)}`, margin: [20, 2, 0, 0] },
+                    { text: `Итоговая сумма: ${order.total_amount} ₽`, margin: [20, 2, 0, 0] },
+                    { text: `Пользователь: ${order.user_id}`, margin: [20, 2, 0, 10] },
+                ]),
+                { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }] },
+                {
+                    text: `Общая сумма: ${selectedOrdersData
+                        .reduce((sum, order) => sum + parseFloat(order.total_amount || 0), 0)
+                        .toFixed(2)} ₽`,
+                    style: 'total',
+                    margin: [0, 10, 0, 0],
+                },
+            ],
+            styles: {
+                header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+                subheader: { fontSize: 14, bold: true },
+                total: { fontSize: 14, bold: true },
+            },
+            defaultStyle: {
+                font: 'Roboto', // Указываем шрифт
+            },
+        };
+
+        // Скачивание PDF
+        const currentDate = new Date().toISOString().split('T')[0];
+        pdfMake.createPdf(docDefinition).download(`orders-report-${currentDate}.pdf`);
     };
 
     if (loading) {
@@ -244,43 +303,66 @@ const OrdersPage = () => {
             {orders.length === 0 ? (
                 <p className="orders-empty">Заказы отсутствуют</p>
             ) : (
-                <div className={`orders-list ${viewMode === "grid" ? "grid-view" : "list-view"}`}>
-                    {orders.map((order) => (
-                        <div
-                            key={order.id}
-                            className={`order-card ${viewMode === "list" ? "list-item" : ""}`}
-                        >
-                            <div className="order-field">
-                                <span className="order-label">Номер заказа:</span>
-                                <span className="order-value">{order.id}</span>
-                            </div>
-                            <div className="order-field">
-                                <span className="order-label">Дата создания:</span>
-                                <span className="order-value">{formatDate(order.created_at)}</span>
-                            </div>
-                            <div className="order-field">
-                                <span className="order-label">Статус:</span>
-                                <span className={`order-value status-${order.status}`}>
-                                    {translateStatus(order.status)}
-                                </span>
-                            </div>
-                            <div className="order-field">
-                                <span className="order-label">Итоговая сумма:</span>
-                                <span className="order-value">{order.total_amount} ₽</span>
-                            </div>
-                            <div className="order-field">
-                                <span className="order-label">Пользователь:</span>
-                                <span className="order-value">{order.user_id}</span>
-                            </div>
+                <>
+                    {selectedOrders.length > 0 && (
+                        <div className="report-section">
                             <button
-                                className="edit-button"
-                                onClick={() => handleEdit(order.id)}
+                                className="report-button"
+                                onClick={generateReport}
                             >
-                                Редактировать
+                                Сформировать отчёт ({selectedOrders.length})
                             </button>
                         </div>
-                    ))}
-                </div>
+                    )}
+                    <div className={`orders-list ${viewMode === "grid" ? "grid-view" : "list-view"}`}>
+                        {orders.map((order) => (
+                            <div
+                                key={order.id}
+                                className={`order-card ${viewMode === "list" ? "list-item" : ""}`}
+                                onClick={() => handleCardClick(order.id)} // Добавляем обработчик клика на карточку
+                            >
+                                <div className="order-checkbox" onClick={(e) => e.stopPropagation()}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedOrders.includes(order.id)}
+                                        onChange={() => handleSelectOrder(order.id)}
+                                    />
+                                </div>
+                                <div className="order-field">
+                                    <span className="order-label">Номер заказа:</span>
+                                    <span className="order-value">{order.id}</span>
+                                </div>
+                                <div className="order-field">
+                                    <span className="order-label">Дата создания:</span>
+                                    <span className="order-value">{formatDate(order.created_at)}</span>
+                                </div>
+                                <div className="order-field">
+                                    <span className="order-label">Статус:</span>
+                                    <span className={`order-value status-${order.status}`}>
+                                        {translateStatus(order.status)}
+                                    </span>
+                                </div>
+                                <div className="order-field">
+                                    <span className="order-label">Итоговая сумма:</span>
+                                    <span className="order-value">{order.total_amount} ₽</span>
+                                </div>
+                                <div className="order-field">
+                                    <span className="order-label">Пользователь:</span>
+                                    <span className="order-value">{order.user_id}</span>
+                                </div>
+                                <button
+                                    className="edit-button"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Предотвращаем срабатывание клика на карточке
+                                        handleEdit(order.id);
+                                    }}
+                                >
+                                    Редактировать
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </>
             )}
 
             {createSuccess && (
