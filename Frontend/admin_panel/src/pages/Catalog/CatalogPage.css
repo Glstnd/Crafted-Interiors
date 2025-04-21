@@ -1,0 +1,195 @@
+.catalog-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Обложка каталога */
+.catalog-info {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 48px; /* Уменьшено с 60px для соответствия CatalogsPage */
+    background-color: #ffffff;
+    padding: 28px; /* Уменьшено с 32px */
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); /* Уменьшено с 6px 20px */
+}
+
+.catalog-cover {
+    width: 200px; /* Уменьшено с 220px */
+    height: 200px; /* Уменьшено с 220px */
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #ddd;
+}
+
+.catalog-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.catalog-title {
+    font-size: 32px; /* Уменьшено с 36px для соответствия catalog-name */
+    font-weight: 700;
+    color: #222;
+}
+
+.catalog-description {
+    font-size: 22px; /* Увеличено с 18px для соответствия catalog-description */
+    color: #666; /* Изменено с #555 */
+    line-height: 1.6;
+}
+
+/* Сетка карточек */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Как в CatalogsPage */
+    gap: 24px; /* Уменьшено с 28px */
+    max-width: 1100px; /* Как в CatalogsPage */
+    margin: 0 auto;
+}
+
+/* Карточка категории */
+.category-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 28px; /* Уменьшено с 32px, как в CatalogsPage */
+    color: inherit;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.category-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+/* Изображение категории */
+.category-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 18px; /* Как в CatalogsPage */
+}
+
+/* Контент внутри карточки */
+.category-content {
+    padding: 0; /* Убрано 20px для соответствия CatalogsPage */
+    transition: transform 0.3s ease;
+}
+
+.category-name {
+    font-size: 32px; /* Увеличено с 22px, как catalog-name */
+    font-weight: 600;
+    margin-bottom: 14px; /* Как в CatalogsPage */
+    color: #222;
+}
+
+.category-description {
+    font-size: 22px; /* Увеличено с 16px, как catalog-description */
+    color: #666;
+    line-height: 1.6; /* Добавлено */
+}
+
+.category-tag {
+    display: inline-block;
+    margin-top: 10px; /* Как в CatalogsPage */
+    padding: 4px 10px; /* Как в CatalogsPage */
+    background-color: #e8e8e8;
+    border-radius: 12px;
+    font-size: 13px; /* Уменьшено с 14px, как catalog-tag */
+    font-weight: 500;
+    color: #555;
+    transition: background-color 0.2s ease;
+}
+
+.category-card:hover .category-tag {
+    background-color: #d0d0d0;
+}
+
+/* Кнопка редактирования */
+.edit-button {
+    display: inline-block;
+    margin-top: 24px; /* Как в CatalogsPage */
+    padding: 10px 20px; /* Как в CatalogsPage */
+    background-color: #27ae60;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 22px; /* Как в CatalogsPage */
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #219653;
+}
+
+/* Карточка создания */
+.create-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.create-card-content {
+    text-align: center;
+}
+
+.create-icon {
+    display: block;
+    font-size: 56px; /* Как в CatalogsPage */
+    color: #444444;
+    margin-bottom: 18px; /* Как в CatalogsPage */
+}
+
+.create-card .category-name {
+    color: #222;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Индивидуальная задержка анимации для карточек */
+.category-card.fade-in {
+    animation-delay: 0.1s;
+}
+.category-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.category-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.category-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}

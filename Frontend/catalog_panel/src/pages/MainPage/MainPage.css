@@ -1,0 +1,183 @@
+.main-page {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    max-height: 85vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    height: 85vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth; /* Уже плавная прокрутка */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    transition: scroll 0.5s ease; /* Усиление плавности прокрутки */
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.section {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    scroll-snap-align: start;
+    gap: 40px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(245,245,245,0.95));
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    opacity: 0.8; /* Начальная полупрозрачность */
+    transform: translateY(20px); /* Лёгкое смещение вниз */
+    transition: opacity 0.6s ease, transform 0.6s ease; /* Плавный переход */
+}
+
+/* Когда секция видима, она становится полностью видимой и выравнивается */
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.text {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px;
+}
+
+.text h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #1a2b3c;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
+}
+
+.text p {
+    font-size: 22px;
+    color: #777;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    text-align: justify;
+}
+
+.main-page img {
+    flex: 1;
+    max-height: 80vh;
+    max-width: 50%;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.4s ease;
+}
+
+.main-page img:hover {
+    transform: scale(1.02);
+}
+
+/* Стили для слайдов */
+.slides {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.slide {
+    font-size: 24px;
+    color: #34495e;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Анимация применяется только при видимости секции */
+.section.visible .slide {
+    animation: slideInAndOut 3s ease-out infinite;
+}
+
+/* Задержка для каждого слайда в видимой секции */
+.section.visible .slide:nth-child(1) { animation-delay: 0.2s; }
+.section.visible .slide:nth-child(2) { animation-delay: 0.4s; }
+.section.visible .slide:nth-child(3) { animation-delay: 0.6s; }
+
+/* Анимация появления и ухода (бесконечная) */
+@keyframes slideInAndOut {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .section {
+        flex-direction: column;
+        padding: 30px;
+        height: 100vh;
+    }
+
+    .text {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .text h2 {
+        font-size: 36px;
+    }
+
+    .text p {
+        font-size: 18px;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 60vh;
+    }
+
+    .slide {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .text h2 {
+        font-size: 28px;
+    }
+
+    .text p {
+        font-size: 16px;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .slide {
+        font-size: 20px;
+    }
+}

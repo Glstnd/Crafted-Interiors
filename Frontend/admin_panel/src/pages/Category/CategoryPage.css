@@ -1,0 +1,553 @@
+.category-page-scope {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+    position: relative;
+}
+
+/* Сообщение о сбросе */
+.category-page-scope .reset-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #27ae60;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.5s ease-out forwards, slideDown 0.5s ease-in 4.5s forwards;
+}
+
+/* Анимация появления (снизу вверх) */
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Анимация исчезновения (обратно вниз) */
+@keyframes slideDown {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+/* Контейнер категории */
+.category-page-scope .category-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 48px;
+    background-color: #ffffff;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Изображение категории */
+.category-page-scope .category-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #ddd;
+}
+
+/* Текстовая часть */
+.category-page-scope .category-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.category-page-scope .category-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+}
+
+.category-page-scope .category-description {
+    font-size: 22px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Обертка для фильтров и продуктов */
+.category-page-scope .content-wrapper {
+    display: flex;
+    gap: 40px;
+}
+
+/* Карточка фильтрации */
+.category-page-scope .filter-card {
+    width: 230px;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    padding: 18px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 115px;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.category-page-scope .filter-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.category-page-scope .filter-count {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 14px;
+}
+
+.category-page-scope .filter-section {
+    margin-bottom: 14px;
+}
+
+.category-page-scope .filter-section label {
+    display: block;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.category-page-scope .price-input {
+    width: 90px;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.category-page-scope .filter-section input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.category-page-scope .reset-filter-button {
+    width: 100%;
+    padding: 7px 14px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: auto;
+}
+
+.category-page-scope .reset-filter-button:hover {
+    background-color: #c0392b;
+}
+
+/* Секция продуктов */
+.category-page-scope .products-section {
+    flex: 1;
+    position: relative;
+}
+
+/* Карточка сортировки */
+.category-page-scope .sort-card {
+    background-color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 115px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    z-index: 10;
+    border: 1px solid #000000;
+}
+
+.category-page-scope .sort-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-right: 8px;
+}
+
+.category-page-scope .sort-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.category-page-scope .sort-button {
+    padding: 3px 7px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.category-page-scope .sort-button:hover {
+    background-color: #219653;
+}
+
+/* Кнопки переключения вида */
+.category-page-scope .view-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    justify-content: flex-end;
+}
+
+.category-page-scope .view-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-page-scope .view-button:hover {
+    background-color: #f0f0f0;
+}
+
+.category-page-scope .view-button.active {
+    background-color: #d0d0d0;
+    color: #000000;
+    border-color: #d0d0d0;
+}
+
+.category-page-scope .icon-grid,
+.category-page-scope .icon-list {
+    font-size: 16px;
+}
+
+/* Контейнер продуктов */
+.category-page-scope .product-container {
+    margin-top: 18px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Сетка продуктов */
+.category-page-scope .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); /* Увеличено с 320px */
+    gap: 24px;
+}
+
+/* Список продуктов */
+.category-page-scope .product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Карточка продукта */
+.category-page-scope .product-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Сеточный вид */
+.category-page-scope .product-card:not(.list-view) {
+    padding: 24px;
+}
+
+/* Список вид */
+.category-page-scope .product-card.list-view {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px;
+    gap: 18px;
+}
+
+.category-page-scope .product-card:not(.list-view):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.category-page-scope .product-card.list-view:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.category-page-scope .product-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-page-scope .product-card.list-view .product-link {
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+}
+
+/* Изображение продукта */
+.category-page-scope .product-image {
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.category-page-scope .product-card:not(.list-view) .product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.category-page-scope .product-card.list-view .product-image {
+    width: 90px;
+    height: 90px;
+}
+
+/* Контент продукта */
+.category-page-scope .product-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.category-page-scope .product-card:not(.list-view) .product-content {
+    padding: 18px 0 0;
+}
+
+.category-page-scope .product-card.list-view .product-content {
+    padding: 0;
+}
+
+/* Информация о продукте */
+.category-page-scope .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+/* Название продукта */
+.category-page-scope .product-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #222;
+}
+
+/* Описание продукта */
+.category-page-scope .product-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 0;
+}
+
+/* Тег продукта */
+.category-page-scope .product-tag {
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 10px;
+    background-color: #e8e8e8;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    transition: background-color 0.2s ease;
+}
+
+.category-page-scope .product-card:hover .product-tag {
+    background-color: #d0d0d0;
+}
+
+/* Нижняя часть карточки */
+.category-page-scope .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.category-page-scope .product-card.list-view .product-footer {
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+}
+
+/* Цена продукта */
+.category-page-scope .product-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0;
+    white-space: normal;
+    max-width: 50%;
+}
+
+/* Действия с продуктом */
+.category-page-scope .product-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    align-items: center;
+}
+
+.category-page-scope .product-card.list-view .product-actions {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Кнопка редактирования */
+.category-page-scope .edit-button {
+    padding: 11px 22px; /* Увеличено с 10px 20px */
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px; /* Увеличено с 17px */
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.category-page-scope .product-card:not(.list-view) .edit-button {
+    padding: 7px 0; /* Увеличено с 6px 0 */
+    font-size: 17px; /* Увеличено с 16px */
+    line-height: 1.2;
+    width: 150px; /* Увеличено с 140px */
+}
+
+/* Кнопка удаления */
+.category-page-scope .delete-button {
+    padding: 11px 22px; /* Увеличено с 10px 20px */
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px; /* Увеличено с 17px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    line-height: 1.2;
+}
+
+.category-page-scope .product-card:not(.list-view) .delete-button {
+    padding: 7px 0; /* Увеличено с 4px 0, синхронизировано с edit-button */
+    font-size: 17px; /* Увеличено с 16px */
+    line-height: 1.2;
+    width: 150px; /* Увеличено с 140px */
+}
+
+/* Hover эффекты */
+.category-page-scope .edit-button:hover {
+    background-color: #219653;
+}
+
+.category-page-scope .delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* Карточка создания */
+.category-page-scope .create-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.category-page-scope .create-card-content {
+    text-align: center;
+}
+
+.category-page-scope .create-icon {
+    display: block;
+    font-size: 48px;
+    color: #444444;
+    margin-bottom: 14px;
+}
+
+.category-page-scope .create-card .product-name {
+    color: #222;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-page-scope .fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Индивидуальная задержка анимации для карточек */
+.category-page-scope .product-card.fade-in {
+    animation-delay: 0.1s;
+}
+.category-page-scope .product-card.fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.category-page-scope .product-card.fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.category-page-scope .product-card.fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Стили для загрузки */
+.category-page-scope .category-loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+    color: #555;
+}

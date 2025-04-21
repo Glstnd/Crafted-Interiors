@@ -1,0 +1,214 @@
+/* Общие стили для страницы */
+.admins-page {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Заголовок и переключатель вида */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.header-title {
+    font-size: 56px;
+    font-weight: 700;
+    color: #222;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+}
+
+.view-button {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-button.active {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.view-button:hover:not(.active) {
+    background-color: #f5f5f5;
+}
+
+.view-icon {
+    width: 24px;
+    height: 24px;
+    color: #444444;
+}
+
+.view-button.active .view-icon {
+    color: #ffffff;
+}
+
+/* Контейнер администраторов */
+.admins-container {
+    display: grid;
+    gap: 28px;
+}
+
+.admins-container.cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.admins-container.list {
+    grid-template-columns: 1fr;
+}
+
+/* Элемент администратора */
+.admin-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-item.cards {
+    flex-direction: column;
+    text-align: center;
+}
+
+.admin-item.list {
+    flex-direction: row;
+}
+
+.admin-item:hover:not(.add-admin) {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.admin-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.admin-item.cards .admin-link {
+    flex-direction: column;
+}
+
+.admin-icon {
+    width: 48px;
+    height: 48px;
+    color: #444444;
+    margin-bottom: 16px;
+}
+
+.admin-item.list .admin-icon {
+    margin-bottom: 0;
+}
+
+.admin-details {
+    flex-grow: 1;
+}
+
+.admin-username {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+}
+
+.admin-email {
+    font-size: 18px;
+    color: #666;
+    margin: 4px 0;
+}
+
+.admin-id {
+    font-size: 16px;
+    color: #888;
+    margin: 4px 0;
+}
+
+.admin-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Карточка добавления администратора */
+.add-admin {
+    background-color: #f5f5f5;
+    border-style: dashed;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease; /* Добавлен transition для фона */
+}
+
+.add-admin:hover {
+    transform: translateY(-5px); /* Подъем при наведении */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Тень */
+    background-color: #e0e0e0; /* Изменение цвета фона на более темный серый */
+}
+
+/* Действия с выбранными администраторами */
+.selected-actions {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.selected-actions p {
+    font-size: 20px;
+    color: #222;
+    margin: 0;
+}
+
+.delete-selected-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-selected-button:hover {
+    background-color: #c0392b;
+}
+
+.delete-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+}

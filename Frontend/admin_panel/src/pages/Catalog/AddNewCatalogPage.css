@@ -1,0 +1,164 @@
+.add-catalog-page-scope {
+    padding: 40px 80px;
+    background-color: #fafafa;
+    min-height: 100vh;
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+}
+
+/* Заголовок страницы */
+.add-catalog-page-scope .page-title {
+    font-size: 40px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* Форма */
+.add-catalog-page-scope .catalog-form {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Группа полей */
+.add-catalog-page-scope .form-group {
+    margin-bottom: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.add-catalog-page-scope .form-group label {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.add-catalog-page-scope .form-group input,
+.add-catalog-page-scope .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #222;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.add-catalog-page-scope .form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.add-catalog-page-scope .form-group input:focus,
+.add-catalog-page-scope .form-group textarea:focus {
+    outline: none;
+    border-color: #27ae60;
+}
+
+.add-catalog-page-scope .form-group input[type="file"] {
+    padding: 10px 0;
+    background-color: transparent;
+    font-size: 18px;
+}
+
+/* Ошибка ввода */
+.add-catalog-page-scope .input-error {
+    border: none;
+    border-bottom: 2px solid #e74c3c !important;
+}
+
+/* Сообщение об ошибке */
+.add-catalog-page-scope .error-message {
+    display: block;
+    font-size: 16px;
+    color: #e74c3c;
+    margin-top: 8px;
+}
+
+.add-catalog-page-scope .general-error {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Предпросмотр фото */
+.add-catalog-page-scope .photo-preview {
+    margin-top: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+.add-catalog-page-scope .photo-preview img {
+    max-width: 240px;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Крестик для удаления фото */
+.add-catalog-page-scope .photo-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-catalog-page-scope .photo-remove:hover {
+    background-color: #c0392b;
+}
+
+/* Кнопки действий */
+.add-catalog-page-scope .form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    margin-top: 32px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.add-catalog-page-scope .submit-button,
+.add-catalog-page-scope .cancel-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-catalog-page-scope .submit-button {
+    background-color: #27ae60;
+    color: #ffffff;
+}
+
+.add-catalog-page-scope .submit-button:hover {
+    background-color: #219653;
+}
+
+.add-catalog-page-scope .cancel-button {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.add-catalog-page-scope .cancel-button:hover {
+    background-color: #c0392b;
+}

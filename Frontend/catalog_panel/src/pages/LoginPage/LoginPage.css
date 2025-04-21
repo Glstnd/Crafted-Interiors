@@ -1,0 +1,208 @@
+/* LoginPage.css */
+.login-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', Tahoma, Geneva, sans-serif;
+    min-height: 450px;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.login-container h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.login-container .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.login-container .form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.login-container .form-group label {
+    font-size: 22px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.login-container .input-wrapper,
+.login-container .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.login-container input {
+    padding: 12px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 20px;
+    transition: border-color 0.2s ease;
+    height: 48px;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.login-container input:focus {
+    border-color: #27ae60;
+    outline: none;
+}
+
+.login-container .toggle-password-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container .toggle-password-eye svg {
+    transition: all 0.3s ease;
+}
+
+.login-container .eye-open .eye-path {
+    stroke: #27ae60;
+}
+
+.login-container .eye-closed .eye-path {
+    stroke: #27ae60;
+}
+
+.login-container .eye-open .pupil {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-container .eye-closed .pupil {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-container .eye-open .eyelid {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-container .eye-closed .eyelid {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-container .toggle-password-eye:hover .eye-path {
+    stroke: #219653;
+}
+
+.login-container .error-message {
+    font-size: 20px;
+    color: #e74c3c;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.login-container .login-button {
+    padding: 12px 24px;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-container .login-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.login-container .login-button:hover:not(:disabled) {
+    background-color: #219653;
+}
+
+.login-container .google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #ffffff;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.login-container .google-login-button:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.login-container .google-login-button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-container .google-login-button svg {
+    margin-right: 10px;
+}
+
+.login-container .register-link {
+    margin-top: 24px;
+    font-size: 20px;
+    color: #555;
+    text-align: center;
+}
+
+.login-container .register-link a {
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.login-container .register-link a:hover {
+    color: #219653;
+    text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
