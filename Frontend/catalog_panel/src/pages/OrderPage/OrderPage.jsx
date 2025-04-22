@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import orderService from '../../services/OrderService';
 import productService from '../../services/ProductService';
+import pdfMake from '../../assets/vfs_fonts'; // Импортируем pdfMake с настроенными шрифтами
 import './OrderPage.css';
 
 const OrderPage = () => {
     const { orderId } = useParams();
     const navigate = useNavigate();
     const [order, setOrder] = useState(null);
+    const [productsInfo, setProductsInfo] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [productsInfo, setProductsInfo] = useState({});
 
     // Загружаем данные заказа и информацию о товарах
     useEffect(() => {
@@ -20,6 +21,7 @@ const OrderPage = () => {
             try {
                 // Загружаем заказ
                 const fetchedOrder = await orderService.getOrderById(orderId);
+                setOrder(fetchedOrder);
 
                 // Загружаем информацию о товарах
                 const productRequests = fetchedOrder.items.map(async (item) => {
@@ -43,7 +45,6 @@ const OrderPage = () => {
                     return acc;
                 }, {});
                 setProductsInfo(productsMap);
-                setOrder(fetchedOrder);
             } catch (err) {
                 setError(err.message || 'Не удалось загрузить заказ');
             } finally {
@@ -81,6 +82,60 @@ const OrderPage = () => {
         navigate('/profile');
     };
 
+    // Генерация и скачивание PDF-отчёта
+    const generateReport = () => {
+        if (!order) return;
+
+        const docDefinition = {
+            content: [
+                { text: `Отчёт по заказу #${order.id}`, style: 'header', alignment: 'center' },
+                { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }] },
+                { text: 'Основная информация', style: 'subheader', margin: [0, 10, 0, 0] },
+                { text: `ID: ${order.id}`, margin: [20, 2, 0, 0] },
+                { text: `Дата создания: ${formatDate(order.created_at)}`, margin: [20, 2, 0, 0] },
+                ...(order.updated_at
+                    ? [{ text: `Дата обновления: ${formatDate(order.updated_at)}`, margin: [20, 2, 0, 0] }]
+                    : []),
+                { text: `Статус: ${translateStatus(order.status)}`, margin: [20, 2, 0, 0] },
+                { text: `Итоговая сумма: ${order.total_amount} ₽`, margin: [20, 2, 0, 0] },
+                { text: 'Товары', style: 'subheader', margin: [0, 10, 0, 0] },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 'auto', 'auto', 'auto'],
+                        body: [
+                            ['Наименование товара', 'Количество', 'Цена за единицу', 'Общая стоимость'],
+                            ...order.items.map(item => [
+                                productsInfo[item.product_id]?.name || `Товар ${item.product_id}`,
+                                item.quantity,
+                                `${item.unit_price} ₽`,
+                                `${(item.quantity * item.unit_price).toFixed(2)} ₽`,
+                            ]),
+                        ],
+                    },
+                    margin: [0, 5, 0, 10],
+                },
+                { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }] },
+                {
+                    text: `Итоговая сумма: ${order.total_amount} ₽`,
+                    style: 'total',
+                    margin: [0, 10, 0, 0],
+                },
+            ],
+            styles: {
+                header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+                subheader: { fontSize: 14, bold: true },
+                total: { fontSize: 14, bold: true },
+            },
+            defaultStyle: {
+                font: 'Roboto',
+            },
+        };
+
+        const currentDate = new Date().toISOString().split('T')[0];
+        pdfMake.createPdf(docDefinition).download(`order-report-${order.id}-${currentDate}.pdf`);
+    };
+
     if (loading) {
         return <div className="order-loading">Загрузка...</div>;
     }
@@ -115,10 +170,6 @@ const OrderPage = () => {
                     <span className="order-label">Итоговая сумма:</span>
                     <span className="order-value">{order.total_amount} ₽</span>
                 </div>
-                <div className="order-field">
-                    <span className="order-label">Публичный ID пользователя:</span>
-                    <span className="order-value">{order.public_id}</span>
-                </div>
             </div>
 
             <div className="order-items-section">
@@ -151,9 +202,14 @@ const OrderPage = () => {
                 )}
             </div>
 
-            <button className="back-button" onClick={handleBack}>
-                Назад к профилю
-            </button>
+            <div className="order-actions">
+                <button className="report-button" onClick={generateReport}>
+                    Скачать отчёт по заказу
+                </button>
+                <button className="back-button" onClick={handleBack}>
+                    Назад к профилю
+                </button>
+            </div>
         </div>
     );
 };
