@@ -207,6 +207,13 @@
     margin-bottom: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     animation: fadeInUp 0.6s ease-out both;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .order-field {

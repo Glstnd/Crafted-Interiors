@@ -27,6 +27,15 @@ class ProductService {
             throw error;
         }
     }
+
+    async getProductInfo(productId) {
+        const response = await fetch(`http://localhost:8001/products/${productId}`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Не удалось загрузить данные о товаре');
+        }
+        return response.json();
+    }
 }
 
 const productServiceInstance = new ProductService();
