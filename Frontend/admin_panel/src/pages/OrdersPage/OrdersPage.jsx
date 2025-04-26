@@ -233,6 +233,11 @@ const OrdersPage = () => {
             .reduce((sum, order) => sum + parseFloat(order.total_amount || 0), 0)
             .toFixed(2);
         const averageOrderValue = totalOrders > 0 ? (totalSales / totalOrders).toFixed(2) : 0;
+        const completedOrders = convertedOrders.filter(order => order.status === 'completed').length;
+        const netProfit = convertedOrders
+            .filter(order => order.status === 'completed')
+            .reduce((sum, order) => sum + parseFloat(order.total_amount || 0), 0)
+            .toFixed(2);
         const currencySymbol = CurrencyService.getCurrencySymbol(selectedCurrency);
 
         const docDefinition = {
@@ -278,7 +283,7 @@ const OrdersPage = () => {
                 {
                     table: {
                         headerRows: 1,
-                        widths: [50, 130, 100, 85, 140], // Заказчик уменьшен до 140 для отступа 10px от края
+                        widths: [50, 130, 100, 85, 140],
                         body: [
                             [
                                 { text: '№ заказа', style: 'tableHeader' },
@@ -288,11 +293,31 @@ const OrdersPage = () => {
                                 { text: 'Заказчик', style: 'tableHeader' },
                             ],
                             ...convertedOrders.map((order) => [
-                                order.id,
-                                formatDate(order.created_at),
-                                translateStatus(order.status),
-                                order.total_amount,
-                                userMap[order.user_id] || 'Неизвестный пользователь',
+                                {
+                                    text: order.id,
+                                    style: order.status === 'completed' ? 'completedRow' : null,
+                                    fillColor: order.status === 'completed' ? '#e6ffe6' : null,
+                                },
+                                {
+                                    text: formatDate(order.created_at),
+                                    style: order.status === 'completed' ? 'completedRow' : null,
+                                    fillColor: order.status === 'completed' ? '#e6ffe6' : null,
+                                },
+                                {
+                                    text: translateStatus(order.status),
+                                    style: order.status === 'completed' ? 'completedRow' : null,
+                                    fillColor: order.status === 'completed' ? '#e6ffe6' : null,
+                                },
+                                {
+                                    text: order.total_amount,
+                                    style: order.status === 'completed' ? 'completedRow' : null,
+                                    fillColor: order.status === 'completed' ? '#e6ffe6' : null,
+                                },
+                                {
+                                    text: userMap[order.user_id] || 'Неизвестный пользователь',
+                                    style: order.status === 'completed' ? 'completedRow' : null,
+                                    fillColor: order.status === 'completed' ? '#e6ffe6' : null,
+                                },
                             ]),
                         ],
                     },
@@ -300,15 +325,21 @@ const OrdersPage = () => {
                 },
                 { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }], margin: [0, 0, 0, 10] },
                 { text: 'Статистика', style: 'subheader', margin: [0, 5, 0, 5] },
-                { text: `Общее количество заказов: ${totalOrders}`, margin: [20, 2, 0, 0] },
-                { text: `Общая сумма продаж: ${totalSales} ${currencySymbol}`, margin: [20, 2, 0, 0] },
-                { text: `Средний чек: ${averageOrderValue} ${currencySymbol}`, margin: [20, 2, 0, 0] },
+                { text: `Общее количество заказов: ${totalOrders}`, style: 'statsText', margin: [20, 2, 0, 0] },
+                { text: `Общая сумма продаж: ${totalSales} ${currencySymbol}`, style: 'statsText', margin: [20, 2, 0, 0] },
+                { text: `Средний чек: ${averageOrderValue} ${currencySymbol}`, style: 'statsText', margin: [20, 2, 0, 0] },
+                { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1 }], margin: [0, 10, 0, 10] },
+                { text: 'Итог по завершённым заказам', style: 'subheader', margin: [0, 5, 0, 5] },
+                { text: `Количество завершённых заказов: ${completedOrders}`, style: 'statsText', margin: [20, 2, 0, 0] },
+                { text: `Общая сумма завершённых заказов: ${netProfit} ${currencySymbol}`, style: 'statsText', margin: [20, 2, 0, 0] },
             ],
             styles: {
                 company: { fontSize: 20, bold: true },
                 header: { fontSize: 24, bold: true },
                 subheader: { fontSize: 16, bold: true },
                 tableHeader: { bold: true, fontSize: 14, fillColor: '#f0f0f0', alignment: 'center' },
+                completedRow: { bold: true },
+                statsText: { fontSize: 14 },
             },
             defaultStyle: {
                 font: 'Roboto',
