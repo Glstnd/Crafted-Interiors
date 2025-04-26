@@ -44,6 +44,7 @@
 .view-controls {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .view-button {
@@ -73,6 +74,26 @@
 .icon-grid,
 .icon-list {
     font-size: 18px;
+}
+
+.currency-selector {
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #555;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.currency-selector:focus {
+    outline: none;
+    border-color: #27ae60;
+}
+
+.currency-selector:hover {
+    background-color: #f0f0f0;
 }
 
 .create-form {
@@ -218,7 +239,6 @@
 .list-view {
     display: flex;
     flex-direction: column;
-    gap: 16px;
 }
 
 .order-card {
@@ -228,44 +248,12 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     position: relative;
-}
-
-.order-card:not(.list-item) {
     padding: 28px;
 }
 
-.order-card:not(.list-item):hover {
+.order-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.order-card.list-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 16px 20px;
-    gap: 20px;
-}
-
-.order-card.list-item:hover {
-    transform: translateX(5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-.order-checkbox {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.order-card.list-item .order-checkbox {
-    position: static;
-}
-
-.order-checkbox input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
 }
 
 .order-field {
@@ -274,12 +262,6 @@
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #e8ecef;
-}
-
-.order-card.list-item .order-field {
-    flex: 1;
-    border-bottom: none;
-    padding: 6px 10px;
 }
 
 .order-label {
@@ -294,9 +276,79 @@
     font-weight: 400;
 }
 
-.order-card.list-item .order-label,
-.order-card.list-item .order-value {
+/* Стили для таблицы в list-view */
+.orders-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.orders-table th {
+    font-size: 20px;
+    font-weight: 600;
+    color: #4a5568;
+    padding: 16px;
+    text-align: left;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-table td {
     font-size: 18px;
+    color: #1a202c;
+    padding: 16px;
+    border-bottom: 1px solid #e8ecef;
+    vertical-align: middle;
+}
+
+.orders-table th:first-child,
+.orders-table td:first-child {
+    width: 80px; /* № заказа */
+    text-align: center;
+}
+
+.orders-table th:nth-child(2),
+.orders-table td:nth-child(2) {
+    width: 200px; /* Дата создания (увеличена для "dd.mm.yyyy в hh:mm") */
+}
+
+.orders-table th:nth-child(3),
+.orders-table td:nth-child(3) {
+    width: 150px; /* Статус */
+}
+
+.orders-table th:nth-child(4),
+.orders-table td:nth-child(4) {
+    width: 120px; /* Итоговая сумма (уменьшена) */
+}
+
+.orders-table th:nth-child(5),
+.orders-table td:nth-child(5) {
+    width: 200px; /* Заказчик */
+}
+
+.orders-table th:nth-child(6),
+.orders-table td:nth-child(6) {
+    width: 150px; /* Действия */
+}
+
+.orders-table tr:last-child td {
+    border-bottom: none;
+}
+
+.order-row {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.order-row:hover {
+    transform: translateX(5px);
+    background-color: #f0f0f0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Подсветка статусов */
@@ -320,6 +372,11 @@
     font-weight: 500;
 }
 
+.status-delivered {
+    color: #2f855a;
+    font-weight: 500;
+}
+
 .edit-button {
     padding: 10px 20px;
     background-color: #27ae60;
@@ -332,15 +389,15 @@
     transition: background-color 0.2s ease;
 }
 
-.order-card:not(.list-item) .edit-button {
+.order-card .edit-button {
     display: block;
     width: 100%;
     margin-top: 20px;
 }
 
-.order-card.list-item .edit-button {
+.orders-table .edit-button {
     padding: 8px 16px;
-    margin-left: auto;
+    display: inline-block;
 }
 
 .edit-button:hover {
@@ -351,7 +408,20 @@
     width: 100%;
     max-width: 1200px;
     margin-bottom: 20px;
-    text-align: right;
+}
+
+.report-section h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 16px;
+}
+
+.report-controls {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .report-button {
