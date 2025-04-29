@@ -14,26 +14,10 @@ services:
       - "5433"
     ports:
       - "5433:5433"
-    networks:
-      - dev
-
-  accounts_service:
-    container_name: accounts_service
-    build:
-      context: ./Backend/AccountsService
-
-    environment:
-      DRIVER: asyncpg
-      HOST: postgresDB
-      PORT: 5433
-      DATABASE: CraftedInteriors
-      USER: admin
-      PASSWORD: admin
-    depends_on:
-      - postgresDB
-
-    ports:
-      - "8000:8000"
+    healthcheck:
+      test: "pg_isready -h localhost -p 5433 -U admin -d CraftedInteriors"
+      timeout: 10s
+      retries: 20
     networks:
       - dev
 
@@ -42,6 +26,10 @@ services:
     build:
       context: ./Backend/CatalogService
 
+    depends_on:
+      - postgresDB
+      - minio
+
     environment:
       DRIVER: asyncpg
       HOST: postgresDB
@@ -49,24 +37,30 @@ services:
       DATABASE: CraftedInteriors
       USER: admin
       PASSWORD: admin
-    depends_on:
-      - postgresDB
+      MINIO_HOST: minio
 
     ports:
       - "8001:8001"
     networks:
       - dev
 
-  nginx:
-    image: nginx:1.16.0-alpine
-    container_name: nginx
+  accounts_service:
+    container_name: accounts_service
+    build:
+      context: ./Backend/AccountsService
     depends_on:
-      - accounts_service
-      - catalog_service
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - postgresDB
+      - minio
+    environment:
+      DRIVER: asyncpg
+      HOST: postgresDB
+      PORT: 5433
+      DATABASE: CraftedInteriors
+      USER: admin
+      PASSWORD: admin
+      MINIO_HOST: minio
     ports:
-      - "8888:80"
+      - "8000:8000"
     networks:
       - dev
 
@@ -89,6 +83,20 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+    networks:
+      - dev
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/static:/etc/nginx/html:ro
+    ports:
+      - "8081:8081"
+    depends_on:
+      - catalog_service
+      - accounts_service
     networks:
       - dev
 
