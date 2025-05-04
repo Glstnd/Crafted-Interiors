@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from database.database import init_db
 from exceptions import exceptions_handlers
@@ -20,16 +21,9 @@ app = FastAPI(
     redoc_url=None
 )
 
-origins = [
-    "http://localhost:5173",
-    "https://localhost:5173",
-    "http://localhost:5174",
-    "https://localhost:5174",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,6 +37,8 @@ app.include_router(catalog_router)
 app.include_router(store_router)
 app.include_router(order_router, prefix="/orders")
 app.include_router(main_product_router, prefix="/products")
+
+Instrumentator().instrument(app).expose(app)
 
 @app.on_event("startup")
 async def on_startup():

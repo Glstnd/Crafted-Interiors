@@ -1,0 +1,19 @@
+# Используем официальный образ Node.js
+FROM node:20-alpine
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и package-lock.json (или yarn.lock)
+COPY package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем весь проект
+COPY . .
+
+RUN npm run build
+
+RUN npm install -g serve
+CMD ["serve", "-s", "dist", "-l", "5173"]

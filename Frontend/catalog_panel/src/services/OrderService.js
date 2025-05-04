@@ -1,7 +1,7 @@
 import { store } from '../store/store.js'; // Импортируйте ваш Redux store
 
 class OrderService {
-    static url = "http://localhost:8001/orders";
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/orders`;
 
     async getOrderById(orderId) {
         try {

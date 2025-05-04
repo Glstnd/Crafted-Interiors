@@ -12,3 +12,4 @@ python-multipart==0.0.20
 geoalchemy2==0.17.1
 shapely==2.1.0
 authx==1.4.2
+prometheus-fastapi-instrumentator==7.1.0

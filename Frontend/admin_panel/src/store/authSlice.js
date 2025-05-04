@@ -5,7 +5,7 @@ export const loginAdmin = createAsyncThunk(
     'adminAuth/loginAdmin',
     async (credentials, { rejectWithValue, dispatch }) => {
         try {
-            const response = await fetch('http://localhost:8000/admins/login', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/admins/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const verifyAdminToken = createAsyncThunk(
             return rejectWithValue('Токен отсутствует');
         }
         try {
-            const response = await fetch('http://localhost:8000/admins/protected', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/admins/protected`, {
                 headers: {
                     access_token: `${token}`, // Предполагается, что API ожидает токен в таком формате
                 },

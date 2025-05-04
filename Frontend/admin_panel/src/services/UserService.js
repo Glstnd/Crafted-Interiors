@@ -1,6 +1,6 @@
 class UserService {
     async getUserInfo(publicId) {
-        const response = await fetch(`http://localhost:8000/users/${publicId}/info`);
+        const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/${publicId}/info`);
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.detail || 'Не удалось загрузить данные пользователя');

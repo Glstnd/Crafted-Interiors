@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Валидация данных
-const validateUserData = (userData, isUpdate = false) => {
+const validateUserData = (userData, isLogin = false, isUpdate = false) => {
     const errors = {};
 
     // Username (только при регистрации/входе)
@@ -13,8 +13,8 @@ const validateUserData = (userData, isUpdate = false) => {
         }
     }
 
-    // Email (только при регистрации/входе)
-    if (!isUpdate) {
+    // Email (только при регистрации, но не при входе)
+    if (!isUpdate && !isLogin) {
         if (!userData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email)) {
             errors.email = 'Введите корректный email';
         }
@@ -64,9 +64,9 @@ export const registerUser = createAsyncThunk(
     'auth/registerUser',
     async (userData, { rejectWithValue, dispatch }) => {
         try {
-            validateUserData(userData);
+            validateUserData(userData, false); // isLogin = false для регистрации
 
-            const response = await fetch('http://localhost:8000/users/register', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,9 +96,9 @@ export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (credentials, { rejectWithValue, dispatch }) => {
         try {
-            validateUserData(credentials);
+            validateUserData(credentials, true); // isLogin = true для входа
 
-            const response = await fetch('http://localhost:8000/users/login', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export const verifyToken = createAsyncThunk(
             return rejectWithValue('Токен отсутствует');
         }
         try {
-            const response = await fetch('http://localhost:8000/users/protected', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/protected`, {
                 headers: {
                     access_token: `${token}`,
                 },
@@ -156,7 +156,7 @@ export const updateUser = createAsyncThunk(
     'auth/updateUser',
     async (userData, { rejectWithValue, getState }) => {
         try {
-            validateUserData(userData, true);
+            validateUserData(userData, false, true); // isUpdate = true для обновления
 
             const { auth } = getState();
             const token = auth.token;
@@ -165,7 +165,7 @@ export const updateUser = createAsyncThunk(
                 throw new Error('Токен авторизации отсутствует');
             }
 
-            const response = await fetch('http://localhost:8000/users/profile', {
+            const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/profile`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
