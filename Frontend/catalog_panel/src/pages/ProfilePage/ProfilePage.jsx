@@ -123,13 +123,17 @@ const ProfilePage = () => {
         } catch (error) {
             try {
                 const parsedErrors = JSON.parse(error.message);
-                // Формируем сообщение из всех ошибок
                 const errorMessage = Object.values(parsedErrors).join('; ');
                 setValidationError(errorMessage);
             } catch (e) {
                 setValidationError(error.message);
             }
         }
+    };
+
+    // Обработчик перехода на страницу заказа
+    const handleViewOrder = (orderId) => {
+        navigate(`/orders/${orderId}`);
     };
 
     if (authLoading) {
@@ -243,7 +247,7 @@ const ProfilePage = () => {
                     <div className="orders-empty">У вас пока нет заказов</div>
                 )}
                 {orders.map((order) => (
-                    <div key={order.id} className="order-card">
+                    <div key={order.id} className="order-card" onClick={() => handleViewOrder(order.id)}>
                         <div className="order-field">
                             <span className="order-label">Номер заказа:</span>
                             <span className="order-value">{order.id}</span>

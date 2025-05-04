@@ -1,5 +1,5 @@
 class CategoryService {
-    static url = "http://localhost:8001/catalogs"
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/catalogs`
 
     async getCategories(catalog_tag) {
         try {

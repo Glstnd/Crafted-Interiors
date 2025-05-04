@@ -1,5 +1,5 @@
 class AdminService {
-    static url = "http://localhost:8000/admins"
+    static url = `${import.meta.env.VITE_ADMIN_API_URL}/admins`;
 
     async getAdmins() {
         try {

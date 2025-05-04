@@ -1,5 +1,5 @@
 class ProductService {
-    static url = "http://localhost:8001/catalogs"
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/catalogs`
 
     async getProducts(catalog_tag, category_tag, params = {}) {
         try {
@@ -26,6 +26,15 @@ class ProductService {
             console.error(error);
             throw error;
         }
+    }
+
+    async getProductInfo(productId) {
+        const response = await fetch(`${import.meta.env.VITE_CATALOG_API_URL}/${productId}`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Не удалось загрузить данные о товаре');
+        }
+        return response.json();
     }
 }
 

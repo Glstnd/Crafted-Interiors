@@ -32,7 +32,7 @@ async def login(admin: AdminLoginRequest, response: Response, session: AsyncSess
     request = select(Admin).where(Admin.username == admin.username)
     result = await session.execute(request)
 
-    admin_db = result.scalar_one_or_none()
+    admin_db = result.scalars().first()
 
     if not admin_db or admin.password != admin_db.password:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Bad username or password')
@@ -51,7 +51,7 @@ async def get_protected(uid: str = Depends(security.get_current_subject), sessio
     request = select(Admin).where(Admin.id == int(uid))
     result = await session.execute(request)
 
-    return result.scalar_one_or_none()
+    return result.scalars().first()
 
 @admin_router.get('', response_model=Sequence[AdminResponse])
 async def get_admins(session: AsyncSession = Depends(get_session)) -> Sequence[Admin]:

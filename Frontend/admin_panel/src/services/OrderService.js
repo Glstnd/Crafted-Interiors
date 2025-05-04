@@ -1,5 +1,5 @@
 class OrderService {
-    static url = "http://localhost:8001/orders";
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/orders`;
 
     async getOrders() {
         try {
@@ -65,7 +65,7 @@ class OrderService {
     }
 
     async getUserInfo(publicId) {
-        const response = await fetch(`http://localhost:8000/users/${publicId}/info`);
+        const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/users/${publicId}/info`);
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.detail || 'Не удалось загрузить данные пользователя');
@@ -74,7 +74,7 @@ class OrderService {
     }
 
     async getProductInfo(productId) {
-        const response = await fetch(`http://localhost:8001/products/${productId}`);
+        const response = await fetch(`${import.meta.env.VITE_CATALOG_API_URL}/products/${productId}`);
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.detail || 'Не удалось загрузить данные о товаре');

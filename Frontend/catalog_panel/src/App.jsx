@@ -11,6 +11,7 @@ import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 import CartPage from "./pages/CartPage/CartPage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import StoresPage from "./pages/StoresPage/StoresPage.jsx";
+import OrderPage from "./pages/OrderPage/OrderPage.jsx";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           <Route
               path="/profile"
               element={<ProfilePage/>}
+          />
+          <Route
+              path="/orders/:orderId"
+              element={<OrderPage/>}
           />
           <Route
               path="/catalog"

@@ -1,7 +1,27 @@
 import { store } from '../store/store.js'; // Импортируйте ваш Redux store
 
 class OrderService {
-    static url = "http://localhost:8001/orders";
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/orders`;
+
+    async getOrderById(orderId) {
+        try {
+            const response = await fetch(`${OrderService.url}/${orderId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                console.error(`Заказ ${orderId} не был загружен`);
+                throw new Error(`Ошибка: ${response.statusText}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Ошибка при загрузке заказа ${orderId}:`, error);
+            throw error;
+        }
+    }
 
     async getOrders() {
         try {

@@ -14,34 +14,30 @@ services:
       - "5433"
     ports:
       - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 5433 -U admin -d CraftedInteriors"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - dev
-
-  accounts_service:
-    container_name: accounts_service
-    build:
-      context: ./Backend/AccountsService
-
-    environment:
-      DRIVER: asyncpg
-      HOST: postgresDB
-      PORT: 5433
-      DATABASE: CraftedInteriors
-      USER: admin
-      PASSWORD: admin
-    depends_on:
-      - postgresDB
-
-    ports:
-      - "8000:8000"
-    networks:
-      - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   catalog_service:
     container_name: catalog_service
     build:
       context: ./Backend/CatalogService
-
+    depends_on:
+      postgresDB:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       DRIVER: asyncpg
       HOST: postgresDB
@@ -49,26 +45,41 @@ services:
       DATABASE: CraftedInteriors
       USER: admin
       PASSWORD: admin
-    depends_on:
-      - postgresDB
-
+      MINIO_HOST: minio
     ports:
       - "8001:8001"
     networks:
       - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
-  nginx:
-    image: nginx:1.16.0-alpine
-    container_name: nginx
+  accounts_service:
+    container_name: accounts_service
+    build:
+      context: ./Backend/AccountsService
     depends_on:
-      - accounts_service
-      - catalog_service
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      postgresDB:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      DRIVER: asyncpg
+      HOST: postgresDB
+      PORT: 5433
+      DATABASE: CraftedInteriors
+      USER: admin
+      PASSWORD: admin
+      MINIO_HOST: minio
     ports:
-      - "8888:80"
+      - "8000:8000"
     networks:
       - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   minio:
     image: minio/minio:latest
@@ -78,20 +89,159 @@ services:
       - minio-storage:/data
       - minio-config:/root/.minio
     ports:
-      - 9000:9000
-      - 9001:9001
+      - "9000:9000"
+      - "9001:9001"
     environment:
-      - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=admin123
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
     command: server /data --console-address ":9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
-      timeout: 20s
+      timeout: 200s
       retries: 3
+      start_period: 10s
+    networks:
+      - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/static:/etc/nginx/html:ro
+    ports:
+      - "8081:8081"
+    depends_on:
+      catalog_service:
+        condition: service_started
+      accounts_service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  catalog_front:
+    container_name: catalog_front
+    build:
+      context: ./Frontend/catalog_panel
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_ADMIN_API_URL: http://localhost:8000
+      VITE_CATALOG_API_URL: http://localhost:8001
+    expose:
+      - "5173"
+    depends_on:
+      nginx:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5173"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  admin_front:
+    container_name: admin_front
+    build:
+      context: ./Frontend/admin_panel
+      dockerfile: Dockerfile
+    ports:
+      - "5174:5174"
+    environment:
+      VITE_ADMIN_API_URL: http://localhost:8000
+      VITE_CATALOG_API_URL: http://localhost:8001
+    expose:
+      - "5174"
+    depends_on:
+      nginx:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5174"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    ports:
+      - "9080:9080"
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yaml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    privileged: true
+    networks:
+      - dev
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - dev
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    networks:
+      - dev
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - grafanadata:/var/lib/grafana
     networks:
       - dev
 
 volumes:
+  postgres_data:
   minio-storage:
   minio-config:
+  grafanadata:
+  prometheusdata:

@@ -1,8 +1,9 @@
 class CatalogService {
-    static url = "http://localhost:8001/catalogs"
+    static url = `${import.meta.env.VITE_CATALOG_API_URL}/catalogs`
 
     async getCatalogs() {
         try {
+            console.error(`${CatalogService.url}`);
             const response = await fetch(`${CatalogService.url}`);
             if (!response.ok) {
                 console.error("Каталоги не были загружены");

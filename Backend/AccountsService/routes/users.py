@@ -32,7 +32,7 @@ async def login(user: UserLoginRequest, response: Response, session: AsyncSessio
     request = select(User).where(User.username == user.username)
     result = await session.execute(request)
 
-    user_db = result.scalar_one_or_none()
+    user_db = result.scalars().first()
 
     if not user_db or user.password != user_db.password:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Bad username or password')
@@ -51,14 +51,14 @@ async def get_protected(uid: str = Depends(security.get_current_subject), sessio
     request = select(User).where(User.id == int(uid))
     result = await session.execute(request)
 
-    return result.scalar_one_or_none()
+    return result.scalars().first()
 
 @user_router.patch('/profile', dependencies=[Depends(security.access_token_required)], response_model=UserResponse)
 async def change_profile(userPatch: UserPatch, uid: str = Depends(security.get_current_subject), session: AsyncSession = Depends(get_session)) -> UserResponse:
     request = select(User).where(User.id == int(uid))
     result = await session.execute(request)
 
-    user = result.scalar_one_or_none()
+    user = result.scalars().first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
 
@@ -80,7 +80,7 @@ async def get_info_user(public_id: str, session: AsyncSession = Depends(get_sess
     request = select(User).where(User.public_id == public_id)
     result = await session.execute(request)
 
-    user = result.scalar_one_or_none()
+    user = result.scalars().first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
 
