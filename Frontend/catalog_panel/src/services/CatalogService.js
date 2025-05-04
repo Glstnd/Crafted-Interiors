@@ -3,7 +3,7 @@ class CatalogService {
 
     async getCatalogs() {
         try {
-            console.error(`${CatalogService.url}`);
+            console.error(`url: "${CatalogService.url}"`);
             const response = await fetch(`${CatalogService.url}`);
             if (!response.ok) {
                 console.error("Каталоги не были загружены");
