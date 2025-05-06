@@ -126,6 +126,10 @@ services:
         condition: service_started
       accounts_service:
         condition: service_started
+      catalog_front:
+        condition: service_started
+      admin_front:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081"]
       interval: 30s
@@ -154,9 +158,6 @@ services:
       VITE_CATALOG_API_URL: http://185.209.21.236:8001
     expose:
       - "5173"
-    depends_on:
-      nginx:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5173"]
       interval: 30s
@@ -185,9 +186,6 @@ services:
       VITE_CATALOG_API_URL: http://185.209.21.236:8001
     expose:
       - "5174"
-    depends_on:
-      nginx:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5174"]
       interval: 30s
