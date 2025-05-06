@@ -53,7 +53,7 @@ events {
 http {
     server {
         listen 80;
-        server_name $DOMAIN www.$DOMAIN admin.$DOMAIN;
+        server_name $DOMAIN www.$DOMAIN admin.$DOMAIN api.$DOMAIN minio.$DOMAIN grafana.$DOMAIN;
         location /.well-known/acme-challenge/ {
             root /var/www/certbot;
         }
