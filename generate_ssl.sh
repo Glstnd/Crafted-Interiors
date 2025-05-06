@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Скрипт для генерации или копирования SSL-сертификатов для craftedinteriors.store
+# Используется в deploy.sh для подготовки сертификатов перед запуском docker-compose
+
 # Конфигурация
 DOMAIN="craftedinteriors.store"
 EMAIL="31rombo@craftedinteriors.store"
-CERT_DIR="/certbot/conf"
-WEBROOT="/certbot/www"
+CERT_DIR="./certbot/conf"
+WEBROOT="./certbot/www"
 LETSENCRYPT_DIR="/etc/letsencrypt/live/$DOMAIN"
 
 # Проверка, что скрипт запущен от root
@@ -40,7 +43,7 @@ if ! command -v certbot &> /dev/null; then
     apt-get install -y certbot
 fi
 
-# Создание временной конфигурации Nginx
+# Создание временной конфигурации Nginx для проверки Certbot
 TEMP_NGINX_CONF="/tmp/nginx-certbot.conf"
 cat > "$TEMP_NGINX_CONF" << EOL
 worker_processes 1;
@@ -64,7 +67,7 @@ EOL
 # Запуск временного Nginx-контейнера
 echo "Запускаем временный Nginx для проверки Certbot..."
 docker run -d --name temp-nginx-certbot \
-    -v "$WEBROOT:/var/www/certbot:ro" \
+    -v "$(pwd)/$WEBROOT:/var/www/certbot:ro" \
     -v "$TEMP_NGINX_CONF:/etc/nginx/nginx.conf:ro" \
     -p 80:80 \
     nginx:latest
@@ -73,32 +76,22 @@ docker run -d --name temp-nginx-certbot \
 echo "Генерируем SSL-сертификаты для $DOMAIN..."
 certbot certonly --webroot \
     -w "$WEBROOT" \
-    --cert-path "$CERT_DIR" \
-    --key-path "$CERT_DIR" \
-    --fullchain-path "$CERT_DIR" \
-    --email "$EMAIL" \
     -d "$DOMAIN" -d "www.$DOMAIN" -d "admin.$DOMAIN" \
+    --email "$EMAIL" \
     --agree-tos --non-interactive
 
 # Проверка результата
-if [ -f "$CERT_DIR/fullchain.pem" ] && [ -f "$CERT_DIR/privkey.pem" ]; then
+if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ] && [ -f "$LETSENCRYPT_DIR/privkey.pem" ]; then
+    echo "Сертификаты сгенерированы в $LETSENCRYPT_DIR, копируем в $CERT_DIR..."
+    cp "$LETSENCRYPT_DIR/fullchain.pem" "$CERT_DIR/fullchain.pem"
+    cp "$LETSENCRYPT_DIR/privkey.pem" "$CERT_DIR/privkey.pem"
     chmod -R 755 "$CERT_DIR"
-    echo "Сертификаты успешно сгенерированы в $CERT_DIR"
+    echo "Сертификаты успешно скопированы в $CERT_DIR"
 else
-    echo "Ошибка: сертификаты не были сгенерированы в $CERT_DIR."
-    # Проверка, были ли сертификаты созданы в /etc/letsencrypt
-    if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ] && [ -f "$LETSENCRYPT_DIR/privkey.pem" ]; then
-        echo "Сертификаты найдены в $LETSENCRYPT_DIR, копируем в $CERT_DIR..."
-        cp "$LETSENCRYPT_DIR/fullchain.pem" "$CERT_DIR/fullchain.pem"
-        cp "$LETSENCRYPT_DIR/privkey.pem" "$CERT_DIR/privkey.pem"
-        chmod -R 755 "$CERT_DIR"
-        echo "Сертификаты успешно скопированы в $CERT_DIR"
-    else
-        echo "Критическая ошибка: сертификаты не были сгенерированы."
-        docker rm -f temp-nginx-certbot
-        rm -f "$TEMP_NGINX_CONF"
-        exit 1
-    fi
+    echo "Критическая ошибка: сертификаты не были сгенерированы."
+    docker rm -f temp-nginx-certbot
+    rm -f "$TEMP_NGINX_CONF"
+    exit 1
 fi
 
 # Остановка и удаление временного контейнера

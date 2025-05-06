@@ -120,7 +120,8 @@ services:
       - ./certbot/conf:/certbot/conf:ro
       - ./certbot/www:/var/www/certbot:ro
     ports:
-      - "8081:8081"
+      - "80:80"
+      - "443:443"
     depends_on:
       catalog_service:
         condition: service_started
