@@ -1,6 +1,9 @@
 # Используем официальный образ Node.js
 FROM node:20-alpine
 
+ARG VITE_ADMIN_API_URL
+ARG VITE_CATALOG_API_URL
+
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
