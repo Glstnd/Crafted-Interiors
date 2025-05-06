@@ -117,6 +117,8 @@ services:
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/static:/etc/nginx/html:ro
+      - ./certbot/conf:/certbot/conf:ro
+      - ./certbot/www:/var/www/certbot:ro
     ports:
       - "8081:8081"
     depends_on:
