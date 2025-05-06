@@ -5,6 +5,7 @@ DOMAIN="craftedinteriors.store"
 EMAIL="31rombo@craftedinteriors.store"
 CERT_DIR="/certbot/conf"
 WEBROOT="/certbot/www"
+LETSENCRYPT_DIR="/etc/letsencrypt/live/$DOMAIN"
 
 # Проверка, что скрипт запущен от root
 if [ "$(id -u)" != "0" ]; then
@@ -16,9 +17,19 @@ fi
 mkdir -p "$CERT_DIR"
 mkdir -p "$WEBROOT"
 
-# Проверка наличия сертификатов
+# Проверка наличия сертификатов в целевой директории
 if [ -f "$CERT_DIR/fullchain.pem" ] && [ -f "$CERT_DIR/privkey.pem" ]; then
     echo "Сертификаты уже существуют в $CERT_DIR, пропускаем генерацию."
+    exit 0
+fi
+
+# Проверка наличия сертификатов в /etc/letsencrypt
+if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ] && [ -f "$LETSENCRYPT_DIR/privkey.pem" ]; then
+    echo "Сертификаты найдены в $LETSENCRYPT_DIR, копируем в $CERT_DIR..."
+    cp "$LETSENCRYPT_DIR/fullchain.pem" "$CERT_DIR/fullchain.pem"
+    cp "$LETSENCRYPT_DIR/privkey.pem" "$CERT_DIR/privkey.pem"
+    chmod -R 755 "$CERT_DIR"
+    echo "Сертификаты успешно скопированы в $CERT_DIR"
     exit 0
 fi
 
@@ -74,10 +85,20 @@ if [ -f "$CERT_DIR/fullchain.pem" ] && [ -f "$CERT_DIR/privkey.pem" ]; then
     chmod -R 755 "$CERT_DIR"
     echo "Сертификаты успешно сгенерированы в $CERT_DIR"
 else
-    echo "Ошибка: сертификаты не были сгенерированы."
-    docker rm -f temp-nginx-certbot
-    rm -f "$TEMP_NGINX_CONF"
-    exit 1
+    echo "Ошибка: сертификаты не были сгенерированы в $CERT_DIR."
+    # Проверка, были ли сертификаты созданы в /etc/letsencrypt
+    if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ] && [ -f "$LETSENCRYPT_DIR/privkey.pem" ]; then
+        echo "Сертификаты найдены в $LETSENCRYPT_DIR, копируем в $CERT_DIR..."
+        cp "$LETSENCRYPT_DIR/fullchain.pem" "$CERT_DIR/fullchain.pem"
+        cp "$LETSENCRYPT_DIR/privkey.pem" "$CERT_DIR/privkey.pem"
+        chmod -R 755 "$CERT_DIR"
+        echo "Сертификаты успешно скопированы в $CERT_DIR"
+    else
+        echo "Критическая ошибка: сертификаты не были сгенерированы."
+        docker rm -f temp-nginx-certbot
+        rm -f "$TEMP_NGINX_CONF"
+        exit 1
+    fi
 fi
 
 # Остановка и удаление временного контейнера
