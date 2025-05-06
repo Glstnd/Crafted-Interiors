@@ -76,7 +76,7 @@ docker run -d --name temp-nginx-certbot \
 echo "Генерируем SSL-сертификаты для $DOMAIN..."
 certbot certonly --webroot \
     -w "$WEBROOT" \
-    -d "$DOMAIN" -d "www.$DOMAIN" -d "admin.$DOMAIN" \
+    -d "$DOMAIN" -d "www.$DOMAIN" -d "admin.$DOMAIN" -d "api.$DOMAIN" -d "minio.$DOMAIN" -d "grafana.$DOMAIN" \
     --email "$EMAIL" \
     --agree-tos --non-interactive
 
