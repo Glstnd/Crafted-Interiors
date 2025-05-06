@@ -117,6 +117,7 @@ services:
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/static:/etc/nginx/html:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./certbot/conf:/certbot/conf:ro
       - ./certbot/www:/var/www/certbot:ro
     ports:
@@ -130,6 +131,10 @@ services:
       catalog_front:
         condition: service_started
       admin_front:
+        condition: service_started
+      minio:
+        condition: service_started
+      grafana:
         condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081"]
@@ -150,13 +155,15 @@ services:
       context: ./Frontend/catalog_panel
       dockerfile: Dockerfile
       args:
-        VITE_ADMIN_API_URL: https://www.craftedinteriors.store/api/accounts
-        VITE_CATALOG_API_URL: https://www.craftedinteriors.store/api/catalog
+        VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+        VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
+        VITE_MINIO_URL: https://minio.craftedinteriors.store/minio
     ports:
       - "5173:5173"
     environment:
-      VITE_ADMIN_API_URL: https://www.craftedinteriors.store/api/accounts
-      VITE_CATALOG_API_URL: https://www.craftedinteriors.store/api/catalog
+      VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+      VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
+      VITE_MINIO_URL: https://minio.craftedinteriors.store/minio
     expose:
       - "5173"
     healthcheck:
@@ -178,13 +185,15 @@ services:
       context: ./Frontend/admin_panel
       dockerfile: Dockerfile
       args:
-        VITE_ADMIN_API_URL: https://www.craftedinteriors.store/api/accounts
-        VITE_CATALOG_API_URL: https://www.craftedinteriors.store/api/catalog
+        VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+        VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
+        VITE_MINIO_URL: https://minio.craftedinteriors.store/minio
     ports:
       - "5174:5174"
     environment:
-      VITE_ADMIN_API_URL: https://www.craftedinteriors.store/api/accounts
-      VITE_CATALOG_API_URL: https://www.craftedinteriors.store/api/catalog
+      VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+      VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
+      VITE_MINIO_URL: https://minio.craftedinteriors.store/minio
     expose:
       - "5174"
     healthcheck:

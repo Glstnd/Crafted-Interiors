@@ -31,7 +31,7 @@ const CatalogPage = () => {
         <div className="catalog-page" key={catalog_tag}>
             <div className="catalog-info fade-in">
                 <img src={catalog.image_path
-                    ? `http://localhost:9000/catalog-images/${catalog.image_path}`
+                    ? `${import.meta.env.VITE_MINIO_URL}/${catalog.image_path}`
                     : placeholderImage}
                      alt={catalog.name}
                      className="catalog-cover" />
@@ -51,7 +51,7 @@ const CatalogPage = () => {
                     >
                         <img
                             src={category.image_path
-                                ? `http://localhost:9000/catalog-images/${category.image_path}`
+                                ? `${import.meta.env.VITE_MINIO_URL}/${category.image_path}`
                                 : placeholderImage}
                             alt={category.name}
                             className="category-image"
