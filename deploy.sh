@@ -26,6 +26,6 @@ fi
 
 # Сборка и запуск контейнеров
 echo "Сборка и запуск контейнеров..."
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yaml up -d --build
 
 echo "Деплой успешно завершен!"
