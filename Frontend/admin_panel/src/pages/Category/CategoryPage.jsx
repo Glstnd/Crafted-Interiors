@@ -249,7 +249,7 @@ const CategoryPage = () => {
                                     <img
                                         src={
                                             product.image_path
-                                                ? `http://localhost:9000/catalog-images/${product.image_path}`
+                                                ? `${import.meta.env.VITE_MINIO_URL}/${product.image_path}`
                                                 : placeholderImage
                                         }
                                         alt={product.name}

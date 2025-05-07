@@ -105,10 +105,6 @@ const LoginAdminPage = () => {
                 <button type="submit" className="login-button" disabled={isLoading}>
                     {isLoading ? 'Загрузка...' : 'Войти'}
                 </button>
-
-                <div className="register-link">
-                    Нет аккаунта? <Link to="/register-admin">Зарегистрироваться</Link>
-                </div>
             </form>
         </div>
     );

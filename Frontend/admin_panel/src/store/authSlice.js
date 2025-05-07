@@ -19,6 +19,9 @@ export const loginAdmin = createAsyncThunk(
             }
 
             const { access_token } = data;
+
+            console.log(access_token);
+
             localStorage.setItem('adminToken', access_token);
 
             // После успешного входа сразу проверяем токен и получаем данные администратора
@@ -36,24 +39,29 @@ export const verifyAdminToken = createAsyncThunk(
     'adminAuth/verifyAdminToken',
     async (_, { rejectWithValue }) => {
         const token = localStorage.getItem('adminToken');
+
         if (!token) {
             return rejectWithValue('Токен отсутствует');
         }
         try {
             const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/admins/protected`, {
+                method: 'GET',
                 headers: {
                     access_token: `${token}`, // Предполагается, что API ожидает токен в таком формате
                 },
             });
 
             const data = await response.json();
+
+            console.log(data);
+
             if (!response.ok) {
                 throw new Error(data.message || 'Недействительный токен');
             }
 
             return { admin: data, token };
         } catch (error) {
-            localStorage.removeItem('adminToken');
+            console.error(error.message);
             return rejectWithValue(error.message || 'Недействительный токен');
         }
     }
