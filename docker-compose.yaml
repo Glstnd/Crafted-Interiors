@@ -155,14 +155,14 @@ services:
       context: ./Frontend/catalog_panel
       dockerfile: Dockerfile
       args:
-        VITE_ADMIN_API_URL: http://185.209.21.236:8000
-        VITE_CATALOG_API_URL: http://185.209.21.236:8001
+        VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+        VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
         VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
     ports:
       - "5173:5173"
     environment:
-      VITE_ADMIN_API_URL: http://185.209.21.236:8000
-      VITE_CATALOG_API_URL: http://185.209.21.236:8001
+      VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+      VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
       VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
     expose:
       - "5173"
@@ -185,14 +185,14 @@ services:
       context: ./Frontend/admin_panel
       dockerfile: Dockerfile
       args:
-        VITE_ADMIN_API_URL: http://185.209.21.236:8000
-        VITE_CATALOG_API_URL: http://185.209.21.236:8001
+        VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+        VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
         VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
     ports:
       - "5174:5174"
     environment:
-      VITE_ADMIN_API_URL: http://185.209.21.236:8000
-      VITE_CATALOG_API_URL: http://185.209.21.236:8001
+      VITE_ADMIN_API_URL: https://api.craftedinteriors.store/accounts
+      VITE_CATALOG_API_URL: https://api.craftedinteriors.store/catalogs
       VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
     expose:
       - "5174"
