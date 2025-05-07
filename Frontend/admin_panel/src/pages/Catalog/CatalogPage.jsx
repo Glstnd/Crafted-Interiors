@@ -32,7 +32,7 @@ const CatalogPage = () => {
                 <img
                     src={
                         catalog.image_path
-                            ? `http://localhost:9000/catalog-images/${catalog.image_path}`
+                            ? `${import.meta.env.VITE_MINIO_URL}/${catalog.image_path}`
                             : placeholderImage
                     }
                     alt={catalog.name}
