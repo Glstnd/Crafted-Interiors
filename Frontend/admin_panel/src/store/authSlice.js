@@ -62,6 +62,7 @@ export const verifyAdminToken = createAsyncThunk(
             return { admin: data, token };
         } catch (error) {
             console.error(error.message);
+            localStorage.removeItem('adminToken');
             return rejectWithValue(error.message || 'Недействительный токен');
         }
     }
