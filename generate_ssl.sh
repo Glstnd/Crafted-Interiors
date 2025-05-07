@@ -53,7 +53,7 @@ events {
 http {
     server {
         listen 80;
-        server_name $DOMAIN www.$DOMAIN admin.$DOMAIN api.accounts.$DOMAIN api.catalogs.$DOMAIN grafana.$DOMAIN;
+        server_name $DOMAIN www.$DOMAIN admin.$DOMAIN api.accounts.$DOMAIN api.catalogs.$DOMAIN grafana.$DOMAIN minio.$DOMAIN;
         location /.well-known/acme-challenge/ {
             root /var/www/certbot;
         }
@@ -76,7 +76,7 @@ docker run -d --name temp-nginx-certbot \
 echo "Генерируем SSL-сертификаты для $DOMAIN..."
 certbot certonly --webroot \
     -w "$WEBROOT" \
-    -d "$DOMAIN" -d "www.$DOMAIN" -d "admin.$DOMAIN" -d "api.$DOMAIN" -d "api.accounts.$DOMAIN" -d "api.catalogs.$DOMAIN" -d "grafana.$DOMAIN" \
+    -d "$DOMAIN" -d "www.$DOMAIN" -d "admin.$DOMAIN" -d "api.$DOMAIN" -d "api.accounts.$DOMAIN" -d "api.catalogs.$DOMAIN" -d "grafana.$DOMAIN" -d "minio.$DOMAIN" \
     --email "$EMAIL" \
     --agree-tos --non-interactive
 
