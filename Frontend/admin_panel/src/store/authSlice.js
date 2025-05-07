@@ -47,7 +47,7 @@ export const verifyAdminToken = createAsyncThunk(
             const response = await fetch(`${import.meta.env.VITE_ADMIN_API_URL}/admins/protected`, {
                 method: 'GET',
                 headers: {
-                    access_token: `${token}`, // Предполагается, что API ожидает токен в таком формате
+                    access: `${token}`, // Предполагается, что API ожидает токен в таком формате
                 },
             });
 
@@ -62,7 +62,6 @@ export const verifyAdminToken = createAsyncThunk(
             return { admin: data, token };
         } catch (error) {
             console.error(error.message);
-            localStorage.removeItem('adminToken');
             return rejectWithValue(error.message || 'Недействительный токен');
         }
     }
