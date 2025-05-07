@@ -157,13 +157,13 @@ services:
       args:
         VITE_ADMIN_API_URL: https://api.accounts.craftedinteriors.store
         VITE_CATALOG_API_URL: https://api.catalogs.craftedinteriors.store
-        VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
+        VITE_MINIO_URL: https://minio.craftedinteriors.store/crafted-interiors
     ports:
       - "5173:5173"
     environment:
       VITE_ADMIN_API_URL: https://api.accounts.craftedinteriors.store
       VITE_CATALOG_API_URL: https://api.catalogs.craftedinteriors.store
-      VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
+      VITE_MINIO_URL: https://minio.craftedinteriors.store/crafted-interiors
     expose:
       - "5173"
     healthcheck:
@@ -187,13 +187,13 @@ services:
       args:
         VITE_ADMIN_API_URL: https://api.accounts.craftedinteriors.store
         VITE_CATALOG_API_URL: https://api.catalogs.craftedinteriors.store
-        VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
+        VITE_MINIO_URL: https://minio.craftedinteriors.store/crafted-interiors
     ports:
       - "5174:5174"
     environment:
       VITE_ADMIN_API_URL: https://api.accounts.craftedinteriors.store
       VITE_CATALOG_API_URL: https://api.catalogs.craftedinteriors.store
-      VITE_MINIO_URL: http://185.209.21.236:9000/crafted-interiors
+      VITE_MINIO_URL: https://minio.craftedinteriors.store/crafted-interiors
     expose:
       - "5174"
     healthcheck:
